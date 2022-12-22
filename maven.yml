@@ -6,13 +6,12 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Java CI
 
 on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,17 +20,6 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-          
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Unit tests
-        run: mvn --batch-mode test
-      
-      -name: Report
-        uses: mikepenz/action-junit-report@v3
-        if: always() # even if the previous step fails
-        with:
-          report_paths: "**/target/failsafe-reports/*"
+          distribution: 'adopt'
+      - name: Run the Maven verify phase
+        run: mvn --batch-mode --update-snapshots verify
