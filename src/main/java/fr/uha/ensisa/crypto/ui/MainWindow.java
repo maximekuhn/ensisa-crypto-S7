@@ -17,6 +17,15 @@ public class MainWindow extends JFrame
     {
         this.setTitle("Cryptendar");
         this.setSize(960,600);
+        
+        // close button
+        this.addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			public void windowClosing(java.awt.event.WindowEvent evt)
+			{
+				System.exit(0);
+			}
+		});
 
         // sidebar (à gauche)
 
