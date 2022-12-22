@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class EventTest {
-	fr.uha.ensisa.crypto.Event sut; // System Under Test
+	private Event sut; // System Under Test
 	private Date date;
 	private long duration;
 	private String event;
@@ -22,7 +22,7 @@ public class EventTest {
 		event = "Test";
 		description = "...";
 		location = "ici";
-		sut = new fr.uha.ensisa.crypto.Event(date, duration, event, description, location);
+		sut = new Event(date, duration, event, description, location);
 	}
 	
 	@Test
