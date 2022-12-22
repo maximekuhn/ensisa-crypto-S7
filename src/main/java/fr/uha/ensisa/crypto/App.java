@@ -2,6 +2,8 @@ package fr.uha.ensisa.crypto;
 
 import javax.swing.*;
 
+import fr.uha.ensisa.crypto.ui.MainWindow;
+
 /**
  * Hello world!
  *

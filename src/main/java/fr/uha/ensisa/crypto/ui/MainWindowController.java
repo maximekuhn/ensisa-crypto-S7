@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto;
+package fr.uha.ensisa.crypto.ui;
 
 public class MainWindowController {
 }

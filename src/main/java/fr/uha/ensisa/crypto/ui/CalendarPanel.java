@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto;
+package fr.uha.ensisa.crypto.ui;
 
 import javax.swing.*;
 import java.awt.*;
