@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto;
+package fr.uha.ensisa.crypto.model;
 
 public class Calendar {
 	private EventTable eventTable;

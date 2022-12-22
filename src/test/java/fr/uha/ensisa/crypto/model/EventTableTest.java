@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto;
+package fr.uha.ensisa.crypto.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -7,6 +7,9 @@ import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import fr.uha.ensisa.crypto.model.Event;
+import fr.uha.ensisa.crypto.model.EventTable;
 
 public class EventTableTest {
 	private EventTable sut; // System Under Test

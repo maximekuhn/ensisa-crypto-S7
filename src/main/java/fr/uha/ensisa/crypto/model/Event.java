@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto;
+package fr.uha.ensisa.crypto.model;
 
 import java.util.Date;
 
