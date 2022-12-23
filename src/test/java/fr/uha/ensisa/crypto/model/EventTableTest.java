@@ -22,7 +22,7 @@ public class EventTableTest {
 	
 	@BeforeEach
 	public void init() {
-		date = new Date();
+		date = new Date(4444);
 		duration = 1;
 		event = "Test";
 		description = "...";
@@ -46,7 +46,16 @@ public class EventTableTest {
 	
 	@Test
 	public void removeEventTest() {
+		sut.addEvent(eventObj);
 		sut.removeEvent(date);
 		assertNull(sut.search(date));
+	}
+	
+	
+	@Test
+	public void getAllEventsTest() {
+		sut.addEvent(eventObj);
+		sut.addEvent(new Event(new Date(5555), duration, event, description, location));
+		assertEquals(2,sut.getAllEvents().size());
 	}
 }

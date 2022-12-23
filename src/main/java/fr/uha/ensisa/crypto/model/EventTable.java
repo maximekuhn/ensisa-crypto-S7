@@ -1,5 +1,6 @@
 package fr.uha.ensisa.crypto.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,5 +27,13 @@ public class EventTable {
 	
 	public void removeEvent(Date date) {
 		events.remove(date);
+	}
+	
+	public ArrayList<Event> getAllEvents(){
+		ArrayList<Event> eventArrayList = new ArrayList<Event>();
+		for (Event event : events.values()) {
+			eventArrayList.add(event);
+		}
+		return eventArrayList;
 	}
 }
