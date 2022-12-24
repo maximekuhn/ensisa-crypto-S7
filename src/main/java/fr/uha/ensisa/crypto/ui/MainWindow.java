@@ -28,6 +28,7 @@ public class MainWindow extends JFrame {
 
         this.setTitle("Cryptendar");
         this.setSize(960, 600);
+        this.setLocationRelativeTo(null); // window appears on center of the screen
 
         // close button
         this.addWindowListener(new java.awt.event.WindowAdapter() {
