@@ -10,6 +10,9 @@ public class Event {
 	private String description;
 	private String location;
 	
+    public Event() {
+    }
+	
 	public Event(Date date, long duration, String event, String description, String location) {
 		this.setDate(date);
 		this.setDuration(duration);

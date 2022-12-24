@@ -1,7 +1,10 @@
 package fr.uha.ensisa.crypto.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,4 +28,14 @@ public class CalendarTest {
 		sut.getEventTable().addEvent(event);
 		assertEquals(event, sut.getEventTable().search(date));
 	}
+	
+    @Test
+    public void testSaveCalendar() throws IOException {
+        sut.saveCalendar();
+
+        File file = new File("data/Test");
+        assertTrue(file.exists());
+        file.delete();
+    }
+
 }

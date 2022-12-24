@@ -1,15 +1,16 @@
 package fr.uha.ensisa.crypto.model;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class Agenda {
 	
@@ -41,18 +42,16 @@ public final class Agenda {
     	calendars.get(name).saveCalendar();
     }
     
-    /*public void loadCalendar(String path_to_file) throws IOException, ClassNotFoundException {
-    	File file = new File("data/"+path_to_file);
-		FileInputStream fileInputStream = new FileInputStream(file);
-    	ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream); 
-		@SuppressWarnings("unchecked")
-		ArrayList<Event> events = (ArrayList<Event>) objectInputStream.readObject();
-		Calendar calendar = new Calendar(path_to_file);
-		for (Event event : events) {
-			calendar.getEventTable().addEvent(event);
-		}
-		objectInputStream.close();
-    }*/
+    public void loadCalendar(String pathToFile) throws IOException, ClassNotFoundException {
+        File file = new File("data/" + pathToFile);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Event> events = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
+        Calendar calendar = new Calendar(pathToFile);
+        for (Event event : events) {
+            calendar.getEventTable().addEvent(event);
+        }
+        calendars.put(pathToFile, calendar);
+    }
     
     public Calendar getCalendar(String name) throws Error {
     	Calendar calendar = calendars.get(name);
