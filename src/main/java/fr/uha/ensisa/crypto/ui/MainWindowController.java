@@ -5,9 +5,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.Date;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.model.Event;
 
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
 
@@ -81,7 +83,22 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         return this.agenda;
     }
 
-    public void createEvent(String calendar, String event, String description, String location, Date date, Double duration) {
-        // TODO handle this
+    public void createEvent(String calendar, String event, String description, String location, Date date, double duration) {
+        Event newEvent = new Event(date, (long) duration, event, description, location);
+
+        // TODO check if calendar exist
+        this.agenda.getCalendar(calendar).getEventTable().addEvent(newEvent);
+
+        // TODO refresh all panels (or frame ?) showing events
+    }
+
+    public void createCalendar(String calendarName) {
+        try {
+            this.agenda.createCalendar(calendarName);
+        } catch (IOException | Error e) {
+            e.printStackTrace();
+        }
+
+        // TODO refresh all panels (or frame ?) showing calendars
     }
 }

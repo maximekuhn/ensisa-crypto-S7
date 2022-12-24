@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -106,7 +108,10 @@ public class CreateEventPopup extends JDialog implements ActionListener {
 
         // calendars
         Agenda agenda = this.mainWindow.getController().getAgenda();
-        Collection<String> calendars = agenda.getCalendarNames();
+        Collection<Calendar> allCalendars = agenda.getAllCalendars();
+        Collection<String> calendars = new ArrayList<>();
+        for(Calendar calendar : allCalendars)
+            calendars.add(calendar.getName());
         this.calendarsList = new JComboBox<>(calendars.toArray());
 
         // buttons
@@ -169,10 +174,12 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         // TODO handle errors
         // TODO show error when any field is empty
 
-        // TODO handle
         MainWindowController controller = this.mainWindow.getController();
+        controller.createEvent(calendar, event, description, location, date, duration);
 
         // TODO remove this print
         System.out.println("event : " + event + "\ndescription : " + description + "\nlocation : " + location + "\ndate : " + date.toString() + "\nduration : " + duration + "\ncalendar : " + calendar);
+
+        this.closePopup();
     }
 }

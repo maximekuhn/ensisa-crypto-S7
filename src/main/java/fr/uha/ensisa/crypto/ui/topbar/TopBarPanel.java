@@ -42,8 +42,8 @@ public class TopBarPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.createEventButton))
-            this.createEventPopup();
+        if (e.getSource().equals(this.createEventButton)) this.createEventPopup();
+        else if(e.getSource().equals(this.createCalendarButton)) this.createCalendarPopup();
     }
 
     private void createEventPopup() {
@@ -52,6 +52,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
     }
 
     private void createCalendarPopup() {
-        // TODO handle this
+        CreateCalendarPopup popup = new CreateCalendarPopup(this.mainWindow);
+        popup.setVisible(true);
     }
 }
