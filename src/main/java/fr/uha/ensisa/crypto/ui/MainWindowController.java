@@ -8,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.Date;
 
 import fr.uha.ensisa.crypto.model.Agenda;
-import fr.uha.ensisa.crypto.model.Calendar;
 
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
 

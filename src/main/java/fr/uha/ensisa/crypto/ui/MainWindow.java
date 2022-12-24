@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.ui.topbar.TopBarPanel;
 
 public class MainWindow extends JFrame {
 

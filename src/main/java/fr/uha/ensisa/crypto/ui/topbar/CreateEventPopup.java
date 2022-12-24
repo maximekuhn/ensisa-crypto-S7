@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto.ui;
+package fr.uha.ensisa.crypto.ui.topbar;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.ui.MainWindow;
+import fr.uha.ensisa.crypto.ui.MainWindowController;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
