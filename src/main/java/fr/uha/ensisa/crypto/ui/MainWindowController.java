@@ -1,11 +1,14 @@
 package fr.uha.ensisa.crypto.ui;
 
-import fr.uha.ensisa.crypto.model.Agenda;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Date;
+
+import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.model.Calendar;
 
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
 
@@ -73,5 +76,13 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
         
+    }
+
+    public Agenda getAgenda() {
+        return this.agenda;
+    }
+
+    public void createEvent(String calendar, String event, String description, String location, Date date, Double duration) {
+        // TODO handle this
     }
 }
