@@ -88,6 +88,12 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 
         // TODO check if calendar exist
         this.agenda.getCalendar(calendar).getEventTable().addEvent(newEvent);
+        try {
+            this.agenda.getCalendar(calendar).saveCalendar();
+        } catch (IOException | Error e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         // TODO refresh all panels (or frame ?) showing events
     }
