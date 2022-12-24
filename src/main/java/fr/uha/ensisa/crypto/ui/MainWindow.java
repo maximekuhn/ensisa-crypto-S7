@@ -1,64 +1,72 @@
 package fr.uha.ensisa.crypto.ui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 
-public class MainWindow extends JFrame
-{
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+
+import fr.uha.ensisa.crypto.model.Agenda;
+
+public class MainWindow extends JFrame {
+
     private MainWindowController controller;
-    JSplitPane splitPane;
-    JPanel sidebar;
-    JPanel calendarList;
-    JPanel dateDisplay;
-    JPanel mainPanel;
-    JPanel topBar;
-    CalendarPanel calendarPanel;
-    public MainWindow()
-    {
+    private JSplitPane splitPane;
+    private JPanel sidebar;
+    private JPanel calendarList;
+    private JPanel dateDisplay;
+    private JPanel mainPanel;
+    private JPanel topBar;
+    private CalendarPanel calendarPanel;
+
+    public MainWindow(Agenda agenda) {
+        // controller
+        this.controller = new MainWindowController(agenda);
+
         this.setTitle("Cryptendar");
-        this.setSize(960,600);
-        
+        this.setSize(960, 600);
+
         // close button
-        this.addWindowListener(new java.awt.event.WindowAdapter()
-		{
-			public void windowClosing(java.awt.event.WindowEvent evt)
-			{
-				System.exit(0);
-			}
-		});
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                System.exit(0);
+            }
+        });
 
         // sidebar (à gauche)
 
         calendarList = new JPanel();
-        calendarList.setBackground(new Color(50,50,200));
+        calendarList.setBackground(new Color(50, 50, 200));
 
         dateDisplay = new JPanel();
-        dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE,150));
-        dateDisplay.setBackground(new Color(50,200,50));
+        dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 150));
+        dateDisplay.setBackground(new Color(50, 200, 50));
 
         sidebar = new JPanel();
         sidebar.setBorder(BorderFactory.createEmptyBorder());
 
-        sidebar.setLayout(new BorderLayout(0,0));
-        sidebar.setBackground(new Color(5,5,5));
-        sidebar.add(calendarList,BorderLayout.CENTER);
-        sidebar.add(dateDisplay,BorderLayout.PAGE_END);
+        sidebar.setLayout(new BorderLayout(0, 0));
+        sidebar.setBackground(new Color(5, 5, 5));
+        sidebar.add(calendarList, BorderLayout.CENTER);
+        sidebar.add(dateDisplay, BorderLayout.PAGE_END);
 
         // panneau principal (à droite)
 
         topBar = new JPanel();
-        topBar.setBackground(new Color(50,200,200));
-        topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE,64));
+        topBar.setBackground(new Color(50, 200, 200));
+        topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE, 64));
 
         calendarPanel = new CalendarPanel();
 
         mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.setLayout(new BorderLayout(0,0));
-        mainPanel.setBackground(new Color(5,5,5));
-        mainPanel.add(topBar,BorderLayout.PAGE_START);
-        mainPanel.add(calendarPanel,BorderLayout.CENTER);
-
+        mainPanel.setLayout(new BorderLayout(0, 0));
+        mainPanel.setBackground(new Color(5, 5, 5));
+        mainPanel.add(topBar, BorderLayout.PAGE_START);
+        mainPanel.add(calendarPanel, BorderLayout.CENTER);
 
         // Séparation sidebar et panneau principal
 
@@ -70,9 +78,6 @@ public class MainWindow extends JFrame
         splitPane.setRightComponent(mainPanel);
         this.add(splitPane);
 
-
         this.setVisible(true);
-        controller = new MainWindowController();
-
     }
 }
