@@ -19,7 +19,7 @@ public class MainWindow extends JFrame {
     private JPanel calendarList;
     private JPanel dateDisplay;
     private JPanel mainPanel;
-    private JPanel topBar;
+    private TopBarPanel topBar;
     private CalendarPanel calendarPanel;
 
     public MainWindow(Agenda agenda) {
@@ -55,9 +55,9 @@ public class MainWindow extends JFrame {
 
         // panneau principal (à droite)
 
-        topBar = new JPanel();
-        topBar.setBackground(new Color(50, 200, 200));
-        topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE, 64));
+        this.topBar = new TopBarPanel(this);
+        this.topBar.setBackground(new Color(50, 200, 200));
+        this.topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE, 64));
 
         calendarPanel = new CalendarPanel();
 
@@ -79,5 +79,9 @@ public class MainWindow extends JFrame {
         this.add(splitPane);
 
         this.setVisible(true);
+    }
+
+    public MainWindowController getController() {
+        return this.controller;
     }
 }
