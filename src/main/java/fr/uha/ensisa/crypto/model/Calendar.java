@@ -18,6 +18,10 @@ public class Calendar {
 		return eventTable;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
 	public void saveCalendar() throws IOException {
 	    File dir = new File("data");
 	    if (!dir.isDirectory()) {
