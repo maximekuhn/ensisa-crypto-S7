@@ -92,4 +92,8 @@ public final class Agenda {
 		}
     	return events;
     }
+    
+    public Collection<Calendar> getAllCalendars(){
+    	return calendars.values();
+    }
 }
