@@ -4,14 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TopBarPanel extends JPanel implements ActionListener {
     
     private static final String CREATE_BUTTON_TEXT = "NEW EVENT";
     private static final String CREATE_BUTTON_TOOLTIP = "Click here to create a new event";
-    private static final String POPUP_CREATE_EVENT_TEXT = "Create a new event";
 
     private MainWindow mainWindow;
     private MainWindowController controller;
@@ -39,7 +37,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
     }
 
     private void createEventPopup() {
-        CreateEventPopup popup = new CreateEventPopup();
+        CreateEventPopup popup = new CreateEventPopup(this.mainWindow);
         popup.setVisible(true);
     }
 }
