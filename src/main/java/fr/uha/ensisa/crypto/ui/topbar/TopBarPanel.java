@@ -12,11 +12,14 @@ import fr.uha.ensisa.crypto.ui.MainWindowController;
 public class TopBarPanel extends JPanel implements ActionListener {
 
     private static final String CREATE_EVENT_BUTTON_TEXT = "NEW EVENT";
+    private static final String CREATE_CALENDAR_BUTTON_TEXT = "NEW CALENDAR";
     private static final String CREATE_EVENT_BUTTON_TOOLTIP = "Click here to create a new event";
+    private static final String CREATE_CALENDAR_BUTTON_TOOLTIP = "Click here to create a new calendar";
 
     private MainWindow mainWindow;
     private MainWindowController controller;
     private JButton createEventButton;
+    private JButton createCalendarButton;
 
     public TopBarPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -25,12 +28,16 @@ public class TopBarPanel extends JPanel implements ActionListener {
         // create button
         this.createEventButton = new JButton(CREATE_EVENT_BUTTON_TEXT);
         this.createEventButton.setToolTipText(CREATE_EVENT_BUTTON_TOOLTIP);
+        this.createCalendarButton = new JButton(CREATE_CALENDAR_BUTTON_TEXT);
+        this.createCalendarButton.setToolTipText(CREATE_CALENDAR_BUTTON_TOOLTIP);
 
         // handle click
         this.createEventButton.addActionListener(this);
+        this.createCalendarButton.addActionListener(this);
 
         // add button(s)
         this.add(this.createEventButton);
+        this.add(this.createCalendarButton);
     }
 
     @Override
@@ -42,5 +49,9 @@ public class TopBarPanel extends JPanel implements ActionListener {
     private void createEventPopup() {
         CreateEventPopup popup = new CreateEventPopup(this.mainWindow);
         popup.setVisible(true);
+    }
+
+    private void createCalendarPopup() {
+        // TODO handle this
     }
 }
