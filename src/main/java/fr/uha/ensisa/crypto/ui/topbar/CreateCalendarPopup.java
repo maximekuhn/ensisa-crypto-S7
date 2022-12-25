@@ -72,6 +72,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     private void createCalendar() {
         String calendarName = this.calendarTextField.getText();
 
+        // required field : calendar title
         if (calendarName.isEmpty()) {
             this.showErrorPopup("Please specify a name for the calendar.");
         } else {
