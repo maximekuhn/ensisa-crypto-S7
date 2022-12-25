@@ -91,7 +91,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         LocalDate now = LocalDate.now();
         dateModel.setDate(
             now.getYear(),
-            now.getMonthValue(),
+            now.getMonthValue() - 1,
             now.getDayOfMonth()
         );
         dateModel.setSelected(true);
