@@ -14,6 +14,7 @@ import fr.uha.ensisa.crypto.model.Event;
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
 
     private Agenda agenda;
+    private CalendarPanel calendarPanel;
 
     public MainWindowController(Agenda agenda) {
         this.agenda = agenda;
@@ -96,6 +97,8 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         }
 
         // TODO refresh all panels (or frame ?) showing events
+        calendarPanel.refreshGrid();
+
     }
 
     public void createCalendar(String calendarName) {
@@ -106,5 +109,10 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         }
 
         // TODO refresh all panels (or frame ?) showing calendars
+        calendarPanel.refreshGrid();
+    }
+
+    public void setCalendarPanel(CalendarPanel calendarPanel) {
+        this.calendarPanel = calendarPanel;
     }
 }

@@ -62,6 +62,7 @@ public class MainWindow extends JFrame {
         this.topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE, 64));
 
         calendarPanel = new CalendarPanel();
+        controller.setCalendarPanel(calendarPanel);
 
         mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createEmptyBorder());

@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -43,9 +44,9 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private static final int EVENT_TEXT_FIELD_LENGTH = 10;
     private static final int DESCRIPTION_TEXT_FIELD_LENGTH = EVENT_TEXT_FIELD_LENGTH;
     private static final int LOCATION_TEXT_FIELD_LENGTH = EVENT_TEXT_FIELD_LENGTH;
-    private static final double DURATION_MINIMUM = 0.5;
+    private static final double DURATION_MINIMUM = 1;
     private static final double DURATION_MAXIMUM = 24.0;
-    private static final double DURATION_STEP = 0.5;
+    private static final double DURATION_STEP = 1;
     private static final double DURATION_START = 2.0;
 
     private MainWindow mainWindow;
@@ -168,6 +169,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         String description = this.descriptionTextField.getText();
         String location = this.locationTextField.getText();
         Date date = (Date) this.datePicker.getModel().getValue();
+        date = Date.from(date.toInstant().truncatedTo( ChronoUnit.DAYS ));
         double duration = (double) this.durationSpinner.getValue();
         String calendar = (String) this.calendarsList.getSelectedItem();
 
