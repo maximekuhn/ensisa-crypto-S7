@@ -45,9 +45,8 @@ public class MainWindow extends JFrame {
         calendarList = new JPanel();
         calendarList.setBackground(new Color(50, 50, 200));
 
-        dateDisplay = new DateDisplayPanel(this);
-        dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 190));
-        //dateDisplay.setBackground(new Color(100, 200, 50));
+        this.dateDisplay = new DateDisplayPanel(this);
+        this.dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 190));
 
         sidebar = new JPanel();
         sidebar.setBorder(BorderFactory.createEmptyBorder());
