@@ -11,6 +11,7 @@ import javax.swing.JSplitPane;
 
 import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.ui.topbar.TopBarPanel;
+import fr.uha.ensisa.dateDisplay.DateDisplayPanel;
 
 public class MainWindow extends JFrame {
 
@@ -22,13 +23,14 @@ public class MainWindow extends JFrame {
     private JPanel mainPanel;
     private TopBarPanel topBar;
     private CalendarPanel calendarPanel;
+    private DateDisplayPanel dateDisplayPanel;
 
     public MainWindow(Agenda agenda) {
         // controller
         this.controller = new MainWindowController(agenda);
 
         this.setTitle("Cryptendar");
-        this.setSize(960, 600);
+        this.setSize(1020, 600);
         this.setLocationRelativeTo(null); // window appears on center of the screen
 
         // close button
@@ -43,9 +45,9 @@ public class MainWindow extends JFrame {
         calendarList = new JPanel();
         calendarList.setBackground(new Color(50, 50, 200));
 
-        dateDisplay = new JPanel();
-        dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 150));
-        dateDisplay.setBackground(new Color(50, 200, 50));
+        dateDisplay = new DateDisplayPanel(this);
+        dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 190));
+        //dateDisplay.setBackground(new Color(100, 200, 50));
 
         sidebar = new JPanel();
         sidebar.setBorder(BorderFactory.createEmptyBorder());
@@ -75,7 +77,7 @@ public class MainWindow extends JFrame {
         splitPane = new JSplitPane();
         splitPane.setBorder(BorderFactory.createEmptyBorder());
 
-        splitPane.setDividerLocation(150);
+        splitPane.setDividerLocation(210);
         splitPane.setLeftComponent(sidebar);
         splitPane.setRightComponent(mainPanel);
         this.add(splitPane);
