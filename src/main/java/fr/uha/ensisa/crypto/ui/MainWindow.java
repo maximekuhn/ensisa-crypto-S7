@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.ui.dateDisplay.DateDisplayPanel;
 import fr.uha.ensisa.crypto.ui.topbar.TopBarPanel;
-import fr.uha.ensisa.dateDisplay.DateDisplayPanel;
 
 public class MainWindow extends JFrame {
 
