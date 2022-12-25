@@ -44,7 +44,7 @@ public class AgendaTest {
 	@Test
 	public void testGetCalendarNames() {
 		Collection<String> calendarNames = agenda.getCalendarNames();
-		assertEquals("Test Calendar", calendarNames.iterator().next());
+		assertTrue(calendarNames.contains("Test Calendar"));
 	}
 
 	@Test
