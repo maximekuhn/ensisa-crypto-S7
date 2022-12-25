@@ -3,10 +3,12 @@ package fr.uha.ensisa.crypto.ui.topbar;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -63,19 +65,28 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(this.createButton)) this.createCalendar();
+        if (e.getSource().equals(this.createButton))
+            this.createCalendar();
     }
 
     private void createCalendar() {
         String calendarName = this.calendarTextField.getText();
 
-        // TODO handle errors
-        
-        MainWindowController controller = this.mainWindow.getController();
-        controller.createCalendar(calendarName);
-
-        // close popup
-        this.dispose();
+        if (calendarName.isEmpty()) {
+            this.showErrorPopup("Please specify a name for the calendar.");
+        } else {
+            try {
+                MainWindowController controller = this.mainWindow.getController();
+                controller.createCalendar(calendarName);
+                this.dispose();
+            } catch (IOException | Error e) {
+                this.showErrorPopup("Creation failed !");
+                e.printStackTrace();
+            }
+        }
     }
-    
+
+    private void showErrorPopup(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage);
+    }
 }

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -32,11 +34,11 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private static final String POPUP_TITLE = "New Event";
     private static final String CREATE_BUTTON_TEXT = "create";
     private static final String CANCEL_BUTTON_TEXT = "cancel";
-    private static final String EVENT_LABEL_TEXT = "TITLE";
+    private static final String EVENT_LABEL_TEXT = "TITLE (*)";
     private static final String DESCRIPTION_LABEL_TEXT = "DESCRIPTION";
     private static final String LOCATION_LABEL_TEXT = "LOCATION";
-    private static final String DATE_LABEL_TEXT = "DATE";
-    private static final String DURATION_LABEL_TEXT = "DURATION";
+    private static final String DATE_LABEL_TEXT = "DATE (*)";
+    private static final String DURATION_LABEL_TEXT = "DURATION (*)";
     private static final String CALENDAR_LABEL_TEXT = "CALENDAR";
 
     private static final int POPUP_WIDTH = 400;
@@ -133,17 +135,17 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         this.mainPanel.add(this.eventLabel);
         this.mainPanel.add(this.eventTextField);
 
-        this.mainPanel.add(this.descriptionLabel);
-        this.mainPanel.add(this.descriptionTextField);
-
-        this.mainPanel.add(this.locationLabel);
-        this.mainPanel.add(this.locationTextField);
-
         this.mainPanel.add(this.dateLabel);
         this.mainPanel.add(this.datePicker);
 
         this.mainPanel.add(this.durationLabel);
         this.mainPanel.add(this.durationSpinner);
+
+        this.mainPanel.add(this.descriptionLabel);
+        this.mainPanel.add(this.descriptionTextField);
+
+        this.mainPanel.add(this.locationLabel);
+        this.mainPanel.add(this.locationTextField);
 
         this.mainPanel.add(this.calendarLabel);
         this.mainPanel.add(this.calendarsList);
@@ -173,15 +175,23 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         double duration = (double) this.durationSpinner.getValue();
         String calendar = (String) this.calendarsList.getSelectedItem();
 
-        // TODO handle errors
-        // TODO show error when any field is empty
+        // required fields are : title, date & duration
+        if(event.isEmpty() || (duration <= 0) || (date == null)) {
+            this.showErrorPopup("Please fill all fields having a (*).");
+        } else {
+            MainWindowController controller = this.mainWindow.getController();
+            try {
+                controller.createEvent(calendar, event, description, location, date, duration);
+                this.closePopup();
+            } catch (IOException | Error e) {
+                // if an error occured, display a dialog indicating what is wrong
+                this.showErrorPopup("Calendar " + calendar + " is unavailable.");
+                e.printStackTrace();
+            }
+        }
+    }
 
-        MainWindowController controller = this.mainWindow.getController();
-        controller.createEvent(calendar, event, description, location, date, duration);
-
-        // TODO remove this print
-        System.out.println("event : " + event + "\ndescription : " + description + "\nlocation : " + location + "\ndate : " + date.toString() + "\nduration : " + duration + "\ncalendar : " + calendar);
-
-        this.closePopup();
+    private void showErrorPopup(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage);
     }
 }
