@@ -22,17 +22,12 @@ public class DateDisplayPanel extends JPanel implements ActionListener {
 		this.mainWindow = mainWindow;
 		this.controller = this.mainWindow.getController();
 		
-		//create date Panel
+		// create date Panel
 		UtilDateModel dateModel = new UtilDateModel();
-        LocalDate now = LocalDate.now();
-        dateModel.setDate(
-            now.getYear(),
-            now.getMonthValue(),
-            now.getDayOfMonth()
-        );
         dateModel.setSelected(true);
         this.datePanel = new JDatePanelImpl(dateModel);
         
+        // add date panel 
         this.add(this.datePanel);
 	}
 	
