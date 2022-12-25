@@ -19,11 +19,10 @@ public class MainWindow extends JFrame {
     private JSplitPane splitPane;
     private JPanel sidebar;
     private JPanel calendarList;
-    private JPanel dateDisplay;
     private JPanel mainPanel;
     private TopBarPanel topBar;
     private CalendarPanel calendarPanel;
-    private DateDisplayPanel dateDisplayPanel;
+    private DateDisplayPanel dateDisplay;
 
     public MainWindow(Agenda agenda) {
         // controller
