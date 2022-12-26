@@ -3,6 +3,7 @@ package fr.uha.ensisa.crypto.ui.dateDisplay;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JPanel;
 
@@ -35,7 +36,12 @@ public class DateDisplayPanel extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.datePanel)) System.out.println(this.datePanel.getModel().getValue());
+        if (e.getSource().equals(this.datePanel)) this.changeCalendarDate();
+	}
+	
+	private void changeCalendarDate() {
+		Date date = (Date) this.datePanel.getModel().getValue();
+		controller.goToDate(date);
 	}
 
 }
