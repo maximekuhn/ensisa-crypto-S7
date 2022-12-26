@@ -104,6 +104,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         // refresh view
         this.calendarPanel.refreshGrid();
         this.calendarListPanel.refreshPanel();
+        this.calendarListPanel.selectLoadedCalendar(calendarName);
     }
 
     public void setCalendarPanel(CalendarPanel calendarPanel) {
