@@ -26,6 +26,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     private static final String PASS_LABEL_TEXT = "PASSWORD";
     private static final String ALGO_LABEL_TEXT = "ALGORITHM";
     private static final String CREATE_BUTTON_TEXT = "create";
+    private static final String CANCEL_BUTTON_TEXT = "cancel";
 
     private static final int POPUP_WIDTH = 700;
     private static final int POPUP_HEIGHT = 100;
@@ -35,7 +36,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     private MainWindow mainWindow;
     private JPanel mainPanel;
     private GridLayout layout;
-    
+
     private JLabel calendarLabel;
     private JTextField calendarTextField;
     private JLabel passLabel;
@@ -43,6 +44,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     private JLabel algoLabel;
     private JComboBox<String> algoListField;
     private JButton createButton;
+    private JButton cancelButton;
 
     public CreateCalendarPopup(MainWindow mainWindow) {
         super(mainWindow, POPUP_TITLE);
@@ -68,22 +70,26 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         this.calendarTextField = new JTextField(CALENDAR_TEXT_FIELD_LENGTH);
         this.passTextField = new JPasswordField(PASS_TEXT_FIELD_LENGTH);
 
-        // button
+        // buttons
         this.createButton = new JButton(CREATE_BUTTON_TEXT);
+        this.cancelButton = new JButton(CANCEL_BUTTON_TEXT);
         this.createButton.addActionListener(this);
+        this.cancelButton.addActionListener(this);
 
         // list
-        this.algoListField = new JComboBox<String>(new String[]{"ALGO 1","ALGO 2"});
-        
+        // TODO algorithms list enum
+        this.algoListField = new JComboBox<String>(new String[] { "ALGO 1", "ALGO 2" });
+
         // add components
         this.mainPanel.add(this.calendarLabel);
         this.mainPanel.add(this.calendarTextField);
-        this.mainPanel.add(this.passLabel);
-        this.mainPanel.add(this.passTextField);
         this.mainPanel.add(this.algoLabel);
         this.mainPanel.add(this.algoListField);
+        this.mainPanel.add(this.passLabel);
+        this.mainPanel.add(this.passTextField);
 
         this.mainPanel.add(this.createButton);
+        this.mainPanel.add(this.cancelButton);
 
         this.add(this.mainPanel);
     }
@@ -92,6 +98,12 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.createButton))
             this.createCalendar();
+        if (e.getSource().equals(this.cancelButton))
+            this.closePopup();
+    }
+
+    private void closePopup() {
+        this.dispose();
     }
 
     private void createCalendar() {
@@ -104,7 +116,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
             try {
                 MainWindowController controller = this.mainWindow.getController();
                 controller.createCalendar(calendarName);
-                this.dispose();
+                this.closePopup();
             } catch (IOException | Error e) {
                 // if an error occured, display a dialog indicating what is wrong
                 this.showErrorPopup("Creation failed !");
