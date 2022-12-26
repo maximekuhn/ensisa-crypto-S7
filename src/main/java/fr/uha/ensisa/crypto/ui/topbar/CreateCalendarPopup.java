@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.uha.ensisa.crypto.ui.MainWindow;
@@ -19,16 +22,23 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "New Calendar";
     private static final String CALENDAR_LABEL_TEXT = "CALENDAR";
+    private static final String PASS_LABEL_TEXT = "PASSWORD";
+    private static final String ALGO_LABEL_TEXT = "ALGORITHM";
     private static final String CREATE_BUTTON_TEXT = "create";
 
-    private static final int POPUP_WIDTH = 300;
-    private static final int POPUP_HEIGHT = 80;
+    private static final int POPUP_WIDTH = 700;
+    private static final int POPUP_HEIGHT = 100;
     private static final int CALENDAR_TEXT_FIELD_LENGTH = 10;
+    private static final int PASS_TEXT_FIELD_LENGTH = 10;
 
     private MainWindow mainWindow;
     private JPanel mainPanel;
     private JLabel calendarLabel;
     private JTextField calendarTextField;
+    private JLabel passLabel;
+    private JTextField passTextField;
+    private JLabel algoLabel;
+    private JComboBox<String> algoListField;
     private JButton createButton;
 
     public CreateCalendarPopup(MainWindow mainWindow) {
@@ -46,17 +56,27 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
         // label
         this.calendarLabel = new JLabel(CALENDAR_LABEL_TEXT);
+        this.passLabel = new JLabel(PASS_LABEL_TEXT);
+        this.algoLabel = new JLabel(ALGO_LABEL_TEXT);
 
         // textfield
         this.calendarTextField = new JTextField(CALENDAR_TEXT_FIELD_LENGTH);
+        this.passTextField = new JPasswordField(PASS_TEXT_FIELD_LENGTH);
 
         // button
         this.createButton = new JButton(CREATE_BUTTON_TEXT);
         this.createButton.addActionListener(this);
 
+        // list
+        this.algoListField = new JComboBox<String>(new String[]{"ALGO 1","ALGO 2"});
+        
         // add components
         this.mainPanel.add(this.calendarLabel);
         this.mainPanel.add(this.calendarTextField);
+        this.mainPanel.add(this.passLabel);
+        this.mainPanel.add(this.passTextField);
+        this.mainPanel.add(this.algoLabel);
+        this.mainPanel.add(this.algoListField);
 
         this.mainPanel.add(this.createButton);
 
