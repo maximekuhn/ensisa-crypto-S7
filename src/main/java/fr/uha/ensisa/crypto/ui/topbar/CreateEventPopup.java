@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -69,7 +69,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private JButton cancelButton;
     private JDatePickerImpl datePicker;
     private JSpinner durationSpinner; // hours
-    private JComboBox calendarsList;
+    private JComboBox<String> calendarsList;
     private TimePicker timePicker;
 
     public CreateEventPopup(MainWindow mainWindow) {
@@ -120,10 +120,15 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         // calendars
         Agenda agenda = this.mainWindow.getController().getAgenda();
         Collection<Calendar> allCalendars = agenda.getAllCalendars();
-        Collection<String> calendars = new ArrayList<>();
-        for (Calendar calendar : allCalendars)
-            calendars.add(calendar.getName());
-        this.calendarsList = new JComboBox<>(calendars.toArray());
+        String[] calendars = new String[allCalendars.size()];
+        Iterator<Calendar> calendarIT = allCalendars.iterator();
+        int index = 0;
+        while(calendarIT.hasNext()) {
+            Calendar c = calendarIT.next();
+            calendars[index] = c.getName();
+            index++;
+        }
+        this.calendarsList = new JComboBox<>(calendars);
 
         // buttons
         this.createButton = new JButton(CREATE_BUTTON_TEXT);
