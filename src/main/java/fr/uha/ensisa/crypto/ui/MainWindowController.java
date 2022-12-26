@@ -11,11 +11,13 @@ import java.util.Date;
 
 import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.model.Event;
+import fr.uha.ensisa.crypto.ui.calendar_selection.CalendarListPanel;
 
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
 
     private Agenda agenda;
     private CalendarPanel calendarPanel;
+    private CalendarListPanel calendarListPanel;
 
     public MainWindowController(Agenda agenda) {
         this.agenda = agenda;
@@ -100,11 +102,16 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         this.agenda.createCalendar(calendarName);
 
         // refresh view
-        calendarPanel.refreshGrid();
+        this.calendarPanel.refreshGrid();
+        this.calendarListPanel.refreshPanel();
     }
 
     public void setCalendarPanel(CalendarPanel calendarPanel) {
         this.calendarPanel = calendarPanel;
+    }
+
+    public void setCalendarListPanel(CalendarListPanel calendarListPanel) {
+        this.calendarListPanel = calendarListPanel;
     }
 
     public void goToDate(Date date) {
@@ -113,5 +120,19 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 
     public Collection<Event> searchEventByDate(Date date) {
         return this.agenda.search(date);
+    }
+
+    public Collection<String> getCalendarsNames() {
+        return this.agenda.getCalendarNames();
+    }
+
+    public void loadCalendar(String calendarName) throws ClassNotFoundException, IOException {
+        this.agenda.loadCalendar(calendarName);
+        this.calendarPanel.refreshGrid();
+    }
+
+    public void unloadCalendar(String calendarName) {
+        this.agenda.unloadCalendar(calendarName);
+        this.calendarPanel.refreshGrid();
     }
 }
