@@ -57,12 +57,13 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             JCheckBox calendarCheckBox = new JCheckBox(calendarName);
             calendarCheckBox.addActionListener(this);
             calendarCheckBox.setForeground(new Color(255, 255, 255));
-            this.calendars.add(calendarCheckBox);
+            calendarCheckBox.setOpaque(false);
 
             // check by default
             calendarCheckBox.setSelected(true);
 
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
+            calendarCheckBox.setOpaque(false);
             JButton deleteButton = new JButton(deleteIcon);
             deleteButton.addActionListener(this);
             deleteButton.setOpaque(false);
