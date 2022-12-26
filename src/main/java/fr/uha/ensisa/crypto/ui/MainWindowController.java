@@ -135,4 +135,10 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         this.agenda.unloadCalendar(calendarName);
         this.calendarPanel.refreshGrid();
     }
+
+    public void deleteCalendar(String calendarName) throws IOException {
+        this.agenda.deleteCalendar(calendarName);
+        this.calendarListPanel.refreshPanel();
+        this.calendarPanel.refreshGrid();
+    }
 }
