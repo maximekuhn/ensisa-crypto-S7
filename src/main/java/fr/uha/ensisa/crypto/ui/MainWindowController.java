@@ -171,4 +171,8 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         else
             this.topBarPanel.activateCreateEventButton();
     }
+
+    public boolean calendarNameAlreadyExist(String calendarName) {
+        return this.agenda.getCalendarNames().contains(calendarName);
+    }
 }

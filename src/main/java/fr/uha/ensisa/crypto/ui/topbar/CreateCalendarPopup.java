@@ -116,8 +116,8 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     private void createCalendar() {
         String calendarName = this.calendarTextField.getText();
         MainWindowController controller = this.mainWindow.getController();
-        if(controller.getCalendarsNames().contains(calendarName)) {
-        	this.showErrorPopup("Name is used.");
+        if(controller.calendarNameAlreadyExist(calendarName)) {
+        	this.showErrorPopup("Name is already used.");
         }
         else {
 	        String password = this.passTextField.getText();
