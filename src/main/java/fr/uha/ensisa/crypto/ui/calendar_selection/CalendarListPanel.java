@@ -1,5 +1,6 @@
 package fr.uha.ensisa.crypto.ui.calendar_selection;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         for(String calendarName : calendarsNamesList) {
             JCheckBox calendarCheckBox = new JCheckBox(calendarName);
             calendarCheckBox.addActionListener(this);
+            calendarCheckBox.setForeground(new Color(255, 255, 255));
             this.calendars.add(calendarCheckBox);
 
             // add to panel
