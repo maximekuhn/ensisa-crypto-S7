@@ -3,17 +3,21 @@ package fr.uha.ensisa.crypto.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import fr.uha.ensisa.crypto.model.Agenda;
-import fr.uha.ensisa.crypto.model.Calendar;
-import fr.uha.ensisa.crypto.model.Event;
-import fr.uha.ensisa.crypto.model.EventTable;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.model.Calendar;
+import fr.uha.ensisa.crypto.model.Event;
+import fr.uha.ensisa.crypto.model.EventTable;
 
 public class CalendarPanel extends JScrollPane {
     private JPanel grid;
