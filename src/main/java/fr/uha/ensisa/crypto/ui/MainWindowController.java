@@ -106,4 +106,8 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
     public void setCalendarPanel(CalendarPanel calendarPanel) {
         this.calendarPanel = calendarPanel;
     }
+
+    public void goToDate(Date date) {
+        this.calendarPanel.setSelectedDate(date);
+    }
 }
