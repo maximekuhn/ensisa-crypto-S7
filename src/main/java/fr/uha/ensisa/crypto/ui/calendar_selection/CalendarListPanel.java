@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
@@ -58,6 +59,9 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             calendarCheckBox.setForeground(new Color(255, 255, 255));
             this.calendars.add(calendarCheckBox);
 
+            // check by default
+            calendarCheckBox.setSelected(true);
+
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
             JButton deleteButton = new JButton(deleteIcon);
             deleteButton.addActionListener(this);
@@ -69,6 +73,13 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             // add to panel
             this.add(calendarCheckBox);
             this.add(deleteButton);
+        }
+
+        // uncheck unloaded calendars
+        Collection<String> loadedCalendarsName = this.controller.getLoadedCalendarNames();
+        for(JCheckBox calendarCheckBox : this.calendars) {
+            if(!loadedCalendarsName.contains(calendarCheckBox.getText()))
+                this.unselectUnloadedCalendar(calendarCheckBox.getText());
         }
     }
 
@@ -126,6 +137,13 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         for(JCheckBox calendarCheckBox : this.calendars) {
             if(calendarCheckBox.getText().equals(calendarName))
                 calendarCheckBox.setSelected(true);
+        }
+    }
+
+    private void unselectUnloadedCalendar(String calendarName) {
+        for(JCheckBox calendarCheckBox : this.calendars) {
+            if(calendarCheckBox.getText().equals(calendarName))
+                calendarCheckBox.setSelected(false);
         }
     }
 

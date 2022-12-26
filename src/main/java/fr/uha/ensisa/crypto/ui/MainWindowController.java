@@ -6,10 +6,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.model.Event;
 import fr.uha.ensisa.crypto.ui.calendar_selection.CalendarListPanel;
 
@@ -141,5 +143,14 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         this.agenda.deleteCalendar(calendarName);
         this.calendarListPanel.refreshPanel();
         this.calendarPanel.refreshGrid();
+    }
+
+    public Collection<String> getLoadedCalendarNames() {
+        Collection<Calendar> loadedCalendars = this.agenda.getAllCalendars();
+        Collection<String> loadedCalendarsName = new ArrayList<>();
+        for(Calendar calendar : loadedCalendars) {
+            loadedCalendarsName.add(calendar.getName());
+        }
+        return loadedCalendarsName;
     }
 }
