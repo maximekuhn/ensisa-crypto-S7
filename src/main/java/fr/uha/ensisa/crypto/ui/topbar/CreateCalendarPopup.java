@@ -1,6 +1,7 @@
 package fr.uha.ensisa.crypto.ui.topbar;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
     private MainWindow mainWindow;
     private JPanel mainPanel;
+    private GridLayout layout;
+    
     private JLabel calendarLabel;
     private JTextField calendarTextField;
     private JLabel passLabel;
@@ -48,11 +51,13 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
         // create main panel to store everything in
         this.mainPanel = new JPanel();
+        this.layout = new GridLayout(4, 2);
         this.mainPanel.setPreferredSize(new Dimension(POPUP_WIDTH, POPUP_HEIGHT));
         this.setPreferredSize(this.mainPanel.getPreferredSize());
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
         this.setLocationRelativeTo(mainWindow); // center popup
+        this.mainPanel.setLayout(layout);
 
         // label
         this.calendarLabel = new JLabel(CALENDAR_LABEL_TEXT);
