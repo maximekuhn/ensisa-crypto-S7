@@ -127,7 +127,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
     }
 
     public void loadCalendar(String calendarName) throws ClassNotFoundException, IOException {
-        this.agenda.loadCalendar(calendarName);
+        this.agenda.loadCalendar(calendarName,"");
         this.calendarPanel.refreshGrid();
     }
 

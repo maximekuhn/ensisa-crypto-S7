@@ -65,7 +65,7 @@ public class AgendaTest {
     public void testLoadCalendar() throws IOException, ClassNotFoundException {
     	agenda.getCalendar("Test Calendar").saveCalendar();
     	agenda.unloadCalendar("Test Calendar");
-    	agenda.loadCalendar("Test Calendar");
+    	agenda.loadCalendar("Test Calendar","");
         assertEquals(event.getDuration(),agenda.getCalendar("Test Calendar").getEventTable().getAllEvents().get(0).getDuration());
     }
 	
