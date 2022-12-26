@@ -62,6 +62,10 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             // check by default
             calendarCheckBox.setSelected(true);
 
+            // remove opacity (for Windows)
+            calendarCheckBox.setOpaque(false);
+            
+
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
             JButton deleteButton = new JButton(deleteIcon);
             deleteButton.addActionListener(this);

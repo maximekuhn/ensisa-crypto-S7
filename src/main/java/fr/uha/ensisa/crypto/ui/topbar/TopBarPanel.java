@@ -44,6 +44,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
         // create buttons
         this.createEventButton = new JButton(CREATE_EVENT_BUTTON_TEXT);
         this.createEventButton.setToolTipText(CREATE_EVENT_BUTTON_TOOLTIP);
+        this.createEventButton.setEnabled(false); // as no calendar is selected by default
         this.createCalendarButton = new JButton(CREATE_CALENDAR_BUTTON_TEXT);
         this.createCalendarButton.setToolTipText(CREATE_CALENDAR_BUTTON_TOOLTIP);
         this.searchButton = new JButton(SEARCH_BUTTON_TEXT);
@@ -123,5 +124,13 @@ public class TopBarPanel extends JPanel implements ActionListener {
 
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
+    }
+
+    public void activateCreateEventButton() {
+        this.createEventButton.setEnabled(true);
+    }
+
+    public void deactivateCreateEventButton() {
+        this.createEventButton.setEnabled(false);
     }
 }
