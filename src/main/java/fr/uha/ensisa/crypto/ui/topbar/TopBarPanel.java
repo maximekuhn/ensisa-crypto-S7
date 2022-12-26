@@ -16,6 +16,8 @@ public class TopBarPanel extends JPanel implements ActionListener {
     private static final String CREATE_EVENT_BUTTON_TOOLTIP = "Click here to create a new event";
     private static final String CREATE_CALENDAR_BUTTON_TOOLTIP = "Click here to create a new calendar";
 
+    private static final int SEARCH_BAR_LENGTH = 10;
+
     private MainWindow mainWindow;
     private MainWindowController controller;
     private JButton createEventButton;
@@ -42,8 +44,10 @@ public class TopBarPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.createEventButton)) this.createEventPopup();
-        else if(e.getSource().equals(this.createCalendarButton)) this.createCalendarPopup();
+        if (e.getSource().equals(this.createEventButton))
+            this.createEventPopup();
+        else if (e.getSource().equals(this.createCalendarButton))
+            this.createCalendarPopup();
     }
 
     private void createEventPopup() {

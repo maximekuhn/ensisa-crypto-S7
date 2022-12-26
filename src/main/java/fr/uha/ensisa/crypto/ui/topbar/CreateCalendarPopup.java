@@ -3,10 +3,12 @@ package fr.uha.ensisa.crypto.ui.topbar;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -33,7 +35,6 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
         this.setModal(true);
-        this.setLocationRelativeTo(mainWindow); // center popup
 
         // create main panel to store everything in
         this.mainPanel = new JPanel();
@@ -41,6 +42,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         this.setPreferredSize(this.mainPanel.getPreferredSize());
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
+        this.setLocationRelativeTo(mainWindow); // center popup
 
         // label
         this.calendarLabel = new JLabel(CALENDAR_LABEL_TEXT);
@@ -63,19 +65,30 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(this.createButton)) this.createCalendar();
+        if (e.getSource().equals(this.createButton))
+            this.createCalendar();
     }
 
     private void createCalendar() {
         String calendarName = this.calendarTextField.getText();
 
-        // TODO handle errors
-        
-        MainWindowController controller = this.mainWindow.getController();
-        controller.createCalendar(calendarName);
-
-        // close popup
-        this.dispose();
+        // required field : calendar title
+        if (calendarName.isBlank()) {
+            this.showErrorPopup("Please specify a name for the calendar.");
+        } else {
+            try {
+                MainWindowController controller = this.mainWindow.getController();
+                controller.createCalendar(calendarName);
+                this.dispose();
+            } catch (IOException | Error e) {
+                // if an error occured, display a dialog indicating what is wrong
+                this.showErrorPopup("Creation failed !");
+                e.printStackTrace();
+            }
+        }
     }
-    
+
+    private void showErrorPopup(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage);
+    }
 }

@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.util.Date;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.model.Event;
 
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
 
     private Agenda agenda;
+    private CalendarPanel calendarPanel;
 
     public MainWindowController(Agenda agenda) {
         this.agenda = agenda;
@@ -83,28 +85,29 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         return this.agenda;
     }
 
-    public void createEvent(String calendar, String event, String description, String location, Date date, double duration) {
+    public void createEvent(String calendar, String event, String description, String location, Date date, double duration) throws IOException, Error {
         Event newEvent = new Event(date, (long) duration, event, description, location);
 
-        // TODO check if calendar exist
         this.agenda.getCalendar(calendar).getEventTable().addEvent(newEvent);
-        try {
-            this.agenda.getCalendar(calendar).saveCalendar();
-        } catch (IOException | Error e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        this.agenda.getCalendar(calendar).saveCalendar();
 
-        // TODO refresh all panels (or frame ?) showing events
+        // refresh view
+        calendarPanel.refreshGrid();
+
     }
 
-    public void createCalendar(String calendarName) {
-        try {
-            this.agenda.createCalendar(calendarName);
-        } catch (IOException | Error e) {
-            e.printStackTrace();
-        }
+    public void createCalendar(String calendarName) throws IOException, Error {
+        this.agenda.createCalendar(calendarName);
 
-        // TODO refresh all panels (or frame ?) showing calendars
+        // refresh view
+        calendarPanel.refreshGrid();
+    }
+
+    public void setCalendarPanel(CalendarPanel calendarPanel) {
+        this.calendarPanel = calendarPanel;
+    }
+
+    public void goToDate(Date date) {
+        this.calendarPanel.setSelectedDate(date);
     }
 }
