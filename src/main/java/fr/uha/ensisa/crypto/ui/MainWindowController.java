@@ -6,10 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 
 import fr.uha.ensisa.crypto.model.Agenda;
-import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.model.Event;
 
 public class MainWindowController implements MouseListener, MouseMotionListener, KeyListener {
@@ -109,5 +109,9 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 
     public void goToDate(Date date) {
         this.calendarPanel.setSelectedDate(date);
+    }
+
+    public Collection<Event> searchEventByDate(Date date) {
+        return this.agenda.search(date);
     }
 }
