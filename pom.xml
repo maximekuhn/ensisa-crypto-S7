@@ -39,7 +39,12 @@
 			<groupId>net.sourceforge.jdatepicker</groupId>
 			<artifactId>jdatepicker</artifactId>
 			<version>1.3.2</version>
-		  </dependency>
+		</dependency>
+		<dependency>
+			<groupId>com.github.lgooddatepicker</groupId>
+			<artifactId>LGoodDatePicker</artifactId>
+			<version>11.2.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

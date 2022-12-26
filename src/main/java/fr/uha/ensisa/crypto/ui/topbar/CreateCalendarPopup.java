@@ -81,6 +81,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
                 controller.createCalendar(calendarName);
                 this.dispose();
             } catch (IOException | Error e) {
+                // if an error occured, display a dialog indicating what is wrong
                 this.showErrorPopup("Creation failed !");
                 e.printStackTrace();
             }

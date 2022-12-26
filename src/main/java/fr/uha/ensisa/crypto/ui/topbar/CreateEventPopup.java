@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -20,6 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 
 import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.model.Calendar;
@@ -39,10 +42,10 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private static final String LOCATION_LABEL_TEXT = "LOCATION";
     private static final String DATE_LABEL_TEXT = "DATE (*)";
     private static final String DURATION_LABEL_TEXT = "DURATION (*)";
-    private static final String CALENDAR_LABEL_TEXT = "CALENDAR";
+    private static final String CALENDAR_LABEL_TEXT = "CALENDAR (*)";
 
-    private static final int POPUP_WIDTH = 400;
-    private static final int POPUP_HEIGHT = 180;
+    private static final int POPUP_WIDTH = 500;
+    private static final int POPUP_HEIGHT = 220;
     private static final int EVENT_TEXT_FIELD_LENGTH = 10;
     private static final int DESCRIPTION_TEXT_FIELD_LENGTH = EVENT_TEXT_FIELD_LENGTH;
     private static final int LOCATION_TEXT_FIELD_LENGTH = EVENT_TEXT_FIELD_LENGTH;
@@ -67,6 +70,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private JDatePickerImpl datePicker;
     private JSpinner durationSpinner; // hours
     private JComboBox calendarsList;
+    private TimePicker timePicker;
 
     public CreateEventPopup(MainWindow mainWindow) {
         super(mainWindow, POPUP_TITLE);
@@ -80,7 +84,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         this.setPreferredSize(this.mainPanel.getPreferredSize());
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
-        GridLayout gridLayout = new GridLayout(7, 2);
+        GridLayout gridLayout = new GridLayout(8, 2);
         this.mainPanel.setLayout(gridLayout);
 
         // text fields (event, description & location)
@@ -92,28 +96,32 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         UtilDateModel dateModel = new UtilDateModel();
         LocalDate now = LocalDate.now();
         dateModel.setDate(
-            now.getYear(),
-            now.getMonthValue() - 1,
-            now.getDayOfMonth()
-        );
+                now.getYear(),
+                now.getMonthValue() - 1,
+                now.getDayOfMonth());
         dateModel.setSelected(true);
         JDatePanelImpl datePanel = new JDatePanelImpl(dateModel);
         this.datePicker = new JDatePickerImpl(datePanel);
 
+        // time
+        TimePickerSettings timePickerSettings = new TimePickerSettings();
+        timePickerSettings.use24HourClockFormat();
+        timePickerSettings.initialTime = LocalTime.of(00, 00);
+        this.timePicker = new TimePicker(timePickerSettings);
+
         // duration
         SpinnerNumberModel durationModel = new SpinnerNumberModel(
-            DURATION_START,
-            DURATION_MINIMUM,
-            DURATION_MAXIMUM,
-            DURATION_STEP
-        );
+                DURATION_START,
+                DURATION_MINIMUM,
+                DURATION_MAXIMUM,
+                DURATION_STEP);
         this.durationSpinner = new JSpinner(durationModel);
 
         // calendars
         Agenda agenda = this.mainWindow.getController().getAgenda();
         Collection<Calendar> allCalendars = agenda.getAllCalendars();
         Collection<String> calendars = new ArrayList<>();
-        for(Calendar calendar : allCalendars)
+        for (Calendar calendar : allCalendars)
             calendars.add(calendar.getName());
         this.calendarsList = new JComboBox<>(calendars.toArray());
 
@@ -136,7 +144,11 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         this.mainPanel.add(this.eventTextField);
 
         this.mainPanel.add(this.dateLabel);
-        this.mainPanel.add(this.datePicker);
+        JPanel dateAndTimePanel = new JPanel();
+        dateAndTimePanel.setLayout(new GridLayout(1, 2));
+        dateAndTimePanel.add(this.datePicker);
+        dateAndTimePanel.add(this.timePicker);
+        this.mainPanel.add(dateAndTimePanel);
 
         this.mainPanel.add(this.durationLabel);
         this.mainPanel.add(this.durationSpinner);
@@ -152,14 +164,16 @@ public class CreateEventPopup extends JDialog implements ActionListener {
 
         this.mainPanel.add(this.createButton);
         this.mainPanel.add(this.cancelButton);
-        
+
         this.add(this.mainPanel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(this.cancelButton)) this.closePopup();
-        else if(e.getSource().equals(this.createButton)) this.createEvent();
+        if (e.getSource().equals(this.cancelButton))
+            this.closePopup();
+        else if (e.getSource().equals(this.createButton))
+            this.createEvent();
     }
 
     private void closePopup() {
@@ -170,13 +184,27 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         String event = this.eventTextField.getText();
         String description = this.descriptionTextField.getText();
         String location = this.locationTextField.getText();
+
+        // get date without time
         Date date = (Date) this.datePicker.getModel().getValue();
-        date = Date.from(date.toInstant().truncatedTo( ChronoUnit.DAYS ));
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTime(date);
+        c.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        c.set(java.util.Calendar.MINUTE, 0);
+        c.set(java.util.Calendar.SECOND, 0);
+        c.set(java.util.Calendar.MILLISECOND, 0);
+        Date dateWithoutTime = c.getTime();
+
+        // add time to date
+        LocalTime time = this.timePicker.getTime();
+        int seconds = time.getHour() * 3600 + time.getMinute() * 60 + time.getSecond();
+        date = new Date(dateWithoutTime.getTime() + seconds * 1000);
+
         double duration = (double) this.durationSpinner.getValue();
         String calendar = (String) this.calendarsList.getSelectedItem();
 
-        // required fields are : title, date & duration
-        if(event.isEmpty() || (duration <= 0) || (date == null)) {
+        // required fields are : title, date, duration & calendar
+        if (event.isEmpty() || (duration <= 0) || (date == null) || (calendar == null)) {
             this.showErrorPopup("Please fill all fields having a (*).");
         } else {
             MainWindowController controller = this.mainWindow.getController();
