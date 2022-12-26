@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
         // panneau principal (à droite)
 
         this.topBar = new TopBarPanel(this);
-        this.topBar.setBackground(new Color(50, 200, 200));
+        this.topBar.setBackground(new Color(38, 38, 38));
         this.topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE, 64));
 
         calendarPanel = new CalendarPanel();

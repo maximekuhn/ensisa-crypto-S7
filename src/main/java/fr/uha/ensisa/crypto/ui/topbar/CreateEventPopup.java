@@ -204,7 +204,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         String calendar = (String) this.calendarsList.getSelectedItem();
 
         // required fields are : title, date, duration & calendar
-        if (event.isEmpty() || (duration <= 0) || (date == null) || (calendar == null)) {
+        if (event.isBlank() || (duration <= 0) || (date == null) || (calendar == null)) {
             this.showErrorPopup("Please fill all fields having a (*).");
         } else {
             MainWindowController controller = this.mainWindow.getController();
