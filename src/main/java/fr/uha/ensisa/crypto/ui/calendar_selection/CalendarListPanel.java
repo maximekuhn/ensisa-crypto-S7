@@ -133,13 +133,6 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         }
     }
 
-    public void selectLoadedCalendar(String calendarName) {
-        for(JCheckBox calendarCheckBox : this.calendars) {
-            if(calendarCheckBox.getText().equals(calendarName))
-                calendarCheckBox.setSelected(true);
-        }
-    }
-
     private void unselectUnloadedCalendar(String calendarName) {
         for(JCheckBox calendarCheckBox : this.calendars) {
             if(calendarCheckBox.getText().equals(calendarName))
