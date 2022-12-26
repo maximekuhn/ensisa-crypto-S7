@@ -40,6 +40,8 @@ public final class Agenda {
 	}
 
 	public void createCalendar(String name) throws IOException, Error {
+		if (getCalendarNames().contains(name))
+			throw new Error("Calendar already exists");
 		calendars.put(name, new Calendar(name));
 		calendars.get(name).saveCalendar();
 	}
