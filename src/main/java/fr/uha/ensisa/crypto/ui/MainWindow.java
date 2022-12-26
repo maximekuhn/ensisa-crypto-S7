@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import fr.uha.ensisa.crypto.model.Agenda;
+import fr.uha.ensisa.crypto.ui.calendar_selection.CalendarListPanel;
 import fr.uha.ensisa.crypto.ui.dateDisplay.DateDisplayPanel;
 import fr.uha.ensisa.crypto.ui.topbar.TopBarPanel;
 
@@ -18,7 +19,7 @@ public class MainWindow extends JFrame {
     private MainWindowController controller;
     private JSplitPane splitPane;
     private JPanel sidebar;
-    private JPanel calendarList;
+    private CalendarListPanel calendarList;
     private JPanel mainPanel;
     private TopBarPanel topBar;
     private CalendarPanel calendarPanel;
@@ -41,8 +42,9 @@ public class MainWindow extends JFrame {
 
         // sidebar (à gauche)
 
-        calendarList = new JPanel();
-        calendarList.setBackground(new Color(50, 50, 200));
+        this.calendarList = new CalendarListPanel(this);
+        this.calendarList.setBackground(new Color(38, 38, 38));
+        this.controller.setCalendarListPanel(this.calendarList);
 
         this.dateDisplay = new DateDisplayPanel(this);
         this.dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 190));
