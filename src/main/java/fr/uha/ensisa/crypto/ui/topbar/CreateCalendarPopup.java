@@ -35,7 +35,6 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
         this.setModal(true);
-        this.setLocationRelativeTo(mainWindow); // center popup
 
         // create main panel to store everything in
         this.mainPanel = new JPanel();
@@ -43,6 +42,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         this.setPreferredSize(this.mainPanel.getPreferredSize());
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
+        this.setLocationRelativeTo(mainWindow); // center popup
 
         // label
         this.calendarLabel = new JLabel(CALENDAR_LABEL_TEXT);

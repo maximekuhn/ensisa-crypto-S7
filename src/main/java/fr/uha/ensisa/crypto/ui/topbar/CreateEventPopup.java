@@ -44,7 +44,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private static final String DURATION_LABEL_TEXT = "DURATION (*)";
     private static final String CALENDAR_LABEL_TEXT = "CALENDAR (*)";
 
-    private static final int POPUP_WIDTH = 500;
+    private static final int POPUP_WIDTH = 700;
     private static final int POPUP_HEIGHT = 220;
     private static final int EVENT_TEXT_FIELD_LENGTH = 10;
     private static final int DESCRIPTION_TEXT_FIELD_LENGTH = EVENT_TEXT_FIELD_LENGTH;
@@ -76,7 +76,6 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
         this.setModal(true);
-        this.setLocationRelativeTo(mainWindow); // center popup
 
         // create main panel to put everything in
         this.mainPanel = new JPanel();
@@ -84,6 +83,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         this.setPreferredSize(this.mainPanel.getPreferredSize());
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
+        this.setLocationRelativeTo(mainWindow); // center popup
         GridLayout gridLayout = new GridLayout(8, 2);
         this.mainPanel.setLayout(gridLayout);
 
