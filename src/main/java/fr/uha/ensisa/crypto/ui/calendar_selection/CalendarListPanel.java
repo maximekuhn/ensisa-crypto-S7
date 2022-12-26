@@ -16,7 +16,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
@@ -58,16 +57,13 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             calendarCheckBox.addActionListener(this);
             calendarCheckBox.setForeground(new Color(255, 255, 255));
             calendarCheckBox.setOpaque(false);
+            this.calendars.add(calendarCheckBox);
 
             // check by default
             calendarCheckBox.setSelected(true);
-
-            // remove opacity (for Windows)
-            calendarCheckBox.setOpaque(false);
             
 
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
-            calendarCheckBox.setOpaque(false);
             JButton deleteButton = new JButton(deleteIcon);
             deleteButton.addActionListener(this);
             deleteButton.setOpaque(false);
