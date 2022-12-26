@@ -1,5 +1,6 @@
 package fr.uha.ensisa.crypto.ui.dateDisplay;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,17 +25,17 @@ public class DateDisplayPanel extends JPanel implements ActionListener {
 		UtilDateModel dateModel = new UtilDateModel();
         dateModel.setSelected(true);
         this.datePanel = new JDatePanelImpl(dateModel);
-        
+
         // click action
         this.datePanel.addActionListener(this);
-        
+
         // add date panel 
         this.add(this.datePanel);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.datePanel)) System.out.println("date");;
+        if (e.getSource().equals(this.datePanel)) System.out.println(this.datePanel.getModel().getValue());
 	}
 
 }
