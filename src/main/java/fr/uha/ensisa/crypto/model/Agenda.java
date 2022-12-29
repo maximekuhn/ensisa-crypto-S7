@@ -67,6 +67,21 @@ public final class Agenda {
 		}
 		calendars.put(pathToFile, calendar);
 	}
+	
+	public boolean isCrypted(String pathToFile) throws IOException {
+		File file = new File("data/" + pathToFile);
+		ObjectMapper objectMapper = new ObjectMapper();
+		StringBuilder resultStringBuilder = new StringBuilder();
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				resultStringBuilder.append(line).append("\n");
+			}
+		}
+		String[] fileContent = resultStringBuilder.toString().split(";");
+		return (fileContent[0]=="")?false:true;
+	}
+
 
 	public Calendar getCalendar(String name) throws Error {
 		Calendar calendar = calendars.get(name);
