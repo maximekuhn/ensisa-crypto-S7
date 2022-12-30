@@ -2,6 +2,7 @@ package fr.uha.cryptography;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -47,5 +48,12 @@ public class AESHelperTest {
             e.printStackTrace();
         }
         
+    }
+
+    @Test
+    @DisplayName("Test null iv")
+    void testNullIv() {
+        sut = new AESHelper("data", "password", null);
+        assertThrows(IllegalStateException.class, () -> sut.decryptAES());
     }
 }
