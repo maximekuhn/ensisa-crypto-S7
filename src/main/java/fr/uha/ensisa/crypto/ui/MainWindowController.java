@@ -112,6 +112,15 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         this.setNewEventButtonState();
     }
 
+    public void createCalendar(String calendarName,String algorithm, String password) throws IOException, Error {
+        this.agenda.createCalendar(calendarName,algorithm,password);
+
+        // refresh view
+        this.calendarPanel.refreshGrid();
+        this.calendarListPanel.refreshPanel();
+        this.setNewEventButtonState();
+    }
+
     public void setCalendarPanel(CalendarPanel calendarPanel) {
         this.calendarPanel = calendarPanel;
     }

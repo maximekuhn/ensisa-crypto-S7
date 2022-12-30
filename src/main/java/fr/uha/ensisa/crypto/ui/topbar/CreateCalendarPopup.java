@@ -83,7 +83,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
         // list
 		//TODO algorithms list enum
-        this.algoListField = new JComboBox<String>(new String[]{"NONE", "ALGO 1", "ALGO 2"});
+        this.algoListField = new JComboBox<String>(new String[]{"NONE", "AES", "ALGO 2"});
         
         // add components
         this.mainPanel.add(this.calendarLabel);
@@ -132,7 +132,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 			            this.showErrorPopup("Please specify a name for the calendar.");
 			        } else {
 			            try {
-			                controller.createCalendar(calendarName);
+			                controller.createCalendar(calendarName, (String) this.algoListField.getSelectedItem(),password);
 			                this.dispose();
 			            } catch (IOException | Error e) {
 			                // if an error occured, display a dialog indicating what is wrong

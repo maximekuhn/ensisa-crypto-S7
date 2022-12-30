@@ -46,6 +46,13 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
+	public void createCalendar(String name,String algorithm,String password) throws IOException, Error {
+		if (getCalendarNames().contains(name))
+			throw new Error("Calendar already exists");
+		calendars.put(name, new Calendar(name,algorithm,password));
+		calendars.get(name).saveCalendar();
+	}
+
 	public void loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
 		File file = new File("data/" + pathToFile);
 		ObjectMapper objectMapper = new ObjectMapper();

@@ -4,8 +4,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Calendar {
 	private EventTable eventTable;
@@ -69,10 +78,36 @@ public class Calendar {
 	}
 
 	private String decryptAES(String encrypted) {
-		return null;
+		try {
+			byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+			KeySpec keySpec = new PBEKeySpec(password.toCharArray(), "ceci est du sel".getBytes(), 65536, 256);
+			SecretKey secretKey = keyFactory.generateSecret(keySpec);
+			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
+			return new String(cipher.doFinal(Base64.getDecoder().decode(encrypted)));
+		}
+		catch (Exception e){
+			return null;
+		}
 	}
 
 	private String encryptAES(String jsonCalendar) {
-		return null;
+		try {
+			byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+			KeySpec keySpec = new PBEKeySpec(password.toCharArray(), "ceci est du sel".getBytes(), 65536, 256);
+			SecretKey secretKey = keyFactory.generateSecret(keySpec);
+			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
+			return Base64.getEncoder().encodeToString(cipher.doFinal(jsonCalendar.getBytes()));
+		}
+		catch (Exception e){
+			return null;
+		}
 	}
 }
