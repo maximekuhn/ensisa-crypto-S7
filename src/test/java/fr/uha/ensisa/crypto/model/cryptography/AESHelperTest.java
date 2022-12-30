@@ -1,4 +1,4 @@
-package fr.uha.cryptography;
+package fr.uha.ensisa.crypto.model.cryptography;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -16,8 +16,6 @@ import javax.crypto.NoSuchPaddingException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import fr.uha.ensisa.crypto.model.cryptography.AESHelper;
 
 public class AESHelperTest {
     
@@ -55,5 +53,31 @@ public class AESHelperTest {
     void testNullIv() {
         sut = new AESHelper("data", "password", null);
         assertThrows(IllegalStateException.class, () -> sut.decryptAES());
+    }
+
+    @Test
+    @DisplayName("Test bad password")
+    void testBadPassword() {
+        String data = "this is some plain text";
+        String password = "password1234";
+        String badPassword ="badPassword1234";
+        byte[] iv = null;
+
+        sut = new AESHelper(data, password, iv);
+
+        try {
+            String encrypted = sut.encryptAES();
+            sut.setData(encrypted);
+            assertNotEquals(data, encrypted);
+
+            sut.setPassword(badPassword);
+
+            assertThrows(Exception.class, () -> sut.decryptAES());
+
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException
+                | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            fail("Exception should have been catched earlier");
+            e.printStackTrace();
+        }
     }
 }

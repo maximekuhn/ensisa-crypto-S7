@@ -84,4 +84,8 @@ public class AESHelper {
         SecretKey secretKey = keyFactory.generateSecret(keySpec);
         return new SecretKeySpec(secretKey.getEncoded(), "AES");
     }
+
+    void setPassword(String password) {
+        this.password = password;
+    }
 }
