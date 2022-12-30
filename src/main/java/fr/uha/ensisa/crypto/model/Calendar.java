@@ -4,11 +4,18 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
@@ -16,6 +23,8 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.uha.ensisa.crypto.model.cryptography.AESHelper;
 
 public class Calendar {
 	private EventTable eventTable;
@@ -53,6 +62,7 @@ public class Calendar {
 	}
 	
 	public void saveCalendar() throws IOException {
+		// TODO add IV from AESHelper if encrypted using AES CBC
 	    File dir = new File("data");
 	    if (!dir.isDirectory()) {
 	        if (!dir.mkdir()) {
@@ -86,53 +96,26 @@ public class Calendar {
 	}
 
 	private String decryptAES(String encrypted) {
+		AESHelper helper = new AESHelper(encrypted, this.password, this.iv);
 		try {
-			// Initialize decryption object
-			Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
-
-			// Generate key from password
-			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-			KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), "ceci est du sel".getBytes(), 65536, 256);
-			SecretKey secretKey = keyFactory.generateSecret(keySpec);
-			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
-
-			// TODO check if iv is null and load it
-
-			// Initialize cipher
-			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(this.iv));
-
-			// decode
-			byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(encrypted));
-			return new String(plainText);
-		}
-		catch (Exception e){
+			return helper.decryptAES();
+		} catch (InvalidKeyException | InvalidAlgorithmParameterException | NoSuchAlgorithmException
+				| InvalidKeySpecException | NoSuchPaddingException | IllegalBlockSizeException
+				| BadPaddingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
 
 	private String encryptAES(String jsonCalendar) {
+		AESHelper helper = new AESHelper(jsonCalendar, this.password, null);
 		try {
-			// Initialize IV
-			Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
-			int ivSize = cipher.getBlockSize();
-			this.iv = new byte[ivSize];
-			RAND.nextBytes(iv);
-
-			// Generate key from password
-			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-			KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), "ceci est du sel".getBytes(), 65536, 256); // TODO change salt
-			SecretKey secretKey = keyFactory.generateSecret(keySpec);
-			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getEncoded(), "AES");
-
-			// Initialize cipher
-			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, new IvParameterSpec(this.iv));
-
-			// encrypt data
-			byte[] cipherText = cipher.doFinal(jsonCalendar.getBytes());
-			return Base64.getEncoder().encodeToString(cipherText);
-		}
-		catch (Exception e){
+			return helper.encryptAES();
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException
+				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return null;
 		}
 	}
