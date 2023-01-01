@@ -1,5 +1,7 @@
 package fr.uha.ensisa.crypto.model.cryptography;
 
+import static org.mockito.ArgumentMatchers.refEq;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -76,6 +78,10 @@ public class AESHelper {
 
     private void initializeIV(int ivSize) {
         this.iv = new byte[ivSize];
+    }
+    
+    public byte[] getIV() {
+    	return this.iv;
     }
 
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {

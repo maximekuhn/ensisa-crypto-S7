@@ -64,9 +64,9 @@ public final class Agenda {
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		Calendar calendar = new Calendar(pathToFile,fileContent[0],password);
+		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, fileContent[1].getBytes());
 		
-		String decrypted = calendar.decrypt(fileContent[1]);
+		String decrypted = calendar.decrypt(fileContent[2]);
 		List<Event> events = objectMapper.readValue(decrypted,
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {

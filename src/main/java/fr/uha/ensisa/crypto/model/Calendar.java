@@ -40,6 +40,15 @@ public class Calendar {
 		this.name = name;
 		this.algorithm = algorithm;
 		this.password = password;
+		this.iv = null;
+	}
+	
+	public Calendar(String name, String algorithm, String password,byte[] iv) {
+		eventTable = new EventTable();
+		this.name = name;
+		this.algorithm = algorithm;
+		this.password = password;
+		this.iv = iv;
 	}
 	
 	public EventTable getEventTable() {
@@ -62,7 +71,10 @@ public class Calendar {
 	    ObjectMapper mapper = new ObjectMapper();
 	    String encrypted = encrypt(mapper.writeValueAsString(eventTable.getAllEvents()));
 	    BufferedWriter writer = new BufferedWriter(new FileWriter("data/"+name));
-	    writer.write(algorithm+";"+encrypted);
+	    if (iv == null)
+	    	writer.write(algorithm+";;"+encrypted);
+	    else
+	    	writer.write(algorithm+";"+iv.toString()+";"+encrypted);
 	    writer.close();
 	}
 	
@@ -100,7 +112,9 @@ public class Calendar {
 	private String encryptAES(String jsonCalendar) {
 		AESHelper helper = new AESHelper(jsonCalendar, this.password, null);
 		try {
-			return helper.encryptAES();
+			String encrypted = helper.encryptAES();
+			this.iv = helper.getIV();
+			return encrypted;
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
 			// TODO Auto-generated catch block
