@@ -1,7 +1,6 @@
 package fr.uha.ensisa.crypto.ui.calendar_selection;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -9,6 +8,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -78,22 +78,26 @@ public class PasswordPopup extends JDialog implements ActionListener {
 		if (e.getSource().equals(this.cancelButton))
             this.closePopup();
         else if (e.getSource().equals(this.submitButton))
-			try {
-				this.loadCalendar(this.calendarName);
-				this.closePopup();
-			} catch (ClassNotFoundException | IOException e1) {
-				e1.printStackTrace();
-			}
+			this.loadCalendar(calendarName);
 	}
 
 
-	private void loadCalendar(String calendarName) throws IOException, ClassNotFoundException {
-		this.controller.loadCalendar(calendarName);
+	private void loadCalendar(String calendarName) {
+		try {
+			this.controller.loadCalendar(calendarName);
+		} catch (ClassNotFoundException | IOException e) {
+            this.showErrorPopup("Calendar " + calendarName + " is unavailable.");
+			e.printStackTrace();
+		}
 	}
 
 
 	private void closePopup() {
 		 this.dispose();
 	}
+	
+	private void showErrorPopup(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage);
+    }
 
 }
