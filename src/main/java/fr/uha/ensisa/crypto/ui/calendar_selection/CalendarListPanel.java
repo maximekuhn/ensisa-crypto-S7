@@ -114,7 +114,10 @@ public class CalendarListPanel extends JPanel implements ActionListener {
 
     private void loadCalendar(String calendarName) {
         try {
-            this.controller.loadCalendar(calendarName);
+        	if (this.controller.isCrypted(calendarName))
+        		this.passwordPopup();
+        	else 
+        		this.controller.loadCalendar(calendarName);
         } catch (ClassNotFoundException | IOException e) {
             JOptionPane.showMessageDialog(this, "Error : unable to load calendar '" + calendarName + "'.");
             e.printStackTrace();
@@ -139,6 +142,11 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             if(calendarCheckBox.getText().equals(calendarName))
                 calendarCheckBox.setSelected(false);
         }
+    }
+    
+    private void passwordPopup() {
+    	PasswordPopup popup = new PasswordPopup(this.mainWindow);
+    	popup.setVisible(true);
     }
 
 }

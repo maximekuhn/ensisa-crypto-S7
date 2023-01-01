@@ -180,4 +180,8 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         else
             this.topBarPanel.activateCreateEventButton();
     }
+    
+    public Boolean isCrypted(String calendarName) throws IOException {
+    	return this.agenda.isCrypted(calendarName);
+    }
 }
