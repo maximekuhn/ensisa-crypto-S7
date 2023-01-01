@@ -79,7 +79,7 @@ public class PasswordPopup extends JDialog implements ActionListener {
             this.closePopup();
         else if (e.getSource().equals(this.submitButton))
 			try {
-				this.loadCalender(this.calendarName);
+				this.loadCalendar(this.calendarName);
 				this.closePopup();
 			} catch (ClassNotFoundException | IOException e1) {
 				e1.printStackTrace();
@@ -87,7 +87,7 @@ public class PasswordPopup extends JDialog implements ActionListener {
 	}
 
 
-	private void loadCalender(String calendarName) throws IOException, ClassNotFoundException {
+	private void loadCalendar(String calendarName) throws IOException, ClassNotFoundException {
 		this.controller.loadCalendar(calendarName);
 	}
 
