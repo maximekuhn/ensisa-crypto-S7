@@ -86,7 +86,8 @@ public final class Agenda {
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		return (fileContent[0]=="")?false:true;
+		System.out.println(fileContent[0]);
+		return !fileContent[0].equals("NONE");
 	}
 
 
