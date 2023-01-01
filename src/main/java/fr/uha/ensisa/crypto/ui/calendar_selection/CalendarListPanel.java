@@ -60,7 +60,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             this.calendars.add(calendarCheckBox);
 
             // check by default
-            calendarCheckBox.setSelected(true);
+            calendarCheckBox.setSelected(false);
             
 
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
@@ -115,7 +115,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
     private void loadCalendar(String calendarName) {
         try {
         	if (this.controller.isCrypted(calendarName))
-        		this.passwordPopup();
+        		this.passwordPopup(calendarName);
         	else 
         		this.controller.loadCalendar(calendarName);
         } catch (ClassNotFoundException | IOException e) {
@@ -144,8 +144,8 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         }
     }
     
-    private void passwordPopup() {
-    	PasswordPopup popup = new PasswordPopup(this.mainWindow);
+    private void passwordPopup(String calendarName) {
+    	PasswordPopup popup = new PasswordPopup(this.mainWindow, calendarName);
     	popup.setVisible(true);
     }
 

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,6 +28,7 @@ public class PasswordPopup extends JDialog implements ActionListener {
 
 	private MainWindow mainWindow;
     private MainWindowController controller;
+    private String calendarName;
     
     private JPanel mainPanel;
     private JLabel passLabel;
@@ -35,10 +37,12 @@ public class PasswordPopup extends JDialog implements ActionListener {
     private JButton cancelButton;
     
     
-    public PasswordPopup(MainWindow mainWindow) {
+    public PasswordPopup(MainWindow mainWindow, String calendarName) {
     	super(mainWindow, POPUP_TITLE);
     	this.mainWindow = mainWindow;
+    	this.controller = this.mainWindow.getController();
     	this.setModal(true);
+    	this.calendarName = calendarName;
     	
     	// create main panel
     	this.mainPanel = new JPanel();
@@ -71,8 +75,25 @@ public class PasswordPopup extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getSource().equals(this.cancelButton))
+            this.closePopup();
+        else if (e.getSource().equals(this.submitButton))
+			try {
+				this.loadCalender(this.calendarName);
+				this.closePopup();
+			} catch (ClassNotFoundException | IOException e1) {
+				e1.printStackTrace();
+			}
+	}
+
+
+	private void loadCalender(String calendarName) throws IOException, ClassNotFoundException {
+		this.controller.loadCalendar(calendarName);
+	}
+
+
+	private void closePopup() {
+		 this.dispose();
 	}
 
 }
