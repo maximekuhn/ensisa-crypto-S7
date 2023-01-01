@@ -79,12 +79,14 @@ public class PasswordPopup extends JDialog implements ActionListener {
             this.closePopup();
         else if (e.getSource().equals(this.submitButton))
 			this.loadCalendar(calendarName);
+			
 	}
 
 
 	private void loadCalendar(String calendarName) {
 		try {
 			this.controller.loadCalendar(calendarName);
+			this.closePopup();
 		} catch (ClassNotFoundException | IOException e) {
             this.showErrorPopup("Calendar " + calendarName + " is unavailable.");
 			e.printStackTrace();
