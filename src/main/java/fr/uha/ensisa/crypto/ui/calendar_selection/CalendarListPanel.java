@@ -94,8 +94,10 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         }
         if (activator != null) {
             String calendarName = activator.getText();
-            if (activator.isSelected())
-                this.loadCalendar(calendarName);
+            if (activator.isSelected()) {
+            	this.loadCalendar(calendarName);
+            	this.refreshPanel();
+            }
             else
                 this.unloadCalendar(calendarName);
         }
