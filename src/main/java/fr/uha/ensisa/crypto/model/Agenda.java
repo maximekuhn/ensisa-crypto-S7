@@ -63,11 +63,10 @@ public final class Agenda {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				resultStringBuilder.append(line).append("\n");
+				resultStringBuilder.append(line);
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		System.out.println(Arrays.toString(Base64.getDecoder().decode(fileContent[1])));
 		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, 
 				Base64.getDecoder().decode(fileContent[1]));
 		
@@ -89,7 +88,7 @@ public final class Agenda {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				resultStringBuilder.append(line).append("\n");
+				resultStringBuilder.append(line);
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");

@@ -76,10 +76,8 @@ public class Calendar {
 	    BufferedWriter writer = new BufferedWriter(new FileWriter("data/"+name));
 	    if (iv == null)
 	    	writer.write(algorithm+";;"+encrypted);
-	    else {
-	    	System.out.println(Arrays.toString(iv));
+	    else
 	    	writer.write(algorithm+";"+Base64.getEncoder().encodeToString(iv)+";"+encrypted);
-	    }
 	    writer.close();
 	}
 	
