@@ -60,7 +60,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             this.calendars.add(calendarCheckBox);
 
             // check by default
-            calendarCheckBox.setSelected(false);
+            calendarCheckBox.setSelected(true);
             
 
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
@@ -127,7 +127,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
     }
 
     private void unloadCalendar(String calendarName) {
-        this.controller.unloadCalendar(calendarName);
+    	this.controller.unloadCalendar(calendarName);
     }
 
     private void deleteCalendar(String calendarName) {
@@ -141,8 +141,9 @@ public class CalendarListPanel extends JPanel implements ActionListener {
 
     private void unselectUnloadedCalendar(String calendarName) {
         for(JCheckBox calendarCheckBox : this.calendars) {
-            if(calendarCheckBox.getText().equals(calendarName))
+            if(calendarCheckBox.getText().equals(calendarName)) {
                 calendarCheckBox.setSelected(false);
+            }
         }
     }
     

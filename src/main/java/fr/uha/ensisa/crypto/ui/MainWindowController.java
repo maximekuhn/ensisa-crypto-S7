@@ -184,4 +184,5 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
     public Boolean isCrypted(String calendarName) throws IOException {
     	return this.agenda.isCrypted(calendarName);
     }
+    
 }
