@@ -53,7 +53,7 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
-	public void loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
+	public boolean loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
 		File file = new File("data/" + pathToFile);
 		ObjectMapper objectMapper = new ObjectMapper();
 		StringBuilder resultStringBuilder = new StringBuilder();
@@ -67,12 +67,14 @@ public final class Agenda {
 		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, fileContent[1].getBytes());
 		
 		String decrypted = calendar.decrypt(fileContent[2]);
+		if (decrypted == null) return false;
 		List<Event> events = objectMapper.readValue(decrypted,
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
 		}
 		calendars.put(pathToFile, calendar);
+		return true;
 	}
 	
 	public boolean isCrypted(String pathToFile) throws IOException {

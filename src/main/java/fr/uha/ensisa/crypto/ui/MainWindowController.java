@@ -145,11 +145,12 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
         return this.agenda.getCalendarNames();
     }
 
-    public void loadCalendar(String calendarName) throws ClassNotFoundException, IOException {
-        this.agenda.loadCalendar(calendarName, "");
+    public boolean loadCalendar(String calendarName, String password) throws ClassNotFoundException, IOException {
+        boolean loaded = this.agenda.loadCalendar(calendarName, password);
         this.topBarPanel.activateCreateEventButton();
         this.calendarPanel.refreshGrid();
         this.setNewEventButtonState();
+        return loaded;
     }
 
     public void unloadCalendar(String calendarName) {
@@ -181,7 +182,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
             this.topBarPanel.activateCreateEventButton();
     }
     
-    public Boolean isCrypted(String calendarName) throws IOException {
+    public boolean isCrypted(String calendarName) throws IOException {
     	return this.agenda.isCrypted(calendarName);
     }
     
