@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,7 +67,9 @@ public final class Agenda {
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, fileContent[1].getBytes());
+		System.out.println(Arrays.toString(Base64.getDecoder().decode(fileContent[1])));
+		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, 
+				Base64.getDecoder().decode(fileContent[1]));
 		
 		String decrypted = calendar.decrypt(fileContent[2]);
 		if (decrypted == null) return false;

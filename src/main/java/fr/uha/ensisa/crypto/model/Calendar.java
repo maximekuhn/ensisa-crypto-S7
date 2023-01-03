@@ -4,10 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
+import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -73,8 +76,10 @@ public class Calendar {
 	    BufferedWriter writer = new BufferedWriter(new FileWriter("data/"+name));
 	    if (iv == null)
 	    	writer.write(algorithm+";;"+encrypted);
-	    else
-	    	writer.write(algorithm+";"+iv.toString()+";"+encrypted);
+	    else {
+	    	System.out.println(Arrays.toString(iv));
+	    	writer.write(algorithm+";"+Base64.getEncoder().encodeToString(iv)+";"+encrypted);
+	    }
 	    writer.close();
 	}
 	
