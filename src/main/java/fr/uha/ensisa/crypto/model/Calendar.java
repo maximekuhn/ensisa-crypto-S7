@@ -85,15 +85,19 @@ public class Calendar {
 		switch (algorithm) {
 			case "AES":
 				return encryptAES(jsonCalendar);
+			case "HMAC":
+				return encryptHMAC(jsonCalendar);
 			default:
 				return jsonCalendar;
 		}
 	}
-	
+
 	protected String decrypt(String encrypted) {
 		switch (algorithm) {
 			case "AES":
 				return decryptAES(encrypted);
+			case "HMAC":
+				return decryptHMAC(encrypted);
 			default:
 				return encrypted;
 		}
@@ -124,5 +128,13 @@ public class Calendar {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	private String encryptHMAC(String jsonCalendar) {
+		return null;
+	}
+
+	private String decryptHMAC(String encrypted) {
+		return null;
 	}
 }

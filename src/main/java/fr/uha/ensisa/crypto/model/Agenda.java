@@ -49,10 +49,10 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
-	public void createCalendar(String name,String algorithm,String password) throws IOException, Error {
+	public void createCalendar(String name, String algorithm, String password) throws IOException, Error {
 		if (getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
-		calendars.put(name, new Calendar(name,algorithm,password));
+		calendars.put(name, new Calendar(name, algorithm, password));
 		calendars.get(name).saveCalendar();
 	}
 
@@ -67,11 +67,12 @@ public final class Agenda {
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, 
+		Calendar calendar = new Calendar(pathToFile, fileContent[0], password,
 				Base64.getDecoder().decode(fileContent[1]));
-		
+
 		String decrypted = calendar.decrypt(fileContent[2]);
-		if (decrypted == null) return false;
+		if (decrypted == null)
+			return false;
 		List<Event> events = objectMapper.readValue(decrypted,
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
@@ -80,7 +81,7 @@ public final class Agenda {
 		calendars.put(pathToFile, calendar);
 		return true;
 	}
-	
+
 	public boolean isCrypted(String pathToFile) throws IOException {
 		File file = new File("data/" + pathToFile);
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -94,7 +95,6 @@ public final class Agenda {
 		String[] fileContent = resultStringBuilder.toString().split(";");
 		return !fileContent[0].equals("NONE");
 	}
-
 
 	public Calendar getCalendar(String name) throws Error {
 		Calendar calendar = calendars.get(name);
