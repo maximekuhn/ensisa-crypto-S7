@@ -87,7 +87,7 @@ public class Calendar {
 
 	private void saveDefaultCalendar(String data, BufferedWriter writer) throws IOException {
 		// format is => NONE; data
-		writer.write(this.algorithm + ";" + data);
+		writer.write("NONE;" + data);
 	}
 
 	private void saveAESCalendar(String data, BufferedWriter writer) throws IOException {
