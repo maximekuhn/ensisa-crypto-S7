@@ -75,7 +75,8 @@ public final class Agenda {
 				data = calendar.decrypt(fileContent[3]);
 				break;
 			case "RC5":
-				// TODO
+				calendar = this.loadRC5Calendar(pathToFile, password, fileContent);
+				data = calendar.decrypt(fileContent[3]);
 				break;
 			default: // NONE
 				calendar = this.loadDefaultCalendar(pathToFile);
@@ -94,6 +95,13 @@ public final class Agenda {
 		}
 		calendars.put(pathToFile, calendar);
 		return true;
+	}
+
+	private Calendar loadRC5Calendar(String name, String password, String[] fileContent) {
+		String algorithm = fileContent[0];
+		byte[] iv = Base64.getDecoder().decode(fileContent[1]);
+		byte[] salt = Base64.getDecoder().decode(fileContent[2]);
+		return new Calendar(name, algorithm, password, iv, salt);
 	}
 
 	private Calendar loadAESCalendar(String name, String password, String[] fileContent) {

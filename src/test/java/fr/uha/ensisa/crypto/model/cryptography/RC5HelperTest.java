@@ -30,8 +30,9 @@ public class RC5HelperTest {
         String data = "this is some plain text";
         String password = "password1234";
         byte[] iv = null;
+        byte[] salt = null;
 
-        sut = new RC5Helper(data, password, iv);
+        sut = new RC5Helper(data, password, iv, salt);
 
         String encrypted;
         try {
@@ -54,7 +55,7 @@ public class RC5HelperTest {
     @Test
     @DisplayName("Test null iv")
     void testNullIv() {
-        sut = new RC5Helper("data", "password", null);
+        sut = new RC5Helper("data", "password", null, null);
         assertThrows(IllegalStateException.class, () -> sut.decryptRC5());
     }
 
@@ -65,8 +66,9 @@ public class RC5HelperTest {
         String password = "password1234";
         String badPassword = "badPassword1234";
         byte[] iv = null;
+        byte[] salt = null;
 
-        sut = new RC5Helper(data, password, iv);
+        sut = new RC5Helper(data, password, iv, salt);
 
         try {
             String encrypted = sut.encryptRC5();
@@ -95,8 +97,9 @@ public class RC5HelperTest {
         String data = "this is some plain text";
         String password = "password1234";
         byte[] iv = null;
+        byte[] salt = null;
 
-        sut = new RC5Helper(data, password, iv);
+        sut = new RC5Helper(data, password, iv, salt);
 
         try {
             // get IV
@@ -136,5 +139,12 @@ public class RC5HelperTest {
             fail("Should not been here");
             e.printStackTrace();
         }
+    }
+    
+    @Test
+    @DisplayName("Test null salt")
+    void testNullSalt() {
+        sut = new RC5Helper("data", "password", new byte[16], null);
+        assertThrows(IllegalStateException.class, () -> sut.decryptRC5());
     }
 }
