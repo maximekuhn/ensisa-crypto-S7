@@ -19,6 +19,7 @@ import javax.crypto.NoSuchPaddingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.uha.ensisa.crypto.model.cryptography.AESHelper;
+import fr.uha.ensisa.crypto.model.cryptography.DESHelper;
 
 public class Calendar {
 	private EventTable eventTable;
@@ -86,7 +87,7 @@ public class Calendar {
 			case "AES":
 				return encryptAES(jsonCalendar);
 			case "HMAC":
-				return encryptHMAC(jsonCalendar);
+				return encryptDES(jsonCalendar);
 			default:
 				return jsonCalendar;
 		}
@@ -96,8 +97,8 @@ public class Calendar {
 		switch (algorithm) {
 			case "AES":
 				return decryptAES(encrypted);
-			case "HMAC":
-				return decryptHMAC(encrypted);
+			case "DES":
+				return decryptDES(encrypted);
 			default:
 				return encrypted;
 		}
@@ -129,12 +130,28 @@ public class Calendar {
 			return null;
 		}
 	}
-	
-	private String encryptHMAC(String jsonCalendar) {
-		return null;
-	}
 
-	private String decryptHMAC(String encrypted) {
-		return null;
+	private String decryptDES(String encrypted) {
+		DESHelper helper = new DESHelper(encrypted, this.password);
+		try {
+			return helper.decryptDES();
+		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
+				| InvalidAlgorithmParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private String encryptDES(String jsonCalendar) {
+		DESHelper helper = new DESHelper(jsonCalendar, this.password);
+		try {
+			return helper.encryptDES();
+		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
+				| InvalidAlgorithmParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
