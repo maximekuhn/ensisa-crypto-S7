@@ -7,8 +7,6 @@ import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.uha.ensisa.crypto.model.Event;
-
 public class EventTest {
 	private Event sut; // System Under Test
 	private Date date;
@@ -16,7 +14,7 @@ public class EventTest {
 	private String event;
 	private String description;
 	private String location;
-	
+
 	@BeforeEach
 	public void init() {
 		date = new Date();
@@ -26,7 +24,7 @@ public class EventTest {
 		location = "ici";
 		sut = new Event(date, duration, event, description, location);
 	}
-	
+
 	@Test
 	public void getDateTest() {
 		assertEquals(date, sut.getDate());
@@ -34,28 +32,28 @@ public class EventTest {
 		sut.setDate(newDate);
 		assertEquals(newDate, sut.getDate());
 	}
-	
+
 	@Test
 	public void getDurationTest() {
 		assertEquals(duration, sut.getDuration());
 		sut.setDuration(2);
 		assertEquals(2, sut.getDuration());
 	}
-	
+
 	@Test
 	public void getEventTest() {
 		assertEquals(event, sut.getEvent());
 		sut.setEvent("a");
 		assertEquals("a", sut.getEvent());
 	}
-	
+
 	@Test
 	public void getDescriptionTest() {
 		assertEquals(description, sut.getDescription());
 		sut.setDescription("nouvelle description");
 		assertEquals("nouvelle description", sut.getDescription());
 	}
-	
+
 	@Test
 	public void getLocationTest() {
 		assertEquals(location, sut.getLocation());

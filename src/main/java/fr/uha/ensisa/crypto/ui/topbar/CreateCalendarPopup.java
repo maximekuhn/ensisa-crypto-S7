@@ -82,9 +82,9 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         this.cancelButton.addActionListener(this);
 
         // list
-		//TODO algorithms list enum
-        this.algoListField = new JComboBox<String>(new String[]{"NONE", "ALGO 1", "ALGO 2"});
-        
+        // TODO algorithms list enum
+        this.algoListField = new JComboBox<String>(new String[] { "NONE", "AES", "ALGO 2" });
+
         // add components
         this.mainPanel.add(this.calendarLabel);
         this.mainPanel.add(this.calendarTextField);
