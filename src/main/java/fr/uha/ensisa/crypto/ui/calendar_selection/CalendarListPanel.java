@@ -61,7 +61,6 @@ public class CalendarListPanel extends JPanel implements ActionListener {
 
             // check by default
             calendarCheckBox.setSelected(true);
-            
 
             Icon deleteIcon = new ImageIcon(DELETE_BUTTON_ICON_PATH);
             JButton deleteButton = new JButton(deleteIcon);
@@ -78,8 +77,8 @@ public class CalendarListPanel extends JPanel implements ActionListener {
 
         // uncheck unloaded calendars
         Collection<String> loadedCalendarsName = this.controller.getLoadedCalendarNames();
-        for(JCheckBox calendarCheckBox : this.calendars) {
-            if(!loadedCalendarsName.contains(calendarCheckBox.getText()))
+        for (JCheckBox calendarCheckBox : this.calendars) {
+            if (!loadedCalendarsName.contains(calendarCheckBox.getText()))
                 this.unselectUnloadedCalendar(calendarCheckBox.getText());
         }
     }
@@ -95,10 +94,9 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         if (activator != null) {
             String calendarName = activator.getText();
             if (activator.isSelected()) {
-            	this.loadCalendar(calendarName);
-            	this.refreshPanel();
-            }
-            else
+                this.loadCalendar(calendarName);
+                this.refreshPanel();
+            } else
                 this.unloadCalendar(calendarName);
         }
 
@@ -116,10 +114,10 @@ public class CalendarListPanel extends JPanel implements ActionListener {
 
     private void loadCalendar(String calendarName) {
         try {
-        	if (this.controller.isCrypted(calendarName))
-        		this.passwordPopup(calendarName);
-        	else 
-        		this.controller.loadCalendar(calendarName, "");
+            if (this.controller.isCrypted(calendarName))
+                this.passwordPopup(calendarName);
+            else
+                this.controller.loadCalendar(calendarName, "");
         } catch (ClassNotFoundException | IOException e) {
             JOptionPane.showMessageDialog(this, "Error : unable to load calendar '" + calendarName + "'.");
             e.printStackTrace();
@@ -127,7 +125,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
     }
 
     private void unloadCalendar(String calendarName) {
-    	this.controller.unloadCalendar(calendarName);
+        this.controller.unloadCalendar(calendarName);
     }
 
     private void deleteCalendar(String calendarName) {
@@ -140,16 +138,16 @@ public class CalendarListPanel extends JPanel implements ActionListener {
     }
 
     private void unselectUnloadedCalendar(String calendarName) {
-        for(JCheckBox calendarCheckBox : this.calendars) {
-            if(calendarCheckBox.getText().equals(calendarName)) {
+        for (JCheckBox calendarCheckBox : this.calendars) {
+            if (calendarCheckBox.getText().equals(calendarName)) {
                 calendarCheckBox.setSelected(false);
             }
         }
     }
-    
+
     private void passwordPopup(String calendarName) {
-    	PasswordPopup popup = new PasswordPopup(this.mainWindow, calendarName);
-    	popup.setVisible(true);
+        PasswordPopup popup = new PasswordPopup(this.mainWindow, calendarName);
+        popup.setVisible(true);
     }
 
 }

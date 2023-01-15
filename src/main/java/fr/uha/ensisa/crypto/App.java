@@ -14,7 +14,7 @@ public class App {
                 | UnsupportedLookAndFeelException e) {
             throw new RuntimeException(e);
         }
-        System.setProperty("apple.awt.application.appearance","NSAppearanceNameDarkAqua");
+        System.setProperty("apple.awt.application.appearance", "NSAppearanceNameDarkAqua");
         MainWindow mainWindow = new MainWindow(Agenda.getInstance());
     }
 }

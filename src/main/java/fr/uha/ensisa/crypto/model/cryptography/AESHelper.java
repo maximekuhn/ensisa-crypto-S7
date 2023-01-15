@@ -1,9 +1,5 @@
 package fr.uha.ensisa.crypto.model.cryptography;
 
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +7,16 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class AESHelper {
 
@@ -21,11 +27,13 @@ public class AESHelper {
     private String data;
     private String password;
     private byte[] iv;
+    private byte[] salt;
 
-    public AESHelper(String data, String password, byte[] iv) {
+    public AESHelper(String data, String password, byte[] iv, byte[] salt) {
         this.data = data;
         this.password = password;
         this.iv = iv;
+        this.salt = salt;
     }
 
     public void setData(String data) {
@@ -39,7 +47,6 @@ public class AESHelper {
         // iv can be null when creating a calendar
         if (this.iv == null)
             this.initializeIV(cipher.getBlockSize());
-        RAND.nextBytes(iv);
 
         SecretKeySpec key = this.generateKeyFromPassword();
 
@@ -55,12 +62,15 @@ public class AESHelper {
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         // Initialize decryption object
         Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+        
+        if(this.salt == null)
+                throw new IllegalStateException("salt can't be null when decrypting");
 
         SecretKeySpec key = this.generateKeyFromPassword();
 
         // Initialize cipher
-        if(this.iv == null)
-                throw new IllegalStateException("initialization vector can't be null here");
+        if (this.iv == null)
+            throw new IllegalStateException("initialization vector can't be null here");
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(this.iv));
 
         // decrypt data
@@ -70,24 +80,37 @@ public class AESHelper {
 
     private void initializeIV(int ivSize) {
         this.iv = new byte[ivSize];
+        RAND.nextBytes(this.iv);
     }
-    
+
     public byte[] getIV() {
-    	return this.iv;
+        return this.iv;
+    }
+
+    public byte[] getSalt() {
+        return this.salt;
     }
 
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), "ceci est du sel".getBytes(), 65536, 256);
+        if (this.salt == null)
+            this.generateRandomSalt();
+        KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), this.salt, 65536, 256);
         SecretKey secretKey = keyFactory.generateSecret(keySpec);
         return new SecretKeySpec(secretKey.getEncoded(), "AES");
     }
 
-    void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setIV(byte[] iv) {
         this.iv = iv;
+    }
+
+    private void generateRandomSalt() {
+        this.salt = new byte[64];
+        RAND.nextBytes(this.salt);
+    }
+
+    // package visibility used for testing purposes
+    void setPassword(String password) {
+        this.password = password;
     }
 }

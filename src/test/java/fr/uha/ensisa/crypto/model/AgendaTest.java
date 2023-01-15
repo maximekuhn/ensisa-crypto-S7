@@ -3,9 +3,7 @@ package fr.uha.ensisa.crypto.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -60,15 +58,15 @@ public class AgendaTest {
 		assertEquals(1, allEvents.size());
 	}
 
+	@Test
+	public void testLoadCalendar() throws IOException, ClassNotFoundException {
+		agenda.getCalendar("Test Calendar").saveCalendar();
+		agenda.unloadCalendar("Test Calendar");
+		agenda.loadCalendar("Test Calendar", "");
+		assertEquals(event.getDuration(),
+				agenda.getCalendar("Test Calendar").getEventTable().getAllEvents().get(0).getDuration());
+	}
 
-    @Test
-    public void testLoadCalendar() throws IOException, ClassNotFoundException {
-    	agenda.getCalendar("Test Calendar").saveCalendar();
-    	agenda.unloadCalendar("Test Calendar");
-    	agenda.loadCalendar("Test Calendar","");
-        assertEquals(event.getDuration(),agenda.getCalendar("Test Calendar").getEventTable().getAllEvents().get(0).getDuration());
-    }
-	
 	@AfterEach
 	public void tearDown() throws IOException {
 		agenda.deleteCalendar("Test Calendar");

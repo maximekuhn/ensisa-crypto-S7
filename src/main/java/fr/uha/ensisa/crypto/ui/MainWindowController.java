@@ -85,11 +85,12 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+
 	}
 
-	public Agenda getAgenda() {
-		return this.agenda;
-	}
+    public Agenda getAgenda() {
+        return this.agenda;
+    }
 
 	public void createEvent(String calendar, String event, String description, String location, Date date,
 			double duration) throws IOException, Error {
@@ -100,7 +101,6 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 
 		// refresh view
 		calendarPanel.refreshGrid();
-
 	}
 
 	public void createCalendar(String calendarName) throws IOException, Error {
