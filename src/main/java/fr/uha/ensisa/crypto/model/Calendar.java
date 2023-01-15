@@ -4,12 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -19,7 +17,7 @@ import javax.crypto.NoSuchPaddingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.uha.ensisa.crypto.model.cryptography.AESHelper;
-import fr.uha.ensisa.crypto.model.cryptography.DESHelper;
+import fr.uha.ensisa.crypto.model.cryptography.RC5Helper;
 
 public class Calendar {
 	private EventTable eventTable;
@@ -86,8 +84,8 @@ public class Calendar {
 		switch (algorithm) {
 			case "AES":
 				return encryptAES(jsonCalendar);
-			case "HMAC":
-				return encryptDES(jsonCalendar);
+			case "RC5":
+				return encryptRC5(jsonCalendar);
 			default:
 				return jsonCalendar;
 		}
@@ -97,8 +95,8 @@ public class Calendar {
 		switch (algorithm) {
 			case "AES":
 				return decryptAES(encrypted);
-			case "DES":
-				return decryptDES(encrypted);
+			case "RC5":
+				return decryptRC5(encrypted);
 			default:
 				return encrypted;
 		}
@@ -131,22 +129,36 @@ public class Calendar {
 		}
 	}
 
-	private String decryptDES(String encrypted) {
-		DESHelper helper = new DESHelper(encrypted, this.password);
+	private String decryptRC5(String encrypted) {
+		RC5Helper helper = new RC5Helper(encrypted, this.password, this.iv);
 		try {
-			return helper.decryptDES();
+			try {
+				return helper.decryptRC5();
+			} catch (NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
 				| InvalidAlgorithmParameterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
+		return encrypted;
 	}
 	
-	private String encryptDES(String jsonCalendar) {
-		DESHelper helper = new DESHelper(jsonCalendar, this.password);
+	private String encryptRC5(String jsonCalendar) {
+		RC5Helper helper = new RC5Helper(jsonCalendar, this.password, null);
 		try {
-			return helper.encryptDES();
+			String encrypted = null;
+			try {
+				encrypted = helper.encryptRC5();
+			} catch (NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			this.iv = helper.getIV();
+			return encrypted;
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
 				| InvalidAlgorithmParameterException e) {
 			// TODO Auto-generated catch block
