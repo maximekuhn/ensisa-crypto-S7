@@ -4,12 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -63,7 +61,6 @@ public class Calendar {
 	}
 	
 	public void saveCalendar() throws IOException {
-		// TODO add IV from AESHelper if encrypted using AES CBC
 	    File dir = new File("data");
 	    if (!dir.isDirectory()) {
 	        if (!dir.mkdir()) {
