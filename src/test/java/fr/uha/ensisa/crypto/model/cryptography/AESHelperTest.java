@@ -25,8 +25,9 @@ public class AESHelperTest {
         String data = "this is some plain text";
         String password = "password1234";
         byte[] iv = null;
+        byte[] salt = null;
 
-        sut = new AESHelper(data, password, iv);
+        sut = new AESHelper(data, password, iv, salt);
         
         String encrypted;
         try {
@@ -49,7 +50,7 @@ public class AESHelperTest {
     @Test
     @DisplayName("Test null iv")
     void testNullIv() {
-        sut = new AESHelper("data", "password", null);
+        sut = new AESHelper("data", "password", null, null);
         assertThrows(IllegalStateException.class, () -> sut.decryptAES());
     }
 
@@ -60,8 +61,9 @@ public class AESHelperTest {
         String password = "password1234";
         String badPassword ="badPassword1234";
         byte[] iv = null;
+        byte[] salt = null;
 
-        sut = new AESHelper(data, password, iv);
+        sut = new AESHelper(data, password, iv, salt);
 
         try {
             String encrypted = sut.encryptAES();
@@ -90,8 +92,9 @@ public class AESHelperTest {
         String data = "this is some plain text";
         String password = "password1234";
         byte[] iv = null;
+        byte[] salt = null;
 
-        sut = new AESHelper(data, password, iv);
+        sut = new AESHelper(data, password, iv, salt);
 
         try {
             // get IV

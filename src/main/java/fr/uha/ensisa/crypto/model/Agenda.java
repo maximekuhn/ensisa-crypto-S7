@@ -49,7 +49,7 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
-	public void createCalendar(String name,String algorithm,String password) throws IOException, Error {
+	public void createCalendar(String name, String algorithm, String password) throws IOException, Error {
 		if (getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
 		calendars.put(name, new Calendar(name,algorithm,password));
@@ -58,7 +58,6 @@ public final class Agenda {
 
 	public boolean loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
 		File file = new File("data/" + pathToFile);
-		ObjectMapper objectMapper = new ObjectMapper();
 		StringBuilder resultStringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;
@@ -66,13 +65,27 @@ public final class Agenda {
 				resultStringBuilder.append(line);
 			}
 		}
+
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		Calendar calendar = new Calendar(pathToFile,fileContent[0],password, 
-				Base64.getDecoder().decode(fileContent[1]));
-		
-		String decrypted = calendar.decrypt(fileContent[2]);
-		if (decrypted == null) return false;
-		List<Event> events = objectMapper.readValue(decrypted,
+
+		// choose between NONE, AES, HMAC, ...
+		Calendar calendar = null;
+		String data = null;
+		switch(fileContent[0]) {
+			case "AES":
+				calendar = this.loadAESCalendar(pathToFile, password, fileContent);
+				data = calendar.decrypt(fileContent[3]);
+				break;
+			default: // NONE
+				calendar = this.loadDefaultCalendar(pathToFile);
+				data = fileContent[1];
+				break;
+		}
+
+		if (data == null) return false;
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Event> events = objectMapper.readValue(data,
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
@@ -80,10 +93,20 @@ public final class Agenda {
 		calendars.put(pathToFile, calendar);
 		return true;
 	}
+
+	private Calendar loadAESCalendar(String name, String password, String[] fileContent) {
+		String algorithm = fileContent[0];
+		byte[] iv = Base64.getDecoder().decode(fileContent[1]);
+		byte[] salt = Base64.getDecoder().decode(fileContent[2]);
+		return new Calendar(name, algorithm, password, iv, salt);
+	}
+
+	private Calendar loadDefaultCalendar(String name) {
+		return new Calendar(name);
+	}
 	
 	public boolean isCrypted(String pathToFile) throws IOException {
 		File file = new File("data/" + pathToFile);
-		ObjectMapper objectMapper = new ObjectMapper();
 		StringBuilder resultStringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;

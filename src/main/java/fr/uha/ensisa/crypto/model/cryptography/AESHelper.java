@@ -21,11 +21,13 @@ public class AESHelper {
     private String data;
     private String password;
     private byte[] iv;
+    private byte[] salt;
 
-    public AESHelper(String data, String password, byte[] iv) {
+    public AESHelper(String data, String password, byte[] iv, byte[] salt) {
         this.data = data;
         this.password = password;
         this.iv = iv;
+        this.salt = salt;
     }
 
     public void setData(String data) {
@@ -39,7 +41,6 @@ public class AESHelper {
         // iv can be null when creating a calendar
         if (this.iv == null)
             this.initializeIV(cipher.getBlockSize());
-        RAND.nextBytes(iv);
 
         SecretKeySpec key = this.generateKeyFromPassword();
 
@@ -76,18 +77,30 @@ public class AESHelper {
     	return this.iv;
     }
 
+    public byte[] getSalt() {
+        return this.salt;
+    }
+
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), "ceci est du sel".getBytes(), 65536, 256);
+        if(this.salt == null) this.generateRandomSalt();
+        KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), this.salt, 65536, 256);
         SecretKey secretKey = keyFactory.generateSecret(keySpec);
         return new SecretKeySpec(secretKey.getEncoded(), "AES");
     }
 
-    void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setIV(byte[] iv) {
         this.iv = iv;
+    }
+
+    private void generateRandomSalt() {
+        this.salt = new byte[64];
+        RAND.nextBytes(iv);
+    }
+
+
+    // package visibility used for testing purposes
+    void setPassword(String password) {
+        this.password = password;
     }
 }
