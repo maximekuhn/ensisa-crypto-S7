@@ -66,13 +66,15 @@ public final class Agenda {
 
 		String[] fileContent = resultStringBuilder.toString().split(";");
 
-		// choose between NONE, AES, HMAC, ...
+		// choose between NONE, AES, RC5, ...
 		Calendar calendar = null;
 		String data = null;
 		switch (fileContent[0]) {
 			case "AES":
 				calendar = this.loadAESCalendar(pathToFile, password, fileContent);
 				data = calendar.decrypt(fileContent[3]);
+				break;
+			case "RC5":
 				break;
 			default: // NONE
 				calendar = this.loadDefaultCalendar(pathToFile);
