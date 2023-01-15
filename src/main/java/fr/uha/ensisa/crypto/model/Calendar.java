@@ -30,14 +30,14 @@ public class Calendar {
 	/* AES */
 	private byte[] iv;
 	private byte[] salt;
-	
+
 	public Calendar(String name) {
 		this.eventTable = new EventTable();
 		this.name = name;
 		this.algorithm = "";
 		this.password = "";
 	}
-	
+
 	public Calendar(String name, String algorithm, String password) {
 		this(name);
 		this.algorithm = algorithm;
@@ -45,35 +45,35 @@ public class Calendar {
 		this.iv = null;
 		this.salt = null;
 	}
-	
+
 	public Calendar(String name, String algorithm, String password, byte[] iv, byte[] salt) {
 		this(name, algorithm, password);
 		this.iv = iv;
 		this.salt = salt;
 	}
-	
+
 	public EventTable getEventTable() {
 		return eventTable;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public void saveCalendar() throws IOException {
-	    File dir = new File("data");
-	    if (!dir.isDirectory()) {
-	        if (!dir.mkdir()) {
-	            throw new IOException("Can't create the data directory");
-	        }
-	    }
+		File dir = new File("data");
+		if (!dir.isDirectory()) {
+			if (!dir.mkdir()) {
+				throw new IOException("Can't create the data directory");
+			}
+		}
 
 		// Write calendar into file
-	    ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
 		String data = mapper.writeValueAsString(this.eventTable.getAllEvents());
 		BufferedWriter writer = new BufferedWriter(new FileWriter("data/" + this.name));
-		
-		switch(this.algorithm) {
+
+		switch (this.algorithm) {
 			case "AES":
 				this.saveAESCalendar(data, writer);
 				break;
@@ -82,7 +82,7 @@ public class Calendar {
 				break;
 		}
 
-	    writer.close();
+		writer.close();
 	}
 
 	private void saveDefaultCalendar(String data, BufferedWriter writer) throws IOException {
@@ -94,13 +94,12 @@ public class Calendar {
 		// format is => AES; iv; salt; encrypted data
 		String encryptedData = this.encrypt(data);
 		writer.write(
-			this.algorithm + ";" +
-			Base64.getEncoder().encodeToString(this.iv) + ";" +
-			Base64.getEncoder().encodeToString(this.salt) + ";" +
-			encryptedData
-		);
+				this.algorithm + ";" +
+						Base64.getEncoder().encodeToString(this.iv) + ";" +
+						Base64.getEncoder().encodeToString(this.salt) + ";" +
+						encryptedData);
 	}
-	
+
 	String encrypt(String jsonCalendar) {
 		switch (algorithm) {
 			case "AES":
@@ -109,7 +108,7 @@ public class Calendar {
 				return jsonCalendar;
 		}
 	}
-	
+
 	protected String decrypt(String encrypted) {
 		switch (algorithm) {
 			case "AES":

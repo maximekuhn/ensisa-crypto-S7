@@ -50,7 +50,7 @@ public final class Agenda {
 	public void createCalendar(String name, String algorithm, String password) throws IOException, Error {
 		if (getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
-		calendars.put(name, new Calendar(name,algorithm,password));
+		calendars.put(name, new Calendar(name, algorithm, password));
 		calendars.get(name).saveCalendar();
 	}
 
@@ -69,7 +69,7 @@ public final class Agenda {
 		// choose between NONE, AES, HMAC, ...
 		Calendar calendar = null;
 		String data = null;
-		switch(fileContent[0]) {
+		switch (fileContent[0]) {
 			case "AES":
 				calendar = this.loadAESCalendar(pathToFile, password, fileContent);
 				data = calendar.decrypt(fileContent[3]);
@@ -80,7 +80,8 @@ public final class Agenda {
 				break;
 		}
 
-		if (data == null) return false;
+		if (data == null)
+			return false;
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		List<Event> events = objectMapper.readValue(data,
@@ -102,7 +103,7 @@ public final class Agenda {
 	private Calendar loadDefaultCalendar(String name) {
 		return new Calendar(name);
 	}
-	
+
 	public boolean isCrypted(String pathToFile) throws IOException {
 		File file = new File("data/" + pathToFile);
 		StringBuilder resultStringBuilder = new StringBuilder();
@@ -115,7 +116,6 @@ public final class Agenda {
 		String[] fileContent = resultStringBuilder.toString().split(";");
 		return !fileContent[0].equals("NONE");
 	}
-
 
 	public Calendar getCalendar(String name) throws Error {
 		Calendar calendar = calendars.get(name);

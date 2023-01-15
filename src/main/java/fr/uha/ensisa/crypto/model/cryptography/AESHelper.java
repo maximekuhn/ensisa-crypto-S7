@@ -60,8 +60,8 @@ public class AESHelper {
         SecretKeySpec key = this.generateKeyFromPassword();
 
         // Initialize cipher
-        if(this.iv == null)
-                throw new IllegalStateException("initialization vector can't be null here");
+        if (this.iv == null)
+            throw new IllegalStateException("initialization vector can't be null here");
         cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(this.iv));
 
         // decrypt data
@@ -71,10 +71,11 @@ public class AESHelper {
 
     private void initializeIV(int ivSize) {
         this.iv = new byte[ivSize];
+        RAND.nextBytes(this.iv);
     }
-    
+
     public byte[] getIV() {
-    	return this.iv;
+        return this.iv;
     }
 
     public byte[] getSalt() {
@@ -83,7 +84,8 @@ public class AESHelper {
 
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        if(this.salt == null) this.generateRandomSalt();
+        if (this.salt == null)
+            this.generateRandomSalt();
         KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), this.salt, 65536, 256);
         SecretKey secretKey = keyFactory.generateSecret(keySpec);
         return new SecretKeySpec(secretKey.getEncoded(), "AES");
@@ -95,9 +97,8 @@ public class AESHelper {
 
     private void generateRandomSalt() {
         this.salt = new byte[64];
-        RAND.nextBytes(iv);
+        RAND.nextBytes(this.salt);
     }
-
 
     // package visibility used for testing purposes
     void setPassword(String password) {
