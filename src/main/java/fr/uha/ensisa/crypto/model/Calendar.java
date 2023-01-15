@@ -4,8 +4,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.uha.ensisa.crypto.Network;
 
 public class Calendar {
 	private EventTable eventTable;
@@ -48,6 +57,11 @@ public class Calendar {
 	    BufferedWriter writer = new BufferedWriter(new FileWriter("data/"+name));
 	    writer.write(algorithm+";"+encrypted);
 	    writer.close();
+	}
+	
+	public void sendCalendar(String adress) throws IOException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+	    ObjectMapper mapper = new ObjectMapper();
+	    Network.getInstance().sender(mapper.writeValueAsString(eventTable.getAllEvents()),adress);
 	}
 	
 	private String encrypt(String jsonCalendar) {

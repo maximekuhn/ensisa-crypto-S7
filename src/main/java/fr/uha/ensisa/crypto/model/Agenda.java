@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,7 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.uha.ensisa.crypto.Network;
 
 public final class Agenda {
 
@@ -66,6 +74,20 @@ public final class Agenda {
 			calendar.getEventTable().addEvent(event);
 		}
 		calendars.put(pathToFile, calendar);
+	}
+	
+	public void recieveCalendar(String name,String algorithm,String password) throws IOException, ClassNotFoundException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		Calendar calendar = new Calendar(name,algorithm,password);
+		
+		List<Event> events = objectMapper.readValue(Network.getInstance().reciever(),
+				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
+		for (Event event : events) {
+			calendar.getEventTable().addEvent(event);
+		}
+		calendars.put(name, calendar);
+		calendars.get(name).saveCalendar();
 	}
 	
 	public boolean isCrypted(String pathToFile) throws IOException {

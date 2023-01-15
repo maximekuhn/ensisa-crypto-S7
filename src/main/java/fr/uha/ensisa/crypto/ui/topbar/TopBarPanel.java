@@ -24,9 +24,11 @@ public class TopBarPanel extends JPanel implements ActionListener {
 
     private static final String CREATE_EVENT_BUTTON_TEXT = "NEW EVENT";
     private static final String CREATE_CALENDAR_BUTTON_TEXT = "NEW CALENDAR";
+    private static final String RECIEVE_CALENDAR_BUTTON_TEXT = "RECIEVE CALENDAR";
     private static final String SEARCH_BUTTON_TEXT = "Search";
     private static final String CREATE_EVENT_BUTTON_TOOLTIP = "Click here to create a new event";
-    private static final String CREATE_CALENDAR_BUTTON_TOOLTIP = "Click here to create a new calendar";
+    private static final String CREATE_CALENDAR_BUTTON_TOOLTIP = "Click here to recieve a new calendar";
+    private static final String RECIEVE_CALENDAR_BUTTON_TOOLTIP = "Click here to create a new event";
     private static final String SEARCH_BUTTON_TOOLTIP = "Click here to search an event by date";
 
     private MainWindow mainWindow;
@@ -36,6 +38,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
     private JButton searchButton;
     private JDatePickerImpl datePicker;
     private TimePicker timePicker;
+	private JButton recieveCalendarButton;
 
     public TopBarPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -47,12 +50,15 @@ public class TopBarPanel extends JPanel implements ActionListener {
         this.createEventButton.setEnabled(false); // as no calendar is selected by default
         this.createCalendarButton = new JButton(CREATE_CALENDAR_BUTTON_TEXT);
         this.createCalendarButton.setToolTipText(CREATE_CALENDAR_BUTTON_TOOLTIP);
+        this.recieveCalendarButton = new JButton(RECIEVE_CALENDAR_BUTTON_TEXT);
+        this.recieveCalendarButton.setToolTipText(RECIEVE_CALENDAR_BUTTON_TOOLTIP);
         this.searchButton = new JButton(SEARCH_BUTTON_TEXT);
         this.searchButton.setToolTipText(SEARCH_BUTTON_TOOLTIP);
 
         // handle click
         this.createEventButton.addActionListener(this);
         this.createCalendarButton.addActionListener(this);
+        this.recieveCalendarButton.addActionListener(this);
         this.searchButton.addActionListener(this);
 
         // date picker
@@ -68,6 +74,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
         // add components
         this.add(this.createEventButton);
         this.add(this.createCalendarButton);
+        this.add(this.recieveCalendarButton);
         this.add(this.datePicker);
         this.add(this.timePicker);
         this.add(this.searchButton);
@@ -79,6 +86,8 @@ public class TopBarPanel extends JPanel implements ActionListener {
             this.createEventPopup();
         else if (e.getSource().equals(this.createCalendarButton))
             this.createCalendarPopup();
+        else if (e.getSource().equals(this.recieveCalendarButton))
+            this.recieveCalendarPopup();
         else if (e.getSource().equals(this.searchButton))
             this.searchEventByDate();
     }
@@ -90,6 +99,11 @@ public class TopBarPanel extends JPanel implements ActionListener {
 
     private void createCalendarPopup() {
         CreateCalendarPopup popup = new CreateCalendarPopup(this.mainWindow);
+        popup.setVisible(true);
+    }
+    
+    private void recieveCalendarPopup() {
+    	RecieveCalendarPopup popup = new RecieveCalendarPopup(this.mainWindow);
         popup.setVisible(true);
     }
 
