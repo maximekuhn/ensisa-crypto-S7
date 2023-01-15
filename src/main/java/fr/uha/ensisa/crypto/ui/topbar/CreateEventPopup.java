@@ -123,7 +123,7 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         String[] calendars = new String[allCalendars.size()];
         Iterator<Calendar> calendarIT = allCalendars.iterator();
         int index = 0;
-        while(calendarIT.hasNext()) {
+        while (calendarIT.hasNext()) {
             Calendar c = calendarIT.next();
             calendars[index] = c.getName();
             index++;

@@ -1,5 +1,12 @@
 package fr.uha.ensisa.crypto.model.cryptography;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -13,10 +20,8 @@ import javax.crypto.NoSuchPaddingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class AESHelperTest {
-    
+
     private AESHelper sut; // System Under Test
 
     @Test
@@ -28,7 +33,7 @@ public class AESHelperTest {
         byte[] salt = null;
 
         sut = new AESHelper(data, password, iv, salt);
-        
+
         String encrypted;
         try {
             encrypted = sut.encryptAES();
@@ -44,7 +49,7 @@ public class AESHelperTest {
             fail("General case should not throw any exception");
             e.printStackTrace();
         }
-        
+
     }
 
     @Test
@@ -66,7 +71,7 @@ public class AESHelperTest {
     void testBadPassword() {
         String data = "this is some plain text";
         String password = "password1234";
-        String badPassword ="badPassword1234";
+        String badPassword = "badPassword1234";
         byte[] iv = null;
         byte[] salt = null;
 
@@ -125,13 +130,13 @@ public class AESHelperTest {
             assertFalse(Arrays.equals(oldIV, newIV));
 
             // check that new IV can decrypt data
-            //sut.setIV(newIV);
+            // sut.setIV(newIV);
             sut.setData(encrypted);
             decrypted = sut.decryptAES();
             assertEquals(data, decrypted, "data should have been decrypted");
 
             // check that old IV can't decrypt data
-            //sut.setData(encrypted);
+            // sut.setData(encrypted);
             sut.setIV(oldIV);
             decrypted = sut.decryptAES();
             assertNotEquals(data, decrypted, "data should not have been properly decrypted");
