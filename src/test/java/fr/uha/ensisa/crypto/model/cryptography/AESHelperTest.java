@@ -50,7 +50,14 @@ public class AESHelperTest {
     @Test
     @DisplayName("Test null iv")
     void testNullIv() {
-        sut = new AESHelper("data", "password", null, null);
+        sut = new AESHelper("data", "password", null, new byte[64]);
+        assertThrows(IllegalStateException.class, () -> sut.decryptAES());
+    }
+
+    @Test
+    @DisplayName("Test null salt")
+    void testNullSalt() {
+        sut = new AESHelper("data", "password", new byte[16], null);
         assertThrows(IllegalStateException.class, () -> sut.decryptAES());
     }
 

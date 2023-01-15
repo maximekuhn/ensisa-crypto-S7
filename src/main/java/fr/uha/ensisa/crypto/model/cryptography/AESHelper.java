@@ -56,6 +56,9 @@ public class AESHelper {
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         // Initialize decryption object
         Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
+        
+        if(this.salt == null)
+                throw new IllegalStateException("salt can't be null when decrypting");
 
         SecretKeySpec key = this.generateKeyFromPassword();
 
