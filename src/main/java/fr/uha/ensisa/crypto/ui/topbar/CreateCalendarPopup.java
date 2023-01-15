@@ -122,28 +122,45 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         else {
 	        String password = this.passTextField.getText();
 	        String passwordConfirm = this.passConfirmTextField.getText();
-	        if(password.contentEquals(passwordConfirm)) {
-		        int indexAlgo = this.algoListField.getSelectedIndex();
-		        if(password.isBlank() && indexAlgo != 0) {
-		        	this.showErrorPopup("Please specify a password.");
-		        } else {
-			        // required field : calendar title
-			        if (calendarName.isBlank()) {
-			            this.showErrorPopup("Please specify a name for the calendar.");
-			        } else {
-			            try {
-			                controller.createCalendar(calendarName);
-			                this.dispose();
-			            } catch (IOException | Error e) {
-			                // if an error occured, display a dialog indicating what is wrong
-			                this.showErrorPopup("Creation failed !");
-			                e.printStackTrace();
-			            }
+	        if(password.length() >= 8) {
+	        	boolean containsUpper = false;
+		        for(int i = 0; i < password.length(); i++) {
+		        	if(Character.isUpperCase(password.charAt(i))) {
+		        		containsUpper = true;
+		        		break;
+		        	}
+		        }
+		        if(containsUpper) {
+			        if(password.contentEquals(passwordConfirm)) {
+				        int indexAlgo = this.algoListField.getSelectedIndex();
+				        if(password.isBlank() && indexAlgo != 0) {
+				        	this.showErrorPopup("Please specify a password.");
+				        } else {
+					        // required field : calendar title
+					        if (calendarName.isBlank()) {
+					            this.showErrorPopup("Please specify a name for the calendar.");
+					        } else {
+					            try {
+					                controller.createCalendar(calendarName);
+					                this.dispose();
+					            } catch (IOException | Error e) {
+					                // if an error occured, display a dialog indicating what is wrong
+					                this.showErrorPopup("Creation failed !");
+					                e.printStackTrace();
+					            }
+					        }
+				        }
 			        }
+			        else {
+			        	this.showErrorPopup("Password and confirm must be equal.");
+			        }
+		        }
+		        else {
+		        	this.showErrorPopup("Password must contains one upper letter.");
 		        }
 	        }
 	        else {
-	        	this.showErrorPopup("Password and confirm must be equal.");
+	        	this.showErrorPopup("Password must have at least 8 characters.");
 	        }
         }
     }
