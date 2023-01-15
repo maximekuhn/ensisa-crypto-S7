@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,26 +55,50 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
-	public void loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
+	public void createCalendar(String name, String algorithm, String password) throws IOException, Error {
+		if (getCalendarNames().contains(name))
+			throw new Error("Calendar already exists");
+		calendars.put(name, new Calendar(name, algorithm, password));
+		calendars.get(name).saveCalendar();
+	}
+
+	public boolean loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
 		File file = new File("data/" + pathToFile);
-		ObjectMapper objectMapper = new ObjectMapper();
 		StringBuilder resultStringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				resultStringBuilder.append(line).append("\n");
+				resultStringBuilder.append(line);
 			}
 		}
+
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		Calendar calendar = new Calendar(pathToFile,fileContent[0],password);
-		
-		String decrypted = calendar.decrypt(fileContent[1]);
-		List<Event> events = objectMapper.readValue(decrypted,
+
+		// choose between NONE, AES, HMAC, ...
+		Calendar calendar = null;
+		String data = null;
+		switch (fileContent[0]) {
+			case "AES":
+				calendar = this.loadAESCalendar(pathToFile, password, fileContent);
+				data = calendar.decrypt(fileContent[3]);
+				break;
+			default: // NONE
+				calendar = this.loadDefaultCalendar(pathToFile);
+				data = fileContent[1];
+				break;
+		}
+
+		if (data == null)
+			return false;
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Event> events = objectMapper.readValue(data,
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
 		}
 		calendars.put(pathToFile, calendar);
+		return true;
 	}
 	
 	public void recieveCalendar(String name,String algorithm,String password) throws IOException, ClassNotFoundException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
@@ -90,20 +115,30 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 	
+
+	private Calendar loadAESCalendar(String name, String password, String[] fileContent) {
+		String algorithm = fileContent[0];
+		byte[] iv = Base64.getDecoder().decode(fileContent[1]);
+		byte[] salt = Base64.getDecoder().decode(fileContent[2]);
+		return new Calendar(name, algorithm, password, iv, salt);
+	}
+
+	private Calendar loadDefaultCalendar(String name) {
+		return new Calendar(name);
+	}
+
 	public boolean isCrypted(String pathToFile) throws IOException {
 		File file = new File("data/" + pathToFile);
-		ObjectMapper objectMapper = new ObjectMapper();
 		StringBuilder resultStringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				resultStringBuilder.append(line).append("\n");
+				resultStringBuilder.append(line);
 			}
 		}
 		String[] fileContent = resultStringBuilder.toString().split(";");
-		return (fileContent[0]=="")?false:true;
+		return !fileContent[0].equals("NONE");
 	}
-
 
 	public Calendar getCalendar(String name) throws Error {
 		Calendar calendar = calendars.get(name);
