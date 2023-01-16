@@ -1,4 +1,4 @@
-package fr.uha.ensisa.crypto.model;
+package fr.uha.ensisa.crypto.model.cryptography;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,8 +15,6 @@ import javax.crypto.NoSuchPaddingException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import fr.uha.ensisa.crypto.Network;
 
 public class NetworkTest {
 	private Network sut; // System Under Test

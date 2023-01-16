@@ -1,6 +1,5 @@
-package fr.uha.ensisa.crypto;
+package fr.uha.ensisa.crypto.model.cryptography;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,8 +22,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
-import fr.uha.ensisa.crypto.model.Agenda;
 
 public class Network {
 	private PrivateKey privateKey;

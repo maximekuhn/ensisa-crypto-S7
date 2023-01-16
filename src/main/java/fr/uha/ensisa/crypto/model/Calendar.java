@@ -16,8 +16,8 @@ import javax.crypto.NoSuchPaddingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.uha.ensisa.crypto.Network;
 import fr.uha.ensisa.crypto.model.cryptography.AESHelper;
+import fr.uha.ensisa.crypto.model.cryptography.Network;
 import fr.uha.ensisa.crypto.model.cryptography.RC5Helper;
 
 public class Calendar {

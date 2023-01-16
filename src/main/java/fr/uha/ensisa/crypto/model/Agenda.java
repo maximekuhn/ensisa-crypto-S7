@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.uha.ensisa.crypto.Network;
+import fr.uha.ensisa.crypto.model.cryptography.Network;
 
 public final class Agenda {
 
