@@ -76,12 +76,16 @@ public final class Agenda {
 
 		String[] fileContent = resultStringBuilder.toString().split(";");
 
-		// choose between NONE, AES, HMAC, ...
+		// choose between NONE, AES, RC5, ...
 		Calendar calendar = null;
 		String data = null;
 		switch (fileContent[0]) {
 			case "AES":
 				calendar = this.loadAESCalendar(pathToFile, password, fileContent);
+				data = calendar.decrypt(fileContent[3]);
+				break;
+			case "RC5":
+				calendar = this.loadRC5Calendar(pathToFile, password, fileContent);
 				data = calendar.decrypt(fileContent[3]);
 				break;
 			default: // NONE
@@ -131,6 +135,13 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();		
 	}
 	
+
+	private Calendar loadRC5Calendar(String name, String password, String[] fileContent) {
+		String algorithm = fileContent[0];
+		byte[] iv = Base64.getDecoder().decode(fileContent[1]);
+		byte[] salt = Base64.getDecoder().decode(fileContent[2]);
+		return new Calendar(name, algorithm, password, iv, salt);
+	}
 
 	private Calendar loadAESCalendar(String name, String password, String[] fileContent) {
 		String algorithm = fileContent[0];
