@@ -16,16 +16,19 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
 public class CalendarListPanel extends JPanel implements ActionListener {
 
     private static final String DELETE_BUTTON_ICON_PATH = "assets/delete.png";
-
+    private static final String SEND_BUTTON_ICON_PATH = "assets/send.png";
+    
     private MainWindow mainWindow;
     private MainWindowController controller;
     private List<JCheckBox> calendars;
+    private List<JButton> sendButtons;
     private List<JButton> deleteButtons;
 
     public CalendarListPanel(MainWindow mainWindow) {
@@ -33,6 +36,7 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         this.controller = this.mainWindow.getController();
 
         this.calendars = new ArrayList<>();
+        this.sendButtons = new ArrayList<>();
         this.deleteButtons = new ArrayList<>();
         this.createCheckBoxes();
     }
@@ -42,6 +46,8 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             this.remove(checkBox);
         for (JButton deleteButton : this.deleteButtons)
             this.remove(deleteButton);
+        for (JButton sendButton : this.sendButtons)
+            this.remove(sendButton);
         this.createCheckBoxes();
         this.revalidate();
     }
@@ -69,10 +75,19 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             deleteButton.setContentAreaFilled(false);
             deleteButton.setBorderPainted(false);
             this.deleteButtons.add(deleteButton);
+            
+            Icon sendIcon = new ImageIcon(SEND_BUTTON_ICON_PATH);
+            JButton sendButton = new JButton(sendIcon);
+            sendButton.addActionListener(this);
+            sendButton.setOpaque(false);
+            sendButton.setContentAreaFilled(false);
+            sendButton.setBorderPainted(false);
+            this.sendButtons.add(sendButton);
 
             // add to panel
             this.add(calendarCheckBox);
             this.add(deleteButton);
+            this.add(sendButton);
         }
 
         // uncheck unloaded calendars
@@ -110,9 +125,28 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             String calendarNameToDelete = this.calendars.get(index).getText();
             this.deleteCalendar(calendarNameToDelete);
         }
+        
+        // send buttons
+        int send_index = -1;
+        for (int i = 0; i < this.sendButtons.size(); i++) {
+            if (e.getSource().equals(this.sendButtons.get(i)))
+            	send_index = i;
+        }
+        if (send_index != -1) {
+            String calendarNameToSend = this.calendars.get(send_index).getText();
+            this.sendCalendar(calendarNameToSend);
+        }
     }
 
-    private void loadCalendar(String calendarName) {
+    private void sendCalendar(String calendarName) {
+        if (Agenda.getInstance().getCalendar(calendarName) != null)
+            this.sendPopup(calendarName);
+        else {
+            this.showErrorPopup("Invalid Password");
+        }
+    }
+
+	private void loadCalendar(String calendarName) {
         try {
             if (this.controller.isCrypted(calendarName))
                 this.passwordPopup(calendarName);
@@ -149,5 +183,13 @@ public class CalendarListPanel extends JPanel implements ActionListener {
         PasswordPopup popup = new PasswordPopup(this.mainWindow, calendarName);
         popup.setVisible(true);
     }
-
+    
+	private void sendPopup(String calendarName) {
+		SendPopup popup = new SendPopup(this.mainWindow, calendarName);
+        popup.setVisible(true);
+	}
+	
+    private void showErrorPopup(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage);
+    }
 }

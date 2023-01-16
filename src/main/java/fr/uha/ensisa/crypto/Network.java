@@ -76,6 +76,7 @@ public class Network {
 	public void sender(String calendar, String ipAddress) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeySpecException {
 	    // create a socket connection to the specified IP address
 	    Socket socket = new Socket(ipAddress, 12345);
+	    //socket.setSoTimeout(10000);
 	    // create a OutputStream to send the public key request
 	    OutputStream outputStream = socket.getOutputStream();
 	    // write the request message to the OutputStream
@@ -101,6 +102,7 @@ public class Network {
 	public String reciever() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
 	    // create a server socket to listen for incoming connections
 	    ServerSocket serverSocket = new ServerSocket(12345);
+	    //serverSocket.setSoTimeout(60000);
 	    // accept the incoming connection
 	    Socket socket = serverSocket.accept();
 	    // create an InputStream to read the incoming data
@@ -129,7 +131,7 @@ public class Network {
 	    } else {
 	        // if the request is not for a public key, return an error message
 	    	serverSocket.close();
-	        return "Error: Invalid request";
+	        throw new Error("Can't load");
 	    }
 	}
 
