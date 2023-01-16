@@ -90,22 +90,21 @@ public class Calendar {
 		writer.close();
 	}
 
-	
-	public void sendCalendar(String adress) throws IOException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
-	    ObjectMapper mapper = new ObjectMapper();
-	    Network.getInstance().sender(mapper.writeValueAsString(eventTable.getAllEvents()),adress);
+	public void sendCalendar(String adress) throws IOException, InvalidKeyException, NoSuchAlgorithmException,
+			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+		ObjectMapper mapper = new ObjectMapper();
+		Network.getInstance().sender(mapper.writeValueAsString(eventTable.getAllEvents()), adress);
 	}
-	
 
 	private void saveRC5Calendar(String data, BufferedWriter writer) throws IOException {
 		// format is => RC5; iv; salt; encrypted data
-				String encryptedData = this.encrypt(data);
-				writer.write(
-						this.algorithm + ";" +
-								Base64.getEncoder().encodeToString(this.iv) + ";" +
-								Base64.getEncoder().encodeToString(this.salt) + ";" +
-								encryptedData);
-		
+		String encryptedData = this.encrypt(data);
+		writer.write(
+				this.algorithm + ";" +
+						Base64.getEncoder().encodeToString(this.iv) + ";" +
+						Base64.getEncoder().encodeToString(this.salt) + ";" +
+						encryptedData);
+
 	}
 
 	private void saveDefaultCalendar(String data, BufferedWriter writer) throws IOException {
@@ -168,7 +167,7 @@ public class Calendar {
 			return null;
 		}
 	}
-	
+
 	private String decryptRC5(String encrypted) {
 		RC5Helper helper = new RC5Helper(encrypted, this.password, this.iv, this.salt);
 		try {

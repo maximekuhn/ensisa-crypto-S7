@@ -16,7 +16,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.uha.ensisa.crypto.ui.MainWindow;
@@ -88,9 +87,10 @@ public class SendPopup extends JDialog implements ActionListener {
     private void sendCalendar(String calendarName) {
         try {
             String address = this.addressTextField.getText();
-            this.controller.sendCalendar(calendarName,address);
+            this.controller.sendCalendar(calendarName, address);
             this.closePopup();
-        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | Error e) {
+        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException
+                | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | Error e) {
             this.showErrorPopup("Error : unable to load calendar '" + calendarName + "'.");
             e.printStackTrace();
         }

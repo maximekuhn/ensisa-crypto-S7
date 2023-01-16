@@ -38,7 +38,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
     private JButton searchButton;
     private JDatePickerImpl datePicker;
     private TimePicker timePicker;
-	private JButton recieveCalendarButton;
+    private JButton recieveCalendarButton;
 
     public TopBarPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -101,9 +101,9 @@ public class TopBarPanel extends JPanel implements ActionListener {
         CreateCalendarPopup popup = new CreateCalendarPopup(this.mainWindow);
         popup.setVisible(true);
     }
-    
+
     private void recieveCalendarPopup() {
-    	RecieveCalendarPopup popup = new RecieveCalendarPopup(this.mainWindow);
+        RecieveCalendarPopup popup = new RecieveCalendarPopup(this.mainWindow);
         popup.setVisible(true);
     }
 

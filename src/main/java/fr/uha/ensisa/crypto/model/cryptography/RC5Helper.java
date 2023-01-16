@@ -2,13 +2,11 @@ package fr.uha.ensisa.crypto.model.cryptography;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -60,12 +58,12 @@ public class RC5Helper {
     public String decryptRC5() throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(RC5_ALGORITHM);
-        
-        if(this.salt == null)
+
+        if (this.salt == null)
             throw new IllegalStateException("salt can't be null when decrypting");
-        
+
         SecretKeySpec secretKey = generateKeyFromPassword();
-        
+
         // Initialize cipher
         if (this.iv == null)
             throw new IllegalStateException("initialization vector can't be null here");
@@ -82,13 +80,13 @@ public class RC5Helper {
     public byte[] getIV() {
         return this.iv;
     }
-    
+
     public byte[] getSalt() {
         return this.salt;
     }
 
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
-    	SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         if (this.salt == null)
             this.generateRandomSalt();
         KeySpec keySpec = new PBEKeySpec(this.password.toCharArray(), this.salt, 65536, 256);
@@ -103,7 +101,7 @@ public class RC5Helper {
     public void setIV(byte[] iv) {
         this.iv = iv;
     }
-    
+
     private void generateRandomSalt() {
         this.salt = new byte[64];
         RAND.nextBytes(this.salt);

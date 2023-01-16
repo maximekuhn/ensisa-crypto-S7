@@ -140,7 +140,7 @@ public class RC5HelperTest {
             e.printStackTrace();
         }
     }
-    
+
     @Test
     @DisplayName("Test null salt")
     void testNullSalt() {

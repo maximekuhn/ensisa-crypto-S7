@@ -106,12 +106,14 @@ public final class Agenda {
 		calendars.put(pathToFile, calendar);
 		return true;
 	}
-	
-	public void recieveCalendar(String name,String algorithm,String password) throws IOException, ClassNotFoundException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+
+	public void recieveCalendar(String name, String algorithm, String password)
+			throws IOException, ClassNotFoundException, InvalidKeyException, NoSuchAlgorithmException,
+			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		Calendar calendar = new Calendar(name,algorithm,password);
-		
+		Calendar calendar = new Calendar(name, algorithm, password);
+
 		List<Event> events = objectMapper.readValue(Network.getInstance().reciever(),
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
@@ -120,21 +122,22 @@ public final class Agenda {
 		calendars.put(name, calendar);
 		calendars.get(name).saveCalendar();
 	}
-	
-	public void recieveCalendar(String name) throws JsonMappingException, InvalidKeyException, JsonProcessingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
+
+	public void recieveCalendar(String name)
+			throws JsonMappingException, InvalidKeyException, JsonProcessingException, NoSuchAlgorithmException,
+			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		Calendar calendar = new Calendar(name);
-		
+
 		List<Event> events = objectMapper.readValue(Network.getInstance().reciever(),
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
 		}
 		calendars.put(name, calendar);
-		calendars.get(name).saveCalendar();		
+		calendars.get(name).saveCalendar();
 	}
-	
 
 	private Calendar loadRC5Calendar(String name, String password, String[] fileContent) {
 		String algorithm = fileContent[0];
@@ -210,6 +213,5 @@ public final class Agenda {
 	public Collection<Calendar> getAllCalendars() {
 		return calendars.values();
 	}
-
 
 }
