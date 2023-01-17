@@ -21,16 +21,38 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * AESHelper is a class designed to encrypt and decrypt data, using a password.
  * The AES algorithm used is AES, CBC mode and PKCS5Padding.
+ * A new AESHelper should be instanciated each time you wish to encrypt or decrypt some data.
  */
 public class AESHelper {
 
+    /**
+     * specify which AES algorithm is used.
+     */
     private static final String AES_ALGORITHM = "AES/CBC/PKCS5Padding";
 
+    /**
+     * SecureRandom instance to generate random unpredictable numbers.
+     */
     private static SecureRandom RAND = new SecureRandom();
 
+    /**
+     * String to encrypt or decrypt.
+     */
     private String data;
+
+    /**
+     * password used to create a secret key.
+     */
     private String password;
+
+    /**
+     * Initilization vector needed for AES CBC mode. Should be unique for each encryption process.
+     */
     private byte[] iv;
+
+    /**
+     * Salt used to generate a secret key from password. Should be unique for each key generation process.
+     */
     private byte[] salt;
 
     /**
@@ -50,6 +72,8 @@ public class AESHelper {
     /**
      * Specify data to encrypt / decrypt.
      * @param data
+     * @see AESHelper#encryptAES()
+     * @see AESHelper#decryptAES()
      */
     public void setData(String data) {
         this.data = data;
@@ -73,6 +97,7 @@ public class AESHelper {
      * @throws BadPaddingException
      * @see AESHelper#data
      * @see AESHelper#initializeIV(int)
+     * @see AESHelper#generateKeyFromPassword()
      */
     public String encryptAES() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -93,7 +118,10 @@ public class AESHelper {
     }
 
     /**
-     * 
+     * <p>
+     * This method will decrypt {@link AESHelper#data} using {@link AESHelper#password}.
+     * </p>
+     * Algorithm used is "AES/CBC/PKCS5Padding" (specified by {@link AESHelper#AES_ALGORITHM})
      * @return String decrypted {@link AESHelper#data}
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
@@ -102,6 +130,7 @@ public class AESHelper {
      * @throws NoSuchPaddingException
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
+     * @throws IllegalStateException if {@link AESHelper#salt} or {@link AESHelper#iv} is null
      */
     public String decryptAES() throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
@@ -124,10 +153,11 @@ public class AESHelper {
     }
 
     /**
-     * 
+     * Generate a random initilization vector from given ivSize. IV is generated using a SecureRandom instance.
      * @param ivSize size of the initialization vector (usually block size from AES cipher object)
      * @see AESHelper#encryptAES()
-     * 
+     * @see AESHelper#RAND
+     * @see SecureRandom
      */
     private void initializeIV(int ivSize) {
         this.iv = new byte[ivSize];
@@ -135,7 +165,7 @@ public class AESHelper {
     }
 
     /**
-     * 
+     * Getter for {@link AESHelper#iv}.
      * @return byte[] corresponding initialization vector (IV)
      * @see AESHelper#initializeIV(int)
      */
@@ -144,7 +174,7 @@ public class AESHelper {
     }
 
     /**
-     * 
+     * Getter for {@link AESHelper#salt}.
      * @return byte[] corresponding salt used to generate key from password
      * @see AESHelper#generateKeyFromPassword()
      */
@@ -166,6 +196,7 @@ public class AESHelper {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      * @see AESHelper#password
+     * @see AESHelper#getSalt()
      * @see AESHelper#encryptAES()
      * @see AESHelper#decryptAES()
      */
@@ -179,7 +210,7 @@ public class AESHelper {
     }
 
     /**
-     * 
+     * Allows user to set initialization vector for decryption process.
      * @param iv : byte[] initialization vector needed to decrypt data
      * @see AESHelper#iv
      * @see AESHelper#decryptAES()
@@ -202,7 +233,11 @@ public class AESHelper {
         RAND.nextBytes(this.salt);
     }
 
-    // package visibility used for testing purposes
+    /**
+     * Setter of {@link AESHelper#password}.
+     * This method is mainly used for testing purposes as it is in package visibility.
+     * @param password
+     */
     void setPassword(String password) {
         this.password = password;
     }
