@@ -54,7 +54,7 @@ public class RC5Helper {
     }
 
     /**
-     * This method set the data to encrypt / decrypt.
+     * This method allows to set the data to encrypt / decrypt.
      * @param data : data to encrypt or decrypt.
      */
     public void setData(String data) {
@@ -72,14 +72,16 @@ public class RC5Helper {
      * @throws InvalidAlgorithmParameterException
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
-     * @see {@link RC5Helper#data}
-     * @see {@link RC5Helper#iv}
+     * @see RC5Helper#data
+     * @see RC5Helper#iv
      */
     public String encryptRC5() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(RC5_ALGORITHM);
+        
         if (this.iv == null)
             this.initializeIV(cipher.getBlockSize());
+        
         RAND.nextBytes(iv);
         SecretKeySpec secretKey = generateKeyFromPassword();
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(this.iv));
@@ -88,8 +90,9 @@ public class RC5Helper {
     }
 
     /**
+     * This method allows to decrypt the {@link RC5Helper#data} using {@link RC5Helper#password}.
      * 
-     * @return 
+     * @return String decrypted {@link AESHelper#data}
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
      * @throws NoSuchAlgorithmException
@@ -97,6 +100,9 @@ public class RC5Helper {
      * @throws NoSuchPaddingException
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
+     * @see RC5Helper#data
+     * @see RC5Helper#iv
+     * @see RC5Helper#salt
      */
     public String decryptRC5() throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
@@ -106,7 +112,7 @@ public class RC5Helper {
             throw new IllegalStateException("salt can't be null when decrypting");
 
         SecretKeySpec secretKey = generateKeyFromPassword();
-
+        
         // Initialize cipher
         if (this.iv == null)
             throw new IllegalStateException("initialization vector can't be null here");
@@ -115,34 +121,47 @@ public class RC5Helper {
         byte[] decryptedData = cipher.doFinal(decodedEncryptedData);
         return new String(decryptedData);
     }
-
+    
+    /**
+     * This method initialize {@link RC5Helper#iv}.
+     * 
+     * @param ivSize
+     * @see RC5Helper#iv
+     */
     private void initializeIV(int ivSize) {
         this.iv = new byte[ivSize];
     }
 
     /**
+     * This method allows to get {@link RC5Helper#iv}.
      * 
      * @return IV : byte[] representing initialization vector used for RC5 ecryption / decryption.
-     * @see AESHelper#iv
-     * @see AESHelper#decryptAES()
+     * @see RC5Helper#iv
+     * @see RC5Helper#decryptRC5()
      */
     public byte[] getIV() {
         return this.iv;
     }
 
     /**
+     * This method allows to get {@link RC5Helper#salt}.
      * 
-     * @return
+     * @return salt : byte[] used to generate key from password 
+     * @see RC5Helper#salt
+     * @see RC5Helper#decryptRC5()
      */
     public byte[] getSalt() {
         return this.salt;
     }
 
     /**
+     * This method allows to generate a key from {@link RC5Helper#password}.
      * 
-     * @return
+     * @return key : SecretKeySpec representing encoded {@link RC5Helper#password}
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
+     * @see RC5Helper#password
+     * @see RC5Helper#salt
      */
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
@@ -154,23 +173,32 @@ public class RC5Helper {
     }
 
     /**
+     * This method allows to set the {@link RC5Helper#password}.
      * 
      * @param password
+     * @see RC5Helper#password
      */
     void setPassword(String password) {
         this.password = password;
     }
 
     /**
+     * This method allows to set {@link RC5Helper#iv}.
      * 
      * @param iv
+     * @see RC5Helper#iv
      */
     public void setIV(byte[] iv) {
         this.iv = iv;
     }
 
     /**
-     * this function generate a random salt
+     * <p>This method generate a random {@link RC5Helper#salt}.</p>
+     * 
+     * <p>The length of this byte[] is fixed to 64 and is generated using a SecureRandom instance.</p>
+     * 
+     * @see RC5Helper#salt
+     * @see RC5Helper#RAND
      */
     private void generateRandomSalt() {
         this.salt = new byte[64];
