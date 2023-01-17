@@ -64,6 +64,14 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
+	/**
+	 * Load calendar from specified file.
+	 * @param pathToFile to load (calendar name).
+	 * @param password password needed to decrypt file (if calendar is crypted). Can be empty if calendar to load is not crypted.
+	 * @return boolean indicating if calendar has been successfully loaded (true) or not (false).
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public boolean loadCalendar(String pathToFile, String password) throws IOException, ClassNotFoundException {
 		File file = new File("data/" + pathToFile);
 		StringBuilder resultStringBuilder = new StringBuilder();
@@ -139,6 +147,15 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
+	/**
+	 * Load an RC5 crypted Calendar.
+	 * @param name of the calendar to load.
+	 * @param password password needed to decrypt the calendar to load.
+	 * @param fileContent String[] containing IV and salt needed for RC5 decryption process.
+	 * @return a new Calendar containing all of the above parameters.
+	 * @see Calendar
+	 * @see fr.uha.ensisa.crypto.model.cryptography.RC5Helper
+	 */
 	private Calendar loadRC5Calendar(String name, String password, String[] fileContent) {
 		String algorithm = fileContent[0];
 		byte[] iv = Base64.getDecoder().decode(fileContent[1]);
@@ -146,6 +163,15 @@ public final class Agenda {
 		return new Calendar(name, algorithm, password, iv, salt);
 	}
 
+	/**
+	 * Load an AES crypted Calendar.
+	 * @param name of the calendar to load.
+	 * @param password password needed to decrypt the calendar to load.
+	 * @param fileContent String[] containing IV and salt needed for AES decryption process.
+	 * @return a new Calendar containing all of the above parameters.
+	 * @see Calendar
+	 * @see fr.uha.ensisa.crypto.model.cryptography.AESHelper
+	 */
 	private Calendar loadAESCalendar(String name, String password, String[] fileContent) {
 		String algorithm = fileContent[0];
 		byte[] iv = Base64.getDecoder().decode(fileContent[1]);
@@ -153,6 +179,11 @@ public final class Agenda {
 		return new Calendar(name, algorithm, password, iv, salt);
 	}
 
+	/**
+	 * Load a non crypted calendar.
+	 * @param name of the calendar to load.
+	 * @return new Calendar containing the above parameter.
+	 */
 	private Calendar loadDefaultCalendar(String name) {
 		return new Calendar(name);
 	}
