@@ -1,7 +1,8 @@
 package fr.uha.ensisa.crypto.ui.calendar_selection;
 
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -9,31 +10,37 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
-public class CalendarListPanel extends JPanel implements ActionListener {
+public class CalendarListPanel extends JScrollPane implements ActionListener {
 
     private static final String DELETE_BUTTON_ICON_PATH = "assets/delete.png";
     private static final String SEND_BUTTON_ICON_PATH = "assets/send.png";
 
     private MainWindow mainWindow;
     private MainWindowController controller;
+    private JPanel mainPanel;
     private List<JCheckBox> calendars;
     private List<JButton> sendButtons;
     private List<JButton> deleteButtons;
 
     public CalendarListPanel(MainWindow mainWindow) {
+        super(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.mainWindow = mainWindow;
         this.controller = this.mainWindow.getController();
+
+        this.resetMainPanel();
 
         this.calendars = new ArrayList<>();
         this.sendButtons = new ArrayList<>();
@@ -42,23 +49,31 @@ public class CalendarListPanel extends JPanel implements ActionListener {
     }
 
     public void refreshPanel() {
-        for (JCheckBox checkBox : this.calendars)
-            this.remove(checkBox);
-        for (JButton deleteButton : this.deleteButtons)
-            this.remove(deleteButton);
-        for (JButton sendButton : this.sendButtons)
-            this.remove(sendButton);
+        this.calendars.clear();
+        this.deleteButtons.clear();
+        this.sendButtons.clear();
+
+        this.resetMainPanel();
         this.createCheckBoxes();
-        this.revalidate();
+    }
+
+    private void resetMainPanel() {
+        this.mainPanel = new JPanel();
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
+        this.setColumnHeaderView(this.mainPanel);
+        this.setViewportView(this.mainPanel);
+        this.getViewport().getView().setBackground(Color.DARK_GRAY);
+        this.setPreferredSize(new Dimension(this.getWidth(), 200));
     }
 
     private void createCheckBoxes() {
         Collection<String> calendarsNamesList = this.controller.getCalendarsNames();
         if (calendarsNamesList.size() == 0)
             return;
-        GridLayout layout = new GridLayout(calendarsNamesList.size(), 2);
-        this.setLayout(layout);
         for (String calendarName : calendarsNamesList) {
+            JPanel panel = new JPanel();
+            panel.setBackground(Color.DARK_GRAY);
+            panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             JCheckBox calendarCheckBox = new JCheckBox(calendarName);
             calendarCheckBox.addActionListener(this);
             calendarCheckBox.setForeground(new Color(255, 255, 255));
@@ -85,9 +100,11 @@ public class CalendarListPanel extends JPanel implements ActionListener {
             this.sendButtons.add(sendButton);
 
             // add to panel
-            this.add(calendarCheckBox);
-            this.add(deleteButton);
-            this.add(sendButton);
+            panel.add(calendarCheckBox);
+            panel.add(deleteButton);
+            panel.add(sendButton);
+
+            this.mainPanel.add(panel);
         }
 
         // uncheck unloaded calendars

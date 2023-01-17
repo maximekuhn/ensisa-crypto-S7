@@ -43,7 +43,6 @@ public class MainWindow extends JFrame {
         // sidebar (à gauche)
 
         this.calendarList = new CalendarListPanel(this);
-        this.calendarList.setBackground(new Color(38, 38, 38));
         this.controller.setCalendarListPanel(this.calendarList);
 
         this.dateDisplay = new DateDisplayPanel(this);
