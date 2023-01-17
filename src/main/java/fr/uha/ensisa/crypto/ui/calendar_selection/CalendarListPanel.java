@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -60,6 +61,7 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
     private void resetMainPanel() {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
+        this.mainPanel.add(Box.createVerticalGlue());
         this.setColumnHeaderView(this.mainPanel);
         this.setViewportView(this.mainPanel);
         this.getViewport().getView().setBackground(Color.DARK_GRAY);
@@ -104,7 +106,7 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
             panel.add(deleteButton);
             panel.add(sendButton);
 
-            this.mainPanel.add(panel);
+            this.mainPanel.add(panel, 0);
         }
 
         // uncheck unloaded calendars
