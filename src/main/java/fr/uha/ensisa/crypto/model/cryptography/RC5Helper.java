@@ -31,6 +31,13 @@ public class RC5Helper {
     private byte[] iv;
     private byte[] salt;
 
+    /**
+     * 
+     * @param data
+     * @param password
+     * @param iv
+     * @param salt
+     */
     public RC5Helper(String data, String password, byte[] iv, byte[] salt) {
         this.data = data;
         this.password = password;
@@ -43,6 +50,17 @@ public class RC5Helper {
         this.data = data;
     }
 
+    /**
+     * 
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchPaddingException
+     * @throws InvalidKeySpecException
+     * @throws InvalidKeyException
+     * @throws InvalidAlgorithmParameterException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public String encryptRC5() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(RC5_ALGORITHM);
@@ -55,6 +73,17 @@ public class RC5Helper {
         return Base64.getEncoder().encodeToString(encryptedData);
     }
 
+    /**
+     * 
+     * @return
+     * @throws InvalidKeyException
+     * @throws InvalidAlgorithmParameterException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     * @throws NoSuchPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public String decryptRC5() throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(RC5_ALGORITHM);
@@ -77,6 +106,11 @@ public class RC5Helper {
         this.iv = new byte[ivSize];
     }
 
+    /**
+     * 
+     * @return IV : byte[] representing initialization vector used for RC5 ecryption / decryption.
+     * @see RC5Helper 
+     */
     public byte[] getIV() {
         return this.iv;
     }
@@ -85,6 +119,12 @@ public class RC5Helper {
         return this.salt;
     }
 
+    /**
+     * 
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     private SecretKeySpec generateKeyFromPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         if (this.salt == null)
