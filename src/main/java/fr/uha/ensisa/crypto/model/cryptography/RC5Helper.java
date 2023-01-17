@@ -111,7 +111,7 @@ public class RC5Helper {
         if (this.salt == null)
             throw new IllegalStateException("salt can't be null when decrypting");
 
-        SecretKeySpec secretKey = generateKeyFromPassword();
+        SecretKeySpec secretKey = this.generateKeyFromPassword();
         
         // Initialize cipher
         if (this.iv == null)
