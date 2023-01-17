@@ -46,6 +46,10 @@ public class RC5Helper {
         Security.addProvider(new BouncyCastleProvider());
     }
 
+    /**
+     * 
+     * @param data
+     */
     public void setData(String data) {
         this.data = data;
     }
@@ -109,12 +113,17 @@ public class RC5Helper {
     /**
      * 
      * @return IV : byte[] representing initialization vector used for RC5 ecryption / decryption.
-     * @see RC5Helper 
+     * @see AESHelper#iv
+     * @see AESHelper#decryptAES()
      */
     public byte[] getIV() {
         return this.iv;
     }
 
+    /**
+     * 
+     * @return
+     */
     public byte[] getSalt() {
         return this.salt;
     }
@@ -134,14 +143,25 @@ public class RC5Helper {
         return new SecretKeySpec(secretKey.getEncoded(), "RC5");
     }
 
+    /**
+     * 
+     * @param password
+     */
     void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * 
+     * @param iv
+     */
     public void setIV(byte[] iv) {
         this.iv = iv;
     }
 
+    /**
+     * this function generate a random salt
+     */
     private void generateRandomSalt() {
         this.salt = new byte[64];
         RAND.nextBytes(this.salt);
