@@ -158,10 +158,12 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
     }
 
     private void sendCalendar(String calendarName) {
-        if (Agenda.getInstance().getCalendar(calendarName) != null)
+        try {
+        	Agenda.getInstance().getCalendar(calendarName);
             this.sendPopup(calendarName);
-        else {
-            this.showErrorPopup("Invalid Password");
+        }
+        catch (Error e) {
+            this.showErrorPopup("Calendar is not loaded");
         }
     }
 
