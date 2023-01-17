@@ -1,3 +1,6 @@
+/**
+ * @author Goker Batuhan / Grainca Albi
+ */
 package fr.uha.ensisa.crypto.model.cryptography;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -21,6 +24,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+/**
+ * RC5Helper is a class designed to encrypt and decrypt data, using a password.
+ * In this class, we used the RC5 algorithm with CFB mode and PKCS5Padding.
+ */
 public class RC5Helper {
     private static final String RC5_ALGORITHM = "RC5/CFB/PKCS5Padding";
 
@@ -32,11 +39,11 @@ public class RC5Helper {
     private byte[] salt;
 
     /**
-     * 
-     * @param data
-     * @param password
-     * @param iv
-     * @param salt
+     * This is the constructor of class RC5Helper
+     * @param data : data to encrypt or decrypt.
+     * @param password : to be used to generate a key to encrypt / decrypt data.
+     * @param iv : initialization vector needed for RC5/CFB.
+     * @param salt : randomly generated when generating a key from password, unique to each password
      */
     public RC5Helper(String data, String password, byte[] iv, byte[] salt) {
         this.data = data;
@@ -47,16 +54,17 @@ public class RC5Helper {
     }
 
     /**
-     * 
-     * @param data
+     * This method set the data to encrypt / decrypt.
+     * @param data : data to encrypt or decrypt.
      */
     public void setData(String data) {
         this.data = data;
     }
 
     /**
+     * This method allows to encrypt the {@link RC5Helper#data} using {@link RC5Helper#password}.
      * 
-     * @return
+     * @return String encrypted {@link AESHelper#data}
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
      * @throws InvalidKeySpecException
@@ -64,6 +72,8 @@ public class RC5Helper {
      * @throws InvalidAlgorithmParameterException
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
+     * @see {@link RC5Helper#data}
+     * @see {@link RC5Helper#iv}
      */
     public String encryptRC5() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -79,7 +89,7 @@ public class RC5Helper {
 
     /**
      * 
-     * @return
+     * @return 
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
      * @throws NoSuchAlgorithmException
