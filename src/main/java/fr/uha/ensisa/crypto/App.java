@@ -7,6 +7,8 @@ import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 
 public class App {
+
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

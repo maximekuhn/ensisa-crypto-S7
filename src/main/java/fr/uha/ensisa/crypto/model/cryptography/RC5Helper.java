@@ -40,10 +40,12 @@ public class RC5Helper {
 
     /**
      * This is the constructor of class RC5Helper
-     * @param data : data to encrypt or decrypt.
+     * 
+     * @param data     : data to encrypt or decrypt.
      * @param password : to be used to generate a key to encrypt / decrypt data.
-     * @param iv : initialization vector needed for RC5/CFB.
-     * @param salt : randomly generated when generating a key from password, unique to each password
+     * @param iv       : initialization vector needed for RC5/CFB.
+     * @param salt     : randomly generated when generating a key from password,
+     *                 unique to each password
      */
     public RC5Helper(String data, String password, byte[] iv, byte[] salt) {
         this.data = data;
@@ -55,6 +57,7 @@ public class RC5Helper {
 
     /**
      * This method allows to set the data to encrypt / decrypt.
+     * 
      * @param data : data to encrypt or decrypt.
      */
     public void setData(String data) {
@@ -62,7 +65,8 @@ public class RC5Helper {
     }
 
     /**
-     * This method allows to encrypt the {@link RC5Helper#data} using {@link RC5Helper#password}.
+     * This method allows to encrypt the {@link RC5Helper#data} using
+     * {@link RC5Helper#password}.
      * 
      * @return String encrypted {@link AESHelper#data}
      * @throws NoSuchAlgorithmException
@@ -78,10 +82,10 @@ public class RC5Helper {
     public String encryptRC5() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(RC5_ALGORITHM);
-        
+
         if (this.iv == null)
             this.initializeIV(cipher.getBlockSize());
-        
+
         RAND.nextBytes(iv);
         SecretKeySpec secretKey = generateKeyFromPassword();
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(this.iv));
@@ -90,7 +94,8 @@ public class RC5Helper {
     }
 
     /**
-     * This method allows to decrypt the {@link RC5Helper#data} using {@link RC5Helper#password}.
+     * This method allows to decrypt the {@link RC5Helper#data} using
+     * {@link RC5Helper#password}.
      * 
      * @return String decrypted {@link AESHelper#data}
      * @throws InvalidKeyException
@@ -112,7 +117,7 @@ public class RC5Helper {
             throw new IllegalStateException("salt can't be null when decrypting");
 
         SecretKeySpec secretKey = this.generateKeyFromPassword();
-        
+
         // Initialize cipher
         if (this.iv == null)
             throw new IllegalStateException("initialization vector can't be null here");
@@ -121,7 +126,7 @@ public class RC5Helper {
         byte[] decryptedData = cipher.doFinal(decodedEncryptedData);
         return new String(decryptedData);
     }
-    
+
     /**
      * This method initialize {@link RC5Helper#iv}.
      * 
@@ -135,7 +140,8 @@ public class RC5Helper {
     /**
      * This method allows to get {@link RC5Helper#iv}.
      * 
-     * @return IV : byte[] representing initialization vector used for RC5 ecryption / decryption.
+     * @return IV : byte[] representing initialization vector used for RC5 ecryption
+     *         / decryption.
      * @see RC5Helper#iv
      * @see RC5Helper#decryptRC5()
      */
@@ -146,7 +152,7 @@ public class RC5Helper {
     /**
      * This method allows to get {@link RC5Helper#salt}.
      * 
-     * @return salt : byte[] used to generate key from password 
+     * @return salt : byte[] used to generate key from password
      * @see RC5Helper#salt
      * @see RC5Helper#decryptRC5()
      */
@@ -193,9 +199,14 @@ public class RC5Helper {
     }
 
     /**
-     * <p>This method generate a random {@link RC5Helper#salt}.</p>
+     * <p>
+     * This method generate a random {@link RC5Helper#salt}.
+     * </p>
      * 
-     * <p>The length of this byte[] is fixed to 64 and is generated using a SecureRandom instance.</p>
+     * <p>
+     * The length of this byte[] is fixed to 64 and is generated using a
+     * SecureRandom instance.
+     * </p>
      * 
      * @see RC5Helper#salt
      * @see RC5Helper#RAND
