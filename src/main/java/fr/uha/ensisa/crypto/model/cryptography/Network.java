@@ -25,7 +25,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 /**
- * Singleton class used to send and receive serialized {@link Calendar} over a network with RSA encryption.
+ * This is a Java class that represents a network and provides methods for sending and receiving data.
+ * It is implemented as a singleton, which means that only one instance of the class can exist at a time. 
+ * The class has a private key and a public key which are generated using RSA encryption. 
+ * The public key can be accessed by calling the getPublicKey method. 
+ * The class also has a method for encrypting and decrypting data using RSA encryption. 
+ * It also has methods for sending a serialized Calendar object to a specified IP address, where it first sends a request to get the receiver's public RSA key, and then encrypts the calendar using the received key before sending it. 
  */
 public class Network {
 	
