@@ -32,7 +32,7 @@ public class ReceiveCalendarPopup extends JDialog implements ActionListener {
     private static final String CANCEL_BUTTON_TEXT = "cancel";
 
     private static final int POPUP_WIDTH = 700;
-    private static final int POPUP_HEIGHT = 100;
+    private static final int POPUP_HEIGHT = 150;
     private static final int CALENDAR_TEXT_FIELD_LENGTH = 10;
     private static final int PASS_TEXT_FIELD_LENGTH = 10;
     private static final int PASS_CONFIRM_TEXT_FIELD_LENGTH = 10;
