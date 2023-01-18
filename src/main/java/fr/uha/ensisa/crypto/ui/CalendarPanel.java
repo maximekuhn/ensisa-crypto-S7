@@ -19,10 +19,16 @@ import fr.uha.ensisa.crypto.model.Calendar;
 import fr.uha.ensisa.crypto.model.Event;
 import fr.uha.ensisa.crypto.model.EventTable;
 
+/**
+ * Main centered panel that display all events from all loaded calendars.
+ */
 public class CalendarPanel extends JScrollPane {
     private JPanel grid;
     private Date selectedDate;
 
+    /**
+     * Constructor.
+     */
     public CalendarPanel() {
         super(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.setPreferredSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
@@ -36,6 +42,9 @@ public class CalendarPanel extends JScrollPane {
         grid.setBackground(new Color(50, 50, 50));
     }
 
+    /**
+     * Refresh the whole panel.
+     */
     public void refreshGrid() {
 
         Agenda agenda = Agenda.getInstance();
@@ -125,11 +134,22 @@ public class CalendarPanel extends JScrollPane {
         revalidate();
     }
 
+    /**
+     * Change current display to selected date.
+     * @param date to display
+     */
     public void setSelectedDate(Date date) {
         selectedDate = date;
         refreshGrid();
     }
 
+    /**
+     * Add minutes and date to every event.
+     * @param current current date
+     * @param days days to display
+     * @param minutes minutes to display
+     * @return current Date
+     */
     private Date addDaysMinutes(Date current, int days, int minutes) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(current);

@@ -14,6 +14,9 @@ import fr.uha.ensisa.crypto.ui.calendar_selection.CalendarListPanel;
 import fr.uha.ensisa.crypto.ui.dateDisplay.DateDisplayPanel;
 import fr.uha.ensisa.crypto.ui.topbar.TopBarPanel;
 
+/**
+ * Customized JFrame that contains everything and a controller to handle user's interactions.
+ */
 public class MainWindow extends JFrame {
 
     private MainWindowController controller;
@@ -25,6 +28,11 @@ public class MainWindow extends JFrame {
     private CalendarPanel calendarPanel;
     private DateDisplayPanel dateDisplay;
 
+    /**
+     * Constructor
+     * @param agenda singleton used to manage all calendars and evet
+     * @see fr.uha.ensisa.crypto.model.Agenda
+     */
     public MainWindow(Agenda agenda) {
         // controller
         this.controller = new MainWindowController(agenda);
@@ -86,6 +94,9 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * @return the controller of this JFrame
+     */
     public MainWindowController getController() {
         return this.controller;
     }
