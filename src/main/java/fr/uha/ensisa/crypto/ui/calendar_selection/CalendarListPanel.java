@@ -24,6 +24,10 @@ import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
+
+/**
+ * This class is used to display all available calendar. User can load them, delete them or send them.
+ */
 public class CalendarListPanel extends JScrollPane implements ActionListener {
 
     private static final String DELETE_BUTTON_ICON_PATH = "assets/delete.png";
@@ -36,6 +40,10 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
     private List<JButton> sendButtons;
     private List<JButton> deleteButtons;
 
+    /**
+     * Constructor of the left panel.
+     * @param mainWindow JFrame that display everything.
+     */
     public CalendarListPanel(MainWindow mainWindow) {
         super(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.mainWindow = mainWindow;
@@ -49,6 +57,9 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         this.createCheckBoxes();
     }
 
+    /**
+     * Refresh everything on the panel, including all checkboxes state, calendar names and buttons.
+     */
     public void refreshPanel() {
         this.calendars.clear();
         this.deleteButtons.clear();
@@ -58,6 +69,9 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         this.createCheckBoxes();
     }
 
+    /**
+     * Used to reset the main panel that contains everything.
+     */
     private void resetMainPanel() {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
@@ -68,6 +82,9 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         this.setPreferredSize(new Dimension(this.getWidth(), 200));
     }
 
+    /**
+     * Create all checkboxes with the calendar name and delete/send buttons along them.
+     */
     private void createCheckBoxes() {
         Collection<String> calendarsNamesList = this.controller.getCalendarsNames();
         if (calendarsNamesList.size() == 0)
@@ -117,6 +134,9 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         }
     }
 
+    /**
+     * Handle buttons clicks.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // calendars checkboxes
@@ -157,6 +177,10 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         }
     }
 
+    /**
+     * Send button handler.
+     * @param calendarName the calendar to send.
+     */
     private void sendCalendar(String calendarName) {
         try {
         	Agenda.getInstance().getCalendar(calendarName);
@@ -167,6 +191,10 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         }
     }
 
+    /**
+     * Checkbox handler.
+     * @param calendarName the calendar to load.
+     */
     private void loadCalendar(String calendarName) {
         try {
             if (this.controller.isCrypted(calendarName))
@@ -179,10 +207,18 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         }
     }
 
+    /**
+     * Checkbox handler.
+     * @param calendarName the calendar to unload
+     */
     private void unloadCalendar(String calendarName) {
         this.controller.unloadCalendar(calendarName);
     }
 
+    /**
+     * Delete button handler.
+     * @param calendarName the calendar to delete
+     */
     private void deleteCalendar(String calendarName) {
         try {
             this.controller.deleteCalendar(calendarName);
@@ -192,6 +228,10 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         }
     }
 
+    /**
+     * Uncheck the checkbox when a calendar isn't loaded.
+     * @param calendarName the calendar that isn't loaded.
+     */
     private void unselectUnloadedCalendar(String calendarName) {
         for (JCheckBox calendarCheckBox : this.calendars) {
             if (calendarCheckBox.getText().equals(calendarName)) {
@@ -200,16 +240,30 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
         }
     }
 
+    /**
+     * Create a password popup when required.
+     * @param calendarName the calendar to load with the password popup.
+     * @see fr.uha.ensisa.crypto.ui.calendar_selection.PasswordPopup
+     */
     private void passwordPopup(String calendarName) {
         PasswordPopup popup = new PasswordPopup(this.mainWindow, calendarName);
         popup.setVisible(true);
     }
 
+    /**
+     * Create a popup to send a calendar.
+     * @param calendarName the calendar to send.
+     * @see fr.uha.ensisa.crypto.ui.calendar_selection.SendPopup
+     */
     private void sendPopup(String calendarName) {
         SendPopup popup = new SendPopup(this.mainWindow, calendarName);
         popup.setVisible(true);
     }
 
+    /**
+     * A simple popup that displays a customizable error message.
+     * @param errorMessage the error message to show.
+     */
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }

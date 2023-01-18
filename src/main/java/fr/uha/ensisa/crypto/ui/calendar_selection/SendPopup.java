@@ -21,6 +21,9 @@ import javax.swing.JTextField;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
+/**
+ * Create a popup to send a Calendar.
+ */
 public class SendPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "SEND CALENDAR";
@@ -41,6 +44,11 @@ public class SendPopup extends JDialog implements ActionListener {
     private JButton sendButton;
     private JButton cancelButton;
 
+    /**
+     * Constructor
+     * @param mainWindow JFrame that contains everything
+     * @param calendarName the calendar to send
+     */
     public SendPopup(MainWindow mainWindow, String calendarName) {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
@@ -76,14 +84,21 @@ public class SendPopup extends JDialog implements ActionListener {
 
     }
 
+    /**
+     * Buttons handler.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.cancelButton))
             this.closePopup();
         else if (e.getSource().equals(this.sendButton))
-            this.sendCalendar(calendarName);
+            this.sendCalendar(this.calendarName);
     }
 
+    /**
+     * Send the select calendar. Display an error message if something went wrong.
+     * @param calendarName the calendar to send
+     */
     private void sendCalendar(String calendarName) {
         try {
             String address = this.addressTextField.getText();
@@ -96,10 +111,17 @@ public class SendPopup extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * Close this popup.
+     */
     private void closePopup() {
         this.dispose();
     }
 
+    /**
+     * A simple popup that displays a customizable error message.
+     * @param errorMessage the error message to show.
+     */
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }

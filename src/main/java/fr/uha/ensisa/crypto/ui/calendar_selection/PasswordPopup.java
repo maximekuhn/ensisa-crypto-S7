@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
+/**
+ * This class is used to display a popup that requires a password, to load a calendar.
+ */
 public class PasswordPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "Password";
@@ -36,6 +39,11 @@ public class PasswordPopup extends JDialog implements ActionListener {
     private JButton submitButton;
     private JButton cancelButton;
 
+    /**
+     * Constructor
+     * @param mainWindow JFrame that contains everything
+     * @param calendarName the calendar to load using the password.
+     */
     public PasswordPopup(MainWindow mainWindow, String calendarName) {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
@@ -71,6 +79,9 @@ public class PasswordPopup extends JDialog implements ActionListener {
 
     }
 
+    /**
+     * Buttons handler.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.cancelButton))
@@ -79,6 +90,10 @@ public class PasswordPopup extends JDialog implements ActionListener {
             this.loadCalendar(calendarName);
     }
 
+    /**
+     * Load the calendar after the password is typed. Display an error message if password is incorrect or calendar is unavailable.
+     * @param calendarName the calendar to load.
+     */
     private void loadCalendar(String calendarName) {
         try {
             String password = this.passTextField.getText();
@@ -95,10 +110,17 @@ public class PasswordPopup extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * Close this popup.
+     */
     private void closePopup() {
         this.dispose();
     }
 
+    /**
+     * A simple popup that displays a customizable error message.
+     * @param errorMessage the error message to show.
+     */
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
