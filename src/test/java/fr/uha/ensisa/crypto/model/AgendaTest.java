@@ -1,7 +1,10 @@
 package fr.uha.ensisa.crypto.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -10,6 +13,7 @@ import java.util.Date;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class AgendaTest {
@@ -66,6 +70,34 @@ public class AgendaTest {
 		assertEquals(event.getDuration(),
 				agenda.getCalendar("Test Calendar").getEventTable().getAllEvents().get(0).getDuration());
 	}
+	
+	@Test
+	@DisplayName("Test creating calendar with algorithm and password")
+	public void testCreatingCalendarAlgoPassword() {
+		// test when name is already taken
+		String name = "Test Calendar"; // already taken, @BeforeEach
+		String algorithm = "algo";
+		String password = "VerySecurePassword123456";
+		assertThrows(Error.class, () -> agenda.createCalendar(name, algorithm, password));
+		
+		// test when name is not taken
+		String newName = "my excellent calendar";
+		try {
+			agenda.createCalendar(newName, algorithm, password);
+			assertTrue(agenda.getCalendarNames().contains(newName));
+			Calendar c = agenda.getCalendar(newName);
+			assertNotNull(c);
+			
+			// delete calendar
+			agenda.deleteCalendar(newName);
+		} catch (IOException e) {
+			fail("No exception should be thrown");
+		} catch (Error e) {
+			fail("No exception should be thrown");
+		}
+	}
+	
+	
 
 	@AfterEach
 	public void tearDown() throws IOException {
