@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.model.Calendar;
@@ -30,16 +31,16 @@ public class CalendarPanel extends JScrollPane {
      * Constructor.
      */
     public CalendarPanel() {
-        super(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.setPreferredSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         this.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 50)));
-        selectedDate = new Date();
-        grid = new JPanel();
-        grid.setLayout(new GridLayout(48, 7, 0, 0));
-        grid.setPreferredSize(new Dimension(this.getWidth(), 24 * 90));
-        refreshGrid();
-        this.setViewportView(grid);
-        grid.setBackground(new Color(50, 50, 50));
+        this.selectedDate = new Date();
+        this.grid = new JPanel();
+        this.grid.setLayout(new GridLayout(48, 7, 0, 0));
+        this.grid.setPreferredSize(new Dimension(this.getWidth(), 24 * 90));
+        this.refreshGrid();
+        this.setViewportView(this.grid);
+        this.grid.setBackground(new Color(50, 50, 50));
     }
 
     /**
@@ -50,8 +51,8 @@ public class CalendarPanel extends JScrollPane {
         Agenda agenda = Agenda.getInstance();
         Collection<Calendar> calendars = agenda.getAllCalendars();
 
-        grid.removeAll();
-        Date monday = Date.from(selectedDate.toInstant() // On convertit vers une LocalDate pour pouvoir récupérer le
+        this.grid.removeAll();
+        Date monday = Date.from(this.selectedDate.toInstant() // On convertit vers une LocalDate pour pouvoir récupérer le
                                                          // lundi puis reconversion en Date
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate().with(DayOfWeek.MONDAY).atStartOfDay().atZone(ZoneId.systemDefault())
@@ -60,7 +61,7 @@ public class CalendarPanel extends JScrollPane {
         for (int i = 0; i < 336; i++) {
             int day = i % 7;
             int minute = 30 * (i / 7);
-            Date current = addDaysMinutes(monday, day, minute);
+            Date current = this.addDaysMinutes(monday, day, minute);
             JPanel panel = new JPanel();
             JLabel label = new JLabel(
                     "<html><center>" +
@@ -78,14 +79,14 @@ public class CalendarPanel extends JScrollPane {
             panel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, new Color(60, 60, 60)));
 
             // panel.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 110)));
-            grid.add(panel);
+            this.grid.add(panel);
         }
 
         for (int i = 0; i < 336; i++) {
             int day = i % 7;
             int minute = 30 * (i / 7);
-            Date current = addDaysMinutes(monday, day, minute);
-            ArrayList<Event> events = new ArrayList<Event>();
+            Date current = this.addDaysMinutes(monday, day, minute);
+            ArrayList<Event> events = new ArrayList<>();
             for (Calendar calendar : calendars) {
                 EventTable eventTable = calendar.getEventTable();
                 Event event = eventTable.search(current);
@@ -93,7 +94,7 @@ public class CalendarPanel extends JScrollPane {
                     events.add(event);
                 }
             }
-            JPanel panel = (JPanel) grid.getComponent(i);
+            JPanel panel = (JPanel) this.grid.getComponent(i);
             StringBuilder tooltip = new StringBuilder("<html>");
             if (events.size() > 0) {
                 panel.removeAll();
@@ -111,7 +112,7 @@ public class CalendarPanel extends JScrollPane {
                 panel.setToolTipText(tooltip.toString());
                 for (Event e : events) {
                     for (int j = 0; j < e.getDuration() * 2; j++) {
-                        JPanel panel2 = (JPanel) grid.getComponent(j * 7 + i);
+                        JPanel panel2 = (JPanel) this.grid.getComponent(j * 7 + i);
                         if (j == 0 && e.getDuration() > 1) {
                             panel2.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, new Color(60, 60, 60)));
                         } else if (j > 0) {
@@ -131,7 +132,7 @@ public class CalendarPanel extends JScrollPane {
             }
 
         }
-        revalidate();
+        this.revalidate();
     }
 
     /**
@@ -139,8 +140,8 @@ public class CalendarPanel extends JScrollPane {
      * @param date to display
      */
     public void setSelectedDate(Date date) {
-        selectedDate = date;
-        refreshGrid();
+        this.selectedDate = date;
+        this.refreshGrid();
     }
 
     /**

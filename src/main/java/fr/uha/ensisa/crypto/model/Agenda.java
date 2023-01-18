@@ -27,8 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.uha.ensisa.crypto.model.cryptography.Network;
 
 /**
- * An implementation of an agenda that stores multiple calendars. 
- * It allows creating and loading calendars, as well as listing all the calendar names that are currently stored. 
+ * An implementation of an agenda that stores multiple calendars.
+ * It allows creating and loading calendars, as well as listing all the calendar names that are currently stored.
  * The class is implemented as a singleton, meaning there is only one instance of it.
  */
 public final class Agenda {
@@ -36,7 +36,7 @@ public final class Agenda {
 	/**
      * A {@link HashMap} that store all the loaded calendars with their name as key
      */
-	private Map<String, Calendar> calendars = new HashMap<String, Calendar>();
+	private Map<String, Calendar> calendars = new HashMap<>();
 
 	/**
      * Instance of the Agenda as the class is a singleton.
@@ -45,7 +45,7 @@ public final class Agenda {
 	private static Agenda instance;
 
 	/**
-	 * On first call, generate the {@link Agenda#instance} of the {@link Agenda} 
+	 * On first call, generate the {@link Agenda#instance} of the {@link Agenda}
      * @return the {@link Agenda#instance} of the {@link Agenda}
      */
 	public static Agenda getInstance() {
@@ -61,12 +61,12 @@ public final class Agenda {
      */
 	public Collection<String> getCalendarNames() {
 		File dir = new File("data/");
-		ArrayList<String> names = new ArrayList<String>();
+		ArrayList<String> names = new ArrayList<>();
 		try {
 			Files.list(dir.toPath()).toList().forEach(path -> names.add(path.getFileName().toString()));
 			return names;
 		} catch (IOException e) {
-			return new ArrayList<String>();
+			return new ArrayList<>();
 		}
 	}
 
@@ -78,10 +78,10 @@ public final class Agenda {
 	 * @see Calendar#saveCalendar()
      */
 	public void createCalendar(String name) throws IOException, Error {
-		if (getCalendarNames().contains(name))
+		if (this.getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
-		calendars.put(name, new Calendar(name));
-		calendars.get(name).saveCalendar();
+		this.calendars.put(name, new Calendar(name));
+		this.calendars.get(name).saveCalendar();
 	}
 
 	/**
@@ -94,15 +94,15 @@ public final class Agenda {
 	 * @see Calendar#saveCalendar()
      */
 	public void createCalendar(String name, String algorithm, String password) throws IOException, Error {
-		if (getCalendarNames().contains(name))
+		if (this.getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
-		calendars.put(name, new Calendar(name, algorithm, password));
-		calendars.get(name).saveCalendar();
+		this.calendars.put(name, new Calendar(name, algorithm, password));
+		this.calendars.get(name).saveCalendar();
 	}
 
 	/**
 	 * Load calendar from specified file.
-	 * 
+	 *
 	 * @param pathToFile to load (calendar name).
 	 * @param password   password needed to decrypt file (if calendar is crypted).
 	 *                   Can be empty if calendar to load is not crypted.
@@ -150,14 +150,14 @@ public final class Agenda {
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
 		}
-		calendars.put(pathToFile, calendar);
+		this.calendars.put(pathToFile, calendar);
 		return true;
 	}
 
 	/**
 	 * Receive a calendar from a specified IP address and decrypt it using RSA.
 	 * Once the calendar received, create a new calendar encrypted with the specified algorithm.
-	 * 
+	 *
 	 * @param name the name of the calendar
 	 * @param algorithm the encryption algorithm used to encrypt the calendar
 	 * @param password the password used to decrypt the calendar
@@ -181,14 +181,14 @@ public final class Agenda {
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
 		}
-		calendars.put(name, calendar);
-		calendars.get(name).saveCalendar();
+		this.calendars.put(name, calendar);
+		this.calendars.get(name).saveCalendar();
 	}
 
 	/**
 	 * Receive a calendar from a specified IP address and decrypt it using RSA.
 	 * Once the calendar received, create a new calendar with no encryption algorithm.
-	 * 
+	 *
 	 * @param name the name of the calendar
 	 * @param algorithm the encryption algorithm used to encrypt the calendar
 	 * @param password the password used to decrypt the calendar
@@ -212,13 +212,13 @@ public final class Agenda {
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
 		}
-		calendars.put(name, calendar);
-		calendars.get(name).saveCalendar();
+		this.calendars.put(name, calendar);
+		this.calendars.get(name).saveCalendar();
 	}
 
 	/**
 	 * Load an RC5 crypted Calendar.
-	 * 
+	 *
 	 * @param name        of the calendar to load.
 	 * @param password    password needed to decrypt the calendar to load.
 	 * @param fileContent String[] containing IV and salt needed for RC5 decryption
@@ -236,7 +236,7 @@ public final class Agenda {
 
 	/**
 	 * Load an AES crypted Calendar.
-	 * 
+	 *
 	 * @param name        of the calendar to load.
 	 * @param password    password needed to decrypt the calendar to load.
 	 * @param fileContent String[] containing IV and salt needed for AES decryption
@@ -254,7 +254,7 @@ public final class Agenda {
 
 	/**
 	 * Load a non crypted calendar.
-	 * 
+	 *
 	 * @param name of the calendar to load.
 	 * @return new Calendar containing the above parameter.
 	 */
@@ -288,7 +288,7 @@ public final class Agenda {
 	 * @throws IOException if an error occurs while reading to the file
 	 */
 	public Calendar getCalendar(String name) throws Error {
-		Calendar calendar = calendars.get(name);
+		Calendar calendar = this.calendars.get(name);
 		if (calendar == null)
 			throw new Error("Calendar doesn't exists");
 		return calendar;
@@ -306,25 +306,25 @@ public final class Agenda {
 		if (!file.exists())
 			throw new IOException("File not found");
 		file.delete();
-		unloadCalendar(path_to_file);
+		this.unloadCalendar(path_to_file);
 	}
 
 	/**
-	 * Remove the specified calendar from {@link Agenda#calendars}. 
+	 * Remove the specified calendar from {@link Agenda#calendars}.
 	 * @param name name of the loaded calendar.
 	 */
 	public void unloadCalendar(String name) {
-		calendars.remove(name);
+		this.calendars.remove(name);
 	}
 
 	/**
-	 * Search all events at a specified date from all the {@link Agenda#calendars} that are loaded. 
+	 * Search all events at a specified date from all the {@link Agenda#calendars} that are loaded.
 	 * @param date specified date of searched events.
 	 * @return a collection of all events happening on the specified date.
 	 */
 	public Collection<Event> search(Date date) {
-		ArrayList<Event> events = new ArrayList<Event>();
-		for (Calendar calendar : calendars.values()) {
+		ArrayList<Event> events = new ArrayList<>();
+		for (Calendar calendar : this.calendars.values()) {
 			Event event = calendar.getEventTable().search(date);
 			if (event != null)
 				events.add(event);
@@ -333,12 +333,12 @@ public final class Agenda {
 	}
 
 	/**
-	 * Retrieve all events of the {@link Agenda#calendars} that are loaded. 
+	 * Retrieve all events of the {@link Agenda#calendars} that are loaded.
 	 * @return a collection of all events.
 	 */
 	public Collection<Event> getAllEvents() {
-		ArrayList<Event> events = new ArrayList<Event>();
-		for (Calendar calendar : calendars.values()) {
+		ArrayList<Event> events = new ArrayList<>();
+		for (Calendar calendar : this.calendars.values()) {
 			Collection<Event> eventsOfCalendar = calendar.getEventTable().getAllEvents();
 			for (Event event : eventsOfCalendar) {
 				events.add(event);
@@ -352,7 +352,7 @@ public final class Agenda {
 	 * @return all the loaded calendars.
 	 */
 	public Collection<Calendar> getAllCalendars() {
-		return calendars.values();
+		return this.calendars.values();
 	}
 
 }

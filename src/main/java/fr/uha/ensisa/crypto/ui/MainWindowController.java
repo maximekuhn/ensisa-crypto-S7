@@ -102,7 +102,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the singleton instance of Agenda
 	 * @see fr.uha.ensisa.crypto.model.Agenda
 	 */
@@ -129,7 +129,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 		this.agenda.getCalendar(calendar).saveCalendar();
 
 		// refresh view
-		calendarPanel.refreshGrid();
+		this.calendarPanel.refreshGrid();
 
 	}
 
@@ -199,7 +199,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param date to search event
 	 * @return all event of this corresponding date
 	 */
@@ -208,7 +208,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return all calendars in data/ folder
 	 */
 	public Collection<String> getCalendarsNames() {
@@ -278,7 +278,7 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param calendarName
 	 * @return true if calendar is crypted, false otherwise.
 	 * @throws IOException

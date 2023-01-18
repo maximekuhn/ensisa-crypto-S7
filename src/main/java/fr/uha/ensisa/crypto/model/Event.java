@@ -11,22 +11,22 @@ public class Event {
      * The date of the event
      */
 	private Date date;
-	
+
 	/**
      * The duration of the event
      */
 	private long duration;
-	
+
 	/**
      * The name of the event
      */
 	private String event;
-	
+
 	/**
      * The description of the event
      */
 	private String description;
-	
+
 	/**
      * The location of the event
      */
@@ -59,7 +59,7 @@ public class Event {
      * @return the date of the event
      */
 	public Date getDate() {
-		return date;
+		return this.date;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Event {
      * @return the duration of the event
      */
 	public long getDuration() {
-		return duration;
+		return this.duration;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class Event {
      * @return the name of the event
      */
 	public String getEvent() {
-		return event;
+		return this.event;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class Event {
      * @return the description of the event
      */
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class Event {
      * @return the location of the event
      */
 	public String getLocation() {
-		return location;
+		return this.location;
 	}
 
 	/**

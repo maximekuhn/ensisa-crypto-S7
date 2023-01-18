@@ -19,7 +19,7 @@ public class EventTable {
      * Constructor for creating a new EventTable object.
      */
 	public EventTable() {
-		events = new HashMap<>();
+		this.events = new HashMap<>();
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class EventTable {
      * @param event the event to add
      */
 	public void addEvent(Event event) {
-		events.put(event.getDate(), event);
+		this.events.put(event.getDate(), event);
 	}
 
 	/**
@@ -35,8 +35,8 @@ public class EventTable {
      * @param event the new event
      */
 	public void editEvent(Event event) {
-		events.remove(event.getDate());
-		events.put(event.getDate(), event);
+		this.events.remove(event.getDate());
+		this.events.put(event.getDate(), event);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class EventTable {
      * @param date the date of the event
      */
 	public Event search(Date date) {
-		return events.get(date);
+		return this.events.get(date);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class EventTable {
      * @param date the date of the event
      */
 	public void removeEvent(Date date) {
-		events.remove(date);
+		this.events.remove(date);
 	}
 
 	/**
@@ -60,8 +60,8 @@ public class EventTable {
      * @return the list of events
      */
 	public ArrayList<Event> getAllEvents() {
-		ArrayList<Event> eventArrayList = new ArrayList<Event>();
-		for (Event event : events.values()) {
+		ArrayList<Event> eventArrayList = new ArrayList<>();
+		for (Event event : this.events.values()) {
 			eventArrayList.add(event);
 		}
 		return eventArrayList;

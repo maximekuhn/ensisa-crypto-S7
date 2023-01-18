@@ -40,7 +40,7 @@ public class RC5Helper {
 
     /**
      * This is the constructor of class RC5Helper
-     * 
+     *
      * @param data     : data to encrypt or decrypt.
      * @param password : to be used to generate a key to encrypt / decrypt data.
      * @param iv       : initialization vector needed for RC5/CFB.
@@ -57,7 +57,7 @@ public class RC5Helper {
 
     /**
      * This method allows to set the data to encrypt / decrypt.
-     * 
+     *
      * @param data : data to encrypt or decrypt.
      */
     public void setData(String data) {
@@ -67,7 +67,7 @@ public class RC5Helper {
     /**
      * This method allows to encrypt the {@link RC5Helper#data} using
      * {@link RC5Helper#password}.
-     * 
+     *
      * @return String encrypted {@link AESHelper#data}
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
@@ -86,8 +86,8 @@ public class RC5Helper {
         if (this.iv == null)
             this.initializeIV(cipher.getBlockSize());
 
-        RAND.nextBytes(iv);
-        SecretKeySpec secretKey = generateKeyFromPassword();
+        RAND.nextBytes(this.iv);
+        SecretKeySpec secretKey = this.generateKeyFromPassword();
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(this.iv));
         byte[] encryptedData = cipher.doFinal(this.data.getBytes());
         return Base64.getEncoder().encodeToString(encryptedData);
@@ -96,7 +96,7 @@ public class RC5Helper {
     /**
      * This method allows to decrypt the {@link RC5Helper#data} using
      * {@link RC5Helper#password}.
-     * 
+     *
      * @return String decrypted {@link AESHelper#data}
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
@@ -129,7 +129,7 @@ public class RC5Helper {
 
     /**
      * This method initialize {@link RC5Helper#iv}.
-     * 
+     *
      * @param ivSize
      * @see RC5Helper#iv
      */
@@ -139,7 +139,7 @@ public class RC5Helper {
 
     /**
      * This method allows to get {@link RC5Helper#iv}.
-     * 
+     *
      * @return IV : byte[] representing initialization vector used for RC5 ecryption
      *         / decryption.
      * @see RC5Helper#iv
@@ -151,7 +151,7 @@ public class RC5Helper {
 
     /**
      * This method allows to get {@link RC5Helper#salt}.
-     * 
+     *
      * @return salt : byte[] used to generate key from password
      * @see RC5Helper#salt
      * @see RC5Helper#decryptRC5()
@@ -162,7 +162,7 @@ public class RC5Helper {
 
     /**
      * This method allows to generate a key from {@link RC5Helper#password}.
-     * 
+     *
      * @return key : SecretKeySpec representing encoded {@link RC5Helper#password}
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
@@ -180,7 +180,7 @@ public class RC5Helper {
 
     /**
      * This method allows to set the {@link RC5Helper#password}.
-     * 
+     *
      * @param password
      * @see RC5Helper#password
      */
@@ -190,7 +190,7 @@ public class RC5Helper {
 
     /**
      * This method allows to set {@link RC5Helper#iv}.
-     * 
+     *
      * @param iv
      * @see RC5Helper#iv
      */
@@ -202,12 +202,12 @@ public class RC5Helper {
      * <p>
      * This method generate a random {@link RC5Helper#salt}.
      * </p>
-     * 
+     *
      * <p>
      * The length of this byte[] is fixed to 64 and is generated using a
      * SecureRandom instance.
      * </p>
-     * 
+     *
      * @see RC5Helper#salt
      * @see RC5Helper#RAND
      */

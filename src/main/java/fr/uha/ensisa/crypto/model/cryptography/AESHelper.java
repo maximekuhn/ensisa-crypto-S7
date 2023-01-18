@@ -60,7 +60,7 @@ public class AESHelper {
 
     /**
      * Constructor of class AESHelper.
-     * 
+     *
      * @param data     data to encrypt / decrypt
      * @param password password to be used to generate a key to encrypt / decrypt
      *                 data
@@ -77,7 +77,7 @@ public class AESHelper {
 
     /**
      * Specify data to encrypt / decrypt.
-     * 
+     *
      * @param data
      * @see AESHelper#encryptAES()
      * @see AESHelper#decryptAES()
@@ -97,7 +97,7 @@ public class AESHelper {
      * This method will also call {@link AESHelper#generateKeyFromPassword()} to get
      * a SecretKeySpec from {@link AESHelper#password}.
      * </p>
-     * 
+     *
      * @return String encrypted {@link AESHelper#data}
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
@@ -135,7 +135,7 @@ public class AESHelper {
      * </p>
      * Algorithm used is "AES/CBC/PKCS5Padding" (specified by
      * {@link AESHelper#AES_ALGORITHM})
-     * 
+     *
      * @return String decrypted {@link AESHelper#data}
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
@@ -170,7 +170,7 @@ public class AESHelper {
     /**
      * Generate a random initilization vector from given ivSize. IV is generated
      * using a SecureRandom instance.
-     * 
+     *
      * @param ivSize size of the initialization vector (usually block size from AES
      *               cipher object)
      * @see AESHelper#encryptAES()
@@ -184,7 +184,7 @@ public class AESHelper {
 
     /**
      * Getter for {@link AESHelper#iv}.
-     * 
+     *
      * @return byte[] corresponding initialization vector (IV)
      * @see AESHelper#initializeIV(int)
      */
@@ -194,7 +194,7 @@ public class AESHelper {
 
     /**
      * Getter for {@link AESHelper#salt}.
-     * 
+     *
      * @return byte[] corresponding salt used to generate key from password
      * @see AESHelper#generateKeyFromPassword()
      */
@@ -216,7 +216,7 @@ public class AESHelper {
      * This SecretKeySpec object can be used to encrypt and decrypt data using the
      * Advanced Encryption Standard (AES) algorithm.
      * </p>
-     * 
+     *
      * @return SecretKeySpec a 256 bits length key used to encrypt or decrypt some
      *         data using AES algorithm
      * @throws NoSuchAlgorithmException
@@ -237,7 +237,7 @@ public class AESHelper {
 
     /**
      * Allows user to set initialization vector for decryption process.
-     * 
+     *
      * @param iv : byte[] initialization vector needed to decrypt data
      * @see AESHelper#iv
      * @see AESHelper#decryptAES()
@@ -252,7 +252,7 @@ public class AESHelper {
      * </p>
      * The length of this byte[] is fixed to 64 and is generated using a
      * SecureRandom instance.
-     * 
+     *
      * @see AESHelper#RAND
      * @see SecureRandom
      */
@@ -265,7 +265,7 @@ public class AESHelper {
      * Setter of {@link AESHelper#password}.
      * This method is mainly used for testing purposes as it is in package
      * visibility.
-     * 
+     *
      * @param password
      */
     void setPassword(String password) {

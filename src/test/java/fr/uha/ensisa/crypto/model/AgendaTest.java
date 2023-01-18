@@ -33,14 +33,14 @@ public class AgendaTest {
 
 	@BeforeEach
 	public void setUp() throws IOException, Error {
-		date = new Date(4444);
-		duration = 1;
-		eventname = "Test";
-		description = "...";
-		location = "ici";
+		this.date = new Date(4444);
+		this.duration = 1;
+		this.eventname = "Test";
+		this.description = "...";
+		this.location = "ici";
 		agenda.createCalendar("Test Calendar");
-		event = new Event(date, duration, eventname, description, location);
-		agenda.getCalendar("Test Calendar").getEventTable().addEvent(event);
+		this.event = new Event(this.date, this.duration, this.eventname, this.description, this.location);
+		agenda.getCalendar("Test Calendar").getEventTable().addEvent(this.event);
 	}
 
 	@Test
@@ -67,10 +67,10 @@ public class AgendaTest {
 		agenda.getCalendar("Test Calendar").saveCalendar();
 		agenda.unloadCalendar("Test Calendar");
 		agenda.loadCalendar("Test Calendar", "");
-		assertEquals(event.getDuration(),
+		assertEquals(this.event.getDuration(),
 				agenda.getCalendar("Test Calendar").getEventTable().getAllEvents().get(0).getDuration());
 	}
-	
+
 	@Test
 	@DisplayName("Test creating calendar with algorithm and password")
 	public void testCreatingCalendarAlgoPassword() {
@@ -79,7 +79,7 @@ public class AgendaTest {
 		String algorithm = "algo";
 		String password = "VerySecurePassword123456";
 		assertThrows(Error.class, () -> agenda.createCalendar(name, algorithm, password));
-		
+
 		// test when name is not taken
 		String newName = "my excellent calendar";
 		try {
@@ -87,7 +87,7 @@ public class AgendaTest {
 			assertTrue(agenda.getCalendarNames().contains(newName));
 			Calendar c = agenda.getCalendar(newName);
 			assertNotNull(c);
-			
+
 			// delete calendar
 			agenda.deleteCalendar(newName);
 		} catch (IOException e) {
@@ -96,8 +96,8 @@ public class AgendaTest {
 			fail("No exception should be thrown");
 		}
 	}
-	
-	
+
+
 
 	@AfterEach
 	public void tearDown() throws IOException {

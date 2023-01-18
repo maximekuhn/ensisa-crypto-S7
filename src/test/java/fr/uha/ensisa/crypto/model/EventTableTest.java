@@ -19,39 +19,39 @@ public class EventTableTest {
 
 	@BeforeEach
 	public void init() {
-		date = new Date(4444);
-		duration = 1;
-		event = "Test";
-		description = "...";
-		location = "ici";
-		eventObj = new Event(date, duration, event, description, location);
-		sut = new EventTable();
+		this.date = new Date(4444);
+		this.duration = 1;
+		this.event = "Test";
+		this.description = "...";
+		this.location = "ici";
+		this.eventObj = new Event(this.date, this.duration, this.event, this.description, this.location);
+		this.sut = new EventTable();
 	}
 
 	@Test
 	public void addEventTest() {
-		sut.addEvent(eventObj);
-		assertEquals(eventObj, sut.search(date));
-		assertEquals(description, sut.search(date).getDescription());
+		this.sut.addEvent(this.eventObj);
+		assertEquals(this.eventObj, this.sut.search(this.date));
+		assertEquals(this.description, this.sut.search(this.date).getDescription());
 	}
 
 	@Test
 	public void editEventTest() {
-		sut.editEvent(new Event(date, duration, event, "nouvelle description", location));
-		assertEquals("nouvelle description", sut.search(date).getDescription());
+		this.sut.editEvent(new Event(this.date, this.duration, this.event, "nouvelle description", this.location));
+		assertEquals("nouvelle description", this.sut.search(this.date).getDescription());
 	}
 
 	@Test
 	public void removeEventTest() {
-		sut.addEvent(eventObj);
-		sut.removeEvent(date);
-		assertNull(sut.search(date));
+		this.sut.addEvent(this.eventObj);
+		this.sut.removeEvent(this.date);
+		assertNull(this.sut.search(this.date));
 	}
 
 	@Test
 	public void getAllEventsTest() {
-		sut.addEvent(eventObj);
-		sut.addEvent(new Event(new Date(5555), duration, event, description, location));
-		assertEquals(2, sut.getAllEvents().size());
+		this.sut.addEvent(this.eventObj);
+		this.sut.addEvent(new Event(new Date(5555), this.duration, this.event, this.description, this.location));
+		assertEquals(2, this.sut.getAllEvents().size());
 	}
 }

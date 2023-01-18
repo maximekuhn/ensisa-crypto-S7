@@ -68,7 +68,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
         this.setLocationRelativeTo(mainWindow); // center popup
-        this.mainPanel.setLayout(layout);
+        this.mainPanel.setLayout(this.layout);
 
         // label
         this.calendarLabel = new JLabel(CALENDAR_LABEL_TEXT);
@@ -89,7 +89,7 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
 
         // list
         // TODO algorithms list enum
-        this.algoListField = new JComboBox<String>(new String[] { "NONE", "AES", "RC5" });
+        this.algoListField = new JComboBox<>(new String[] { "NONE", "AES", "RC5" });
 
         // add components
         this.mainPanel.add(this.calendarLabel);

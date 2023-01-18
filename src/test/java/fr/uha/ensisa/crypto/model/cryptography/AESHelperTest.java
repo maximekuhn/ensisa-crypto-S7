@@ -32,16 +32,16 @@ public class AESHelperTest {
         byte[] iv = null;
         byte[] salt = null;
 
-        sut = new AESHelper(data, password, iv, salt);
+        this.sut = new AESHelper(data, password, iv, salt);
 
         String encrypted;
         try {
-            encrypted = sut.encryptAES();
+            encrypted = this.sut.encryptAES();
             assertNotEquals(data, encrypted, "data should have been encrypted");
 
-            sut.setData(encrypted);
+            this.sut.setData(encrypted);
 
-            String decrypted = sut.decryptAES();
+            String decrypted = this.sut.decryptAES();
             assertEquals(data, decrypted, "decrypted data should be equal to data");
 
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException
@@ -55,15 +55,15 @@ public class AESHelperTest {
     @Test
     @DisplayName("Test null iv")
     void testNullIv() {
-        sut = new AESHelper("data", "password", null, new byte[64]);
-        assertThrows(IllegalStateException.class, () -> sut.decryptAES());
+        this.sut = new AESHelper("data", "password", null, new byte[64]);
+        assertThrows(IllegalStateException.class, () -> this.sut.decryptAES());
     }
 
     @Test
     @DisplayName("Test null salt")
     void testNullSalt() {
-        sut = new AESHelper("data", "password", new byte[16], null);
-        assertThrows(IllegalStateException.class, () -> sut.decryptAES());
+        this.sut = new AESHelper("data", "password", new byte[16], null);
+        assertThrows(IllegalStateException.class, () -> this.sut.decryptAES());
     }
 
     @Test
@@ -75,21 +75,21 @@ public class AESHelperTest {
         byte[] iv = null;
         byte[] salt = null;
 
-        sut = new AESHelper(data, password, iv, salt);
+        this.sut = new AESHelper(data, password, iv, salt);
 
         try {
-            String encrypted = sut.encryptAES();
-            sut.setData(encrypted);
+            String encrypted = this.sut.encryptAES();
+            this.sut.setData(encrypted);
             assertNotEquals(data, encrypted);
 
-            sut.setPassword(badPassword);
+            this.sut.setPassword(badPassword);
 
-            assertThrows(Exception.class, () -> sut.decryptAES());
+            assertThrows(Exception.class, () -> this.sut.decryptAES());
 
             // test with a password that has same length as original password
             String badPassword2 = "password1233";
-            sut.setPassword(badPassword2);
-            assertThrows(Exception.class, () -> sut.decryptAES());
+            this.sut.setPassword(badPassword2);
+            assertThrows(Exception.class, () -> this.sut.decryptAES());
 
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException
                 | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
@@ -106,24 +106,24 @@ public class AESHelperTest {
         byte[] iv = null;
         byte[] salt = null;
 
-        sut = new AESHelper(data, password, iv, salt);
+        this.sut = new AESHelper(data, password, iv, salt);
 
         try {
             // get IV
-            String encrypted = sut.encryptAES();
-            byte[] oldIV = sut.getIV();
+            String encrypted = this.sut.encryptAES();
+            byte[] oldIV = this.sut.getIV();
             assertNotNull(oldIV);
-            sut.setData(encrypted);
+            this.sut.setData(encrypted);
 
             // check that decryption still works
-            String decrypted = sut.decryptAES();
+            String decrypted = this.sut.decryptAES();
             assertEquals(data, decrypted, "data should have been decrypted");
 
             // set new IV and encrypt data with it
-            sut.setIV(null);
-            sut.setData(data);
-            encrypted = sut.encryptAES(); // to generate a new IV
-            byte[] newIV = sut.getIV();
+            this.sut.setIV(null);
+            this.sut.setData(data);
+            encrypted = this.sut.encryptAES(); // to generate a new IV
+            byte[] newIV = this.sut.getIV();
             assertNotNull(newIV);
 
             assertNotEquals(newIV, oldIV);
@@ -131,14 +131,14 @@ public class AESHelperTest {
 
             // check that new IV can decrypt data
             // sut.setIV(newIV);
-            sut.setData(encrypted);
-            decrypted = sut.decryptAES();
+            this.sut.setData(encrypted);
+            decrypted = this.sut.decryptAES();
             assertEquals(data, decrypted, "data should have been decrypted");
 
             // check that old IV can't decrypt data
             // sut.setData(encrypted);
-            sut.setIV(oldIV);
-            decrypted = sut.decryptAES();
+            this.sut.setIV(oldIV);
+            decrypted = this.sut.decryptAES();
             assertNotEquals(data, decrypted, "data should not have been properly decrypted");
 
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException

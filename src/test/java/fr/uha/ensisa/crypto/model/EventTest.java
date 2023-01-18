@@ -17,47 +17,47 @@ public class EventTest {
 
 	@BeforeEach
 	public void init() {
-		date = new Date();
-		duration = 1;
-		event = "Test";
-		description = "...";
-		location = "ici";
-		sut = new Event(date, duration, event, description, location);
+		this.date = new Date();
+		this.duration = 1;
+		this.event = "Test";
+		this.description = "...";
+		this.location = "ici";
+		this.sut = new Event(this.date, this.duration, this.event, this.description, this.location);
 	}
 
 	@Test
 	public void getDateTest() {
-		assertEquals(date, sut.getDate());
+		assertEquals(this.date, this.sut.getDate());
 		Date newDate = new Date(111111);
-		sut.setDate(newDate);
-		assertEquals(newDate, sut.getDate());
+		this.sut.setDate(newDate);
+		assertEquals(newDate, this.sut.getDate());
 	}
 
 	@Test
 	public void getDurationTest() {
-		assertEquals(duration, sut.getDuration());
-		sut.setDuration(2);
-		assertEquals(2, sut.getDuration());
+		assertEquals(this.duration, this.sut.getDuration());
+		this.sut.setDuration(2);
+		assertEquals(2, this.sut.getDuration());
 	}
 
 	@Test
 	public void getEventTest() {
-		assertEquals(event, sut.getEvent());
-		sut.setEvent("a");
-		assertEquals("a", sut.getEvent());
+		assertEquals(this.event, this.sut.getEvent());
+		this.sut.setEvent("a");
+		assertEquals("a", this.sut.getEvent());
 	}
 
 	@Test
 	public void getDescriptionTest() {
-		assertEquals(description, sut.getDescription());
-		sut.setDescription("nouvelle description");
-		assertEquals("nouvelle description", sut.getDescription());
+		assertEquals(this.description, this.sut.getDescription());
+		this.sut.setDescription("nouvelle description");
+		assertEquals("nouvelle description", this.sut.getDescription());
 	}
 
 	@Test
 	public void getLocationTest() {
-		assertEquals(location, sut.getLocation());
-		sut.setLocation("nouvelle localisation");
-		assertEquals("nouvelle localisation", sut.getLocation());
+		assertEquals(this.location, this.sut.getLocation());
+		this.sut.setLocation("nouvelle localisation");
+		assertEquals("nouvelle localisation", this.sut.getLocation());
 	}
 }

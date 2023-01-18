@@ -41,7 +41,7 @@ public class DateDisplayPanel extends JPanel implements ActionListener {
 
 	private void changeCalendarDate() {
 		Date date = (Date) this.datePanel.getModel().getValue();
-		controller.goToDate(date);
+		this.controller.goToDate(date);
 	}
 
 }

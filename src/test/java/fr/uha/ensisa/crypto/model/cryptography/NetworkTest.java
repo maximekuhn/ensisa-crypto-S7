@@ -21,15 +21,15 @@ public class NetworkTest {
 
 	@BeforeEach
 	public void init() throws NoSuchAlgorithmException, IOException {
-		sut = Network.getInstance();
+		this.sut = Network.getInstance();
 	}
 
 	@Test
 	public void RSATest() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
 			IllegalBlockSizeException, BadPaddingException {
 		String str = "test";
-		String encrypted = sut.encryptRSA(str, sut.getPublicKey());
-		String decrypted = sut.decryptRSA(encrypted);
+		String encrypted = this.sut.encryptRSA(str, this.sut.getPublicKey());
+		String decrypted = this.sut.decryptRSA(encrypted);
 		assertNotNull(encrypted);
 		assertEquals(str, decrypted);
 	}
@@ -43,7 +43,7 @@ public class NetworkTest {
 		// start a new thread for the sender method
 		Thread senderThread = new Thread(() -> {
 			try {
-				sut.sender(calendar, ipAddress);
+				this.sut.sender(calendar, ipAddress);
 			} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
 					| BadPaddingException | IOException | InvalidKeySpecException e) {
 				e.printStackTrace();
@@ -53,7 +53,7 @@ public class NetworkTest {
 		// start a new thread for the receiver method
 		Thread receiverThread = new Thread(() -> {
 			try {
-				String receivedCalendar = sut.receiver();
+				String receivedCalendar = this.sut.receiver();
 				assertEquals(calendar, receivedCalendar);
 				latch.countDown();
 			} catch (IOException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException

@@ -43,7 +43,8 @@ public class MainWindow extends JFrame {
 
         // close button
         this.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
+            @Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
                 System.exit(0);
             }
         });
@@ -56,13 +57,13 @@ public class MainWindow extends JFrame {
         this.dateDisplay = new DateDisplayPanel(this);
         this.dateDisplay.setPreferredSize(new Dimension(Integer.MAX_VALUE, 190));
 
-        sidebar = new JPanel();
-        sidebar.setBorder(BorderFactory.createEmptyBorder());
+        this.sidebar = new JPanel();
+        this.sidebar.setBorder(BorderFactory.createEmptyBorder());
 
-        sidebar.setLayout(new BorderLayout(0, 0));
-        sidebar.setBackground(new Color(5, 5, 5));
-        sidebar.add(calendarList, BorderLayout.CENTER);
-        sidebar.add(dateDisplay, BorderLayout.PAGE_END);
+        this.sidebar.setLayout(new BorderLayout(0, 0));
+        this.sidebar.setBackground(new Color(5, 5, 5));
+        this.sidebar.add(this.calendarList, BorderLayout.CENTER);
+        this.sidebar.add(this.dateDisplay, BorderLayout.PAGE_END);
 
         // panneau principal (à droite)
 
@@ -71,25 +72,25 @@ public class MainWindow extends JFrame {
         this.topBar.setPreferredSize(new Dimension(Integer.MAX_VALUE, 64));
         this.controller.setTopBarPanel(this.topBar);
 
-        calendarPanel = new CalendarPanel();
-        controller.setCalendarPanel(calendarPanel);
+        this.calendarPanel = new CalendarPanel();
+        this.controller.setCalendarPanel(this.calendarPanel);
 
-        mainPanel = new JPanel();
-        mainPanel.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.setLayout(new BorderLayout(0, 0));
-        mainPanel.setBackground(new Color(5, 5, 5));
-        mainPanel.add(topBar, BorderLayout.PAGE_START);
-        mainPanel.add(calendarPanel, BorderLayout.CENTER);
+        this.mainPanel = new JPanel();
+        this.mainPanel.setBorder(BorderFactory.createEmptyBorder());
+        this.mainPanel.setLayout(new BorderLayout(0, 0));
+        this.mainPanel.setBackground(new Color(5, 5, 5));
+        this.mainPanel.add(this.topBar, BorderLayout.PAGE_START);
+        this.mainPanel.add(this.calendarPanel, BorderLayout.CENTER);
 
         // Séparation sidebar et panneau principal
 
-        splitPane = new JSplitPane();
-        splitPane.setBorder(BorderFactory.createEmptyBorder());
+        this.splitPane = new JSplitPane();
+        this.splitPane.setBorder(BorderFactory.createEmptyBorder());
 
-        splitPane.setDividerLocation(210);
-        splitPane.setLeftComponent(sidebar);
-        splitPane.setRightComponent(mainPanel);
-        this.add(splitPane);
+        this.splitPane.setDividerLocation(210);
+        this.splitPane.setLeftComponent(this.sidebar);
+        this.splitPane.setRightComponent(this.mainPanel);
+        this.add(this.splitPane);
 
         this.setVisible(true);
     }

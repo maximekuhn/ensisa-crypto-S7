@@ -87,7 +87,7 @@ public class PasswordPopup extends JDialog implements ActionListener {
         if (e.getSource().equals(this.cancelButton))
             this.closePopup();
         else if (e.getSource().equals(this.submitButton))
-            this.loadCalendar(calendarName);
+            this.loadCalendar(this.calendarName);
     }
 
     /**
@@ -98,7 +98,7 @@ public class PasswordPopup extends JDialog implements ActionListener {
         try {
             String password = this.passTextField.getText();
             boolean loaded = this.controller.loadCalendar(calendarName, password);
-            if (loaded == true)
+            if (loaded)
                 this.closePopup();
             else {
                 this.passTextField.setText("");

@@ -30,7 +30,7 @@ public class Calendar {
      * A table that holds all the events in the calendar
      */
 	private EventTable eventTable;
-	
+
 	/**
      * The name of the calendar
      */
@@ -100,7 +100,7 @@ public class Calendar {
      * @return the event table of the calendar
      */
 	public EventTable getEventTable() {
-		return eventTable;
+		return this.eventTable;
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class Calendar {
 	public void sendCalendar(String adress) throws IOException, InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
 		ObjectMapper mapper = new ObjectMapper();
-		Network.getInstance().sender(mapper.writeValueAsString(eventTable.getAllEvents()), adress);
+		Network.getInstance().sender(mapper.writeValueAsString(this.eventTable.getAllEvents()), adress);
 	}
 
 	private void saveRC5Calendar(String data, BufferedWriter writer) throws IOException {
@@ -191,7 +191,7 @@ public class Calendar {
 	 * Saves the calendar to a file using the AES encryption algorithm.
 	 * The data is encrypted before being written to the file.
 	 * The format is AES;iv;salt;encrypted data
-	 * 
+	 *
 	 * @param data the calendar data to be written to the file
 	 * @param writer the writer object used to write to the file
 	 * @throws IOException if an error occurs while writing to the file
@@ -209,16 +209,16 @@ public class Calendar {
 	/**
 	 * Encrypts the calendar data using the specified encryption algorithm.
 	 * If the {@link Calendar#algorithm} is unknown, returns the String as given.
-	 * 
+	 *
 	 * @param jsonCalendar the calendar data to be encrypted
 	 * @return the encrypted calendar data
 	 */
 	private String encrypt(String jsonCalendar) {
-		switch (algorithm) {
+		switch (this.algorithm) {
 			case "AES":
-				return encryptAES(jsonCalendar);
+				return this.encryptAES(jsonCalendar);
 			case "RC5":
-				return encryptRC5(jsonCalendar);
+				return this.encryptRC5(jsonCalendar);
 			default: // should not be here
 				return jsonCalendar;
 		}
@@ -227,16 +227,16 @@ public class Calendar {
 	/**
 	 * Decrypts the calendar data using the specified encryption algorithm.
 	 * If the {@link Calendar#algorithm} is unknown, returns the String as given.
-	 * 
+	 *
 	 * @param encrypted the calendar data to be decrypted
 	 * @return the decrypted calendar data
 	 */
 	protected String decrypt(String encrypted) {
-		switch (algorithm) {
+		switch (this.algorithm) {
 			case "AES":
-				return decryptAES(encrypted);
+				return this.decryptAES(encrypted);
 			case "RC5":
-				return decryptRC5(encrypted);
+				return this.decryptRC5(encrypted);
 			default: // should not be here
 				return encrypted;
 		}

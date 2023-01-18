@@ -15,20 +15,20 @@ public class CalendarTest {
 
 	@BeforeEach
 	public void init() {
-		sut = new Calendar("Test");
+		this.sut = new Calendar("Test");
 	}
 
 	@Test
 	public void getEventTableTest() {
 		Date date = new Date();
 		Event event = new Event(date, 1, "Test", "...", "Localisation");
-		sut.getEventTable().addEvent(event);
-		assertEquals(event, sut.getEventTable().search(date));
+		this.sut.getEventTable().addEvent(event);
+		assertEquals(event, this.sut.getEventTable().search(date));
 	}
 
 	@Test
 	public void testSaveCalendar() throws IOException {
-		sut.saveCalendar();
+		this.sut.saveCalendar();
 
 		File file = new File("data/Test");
 		assertTrue(file.exists());

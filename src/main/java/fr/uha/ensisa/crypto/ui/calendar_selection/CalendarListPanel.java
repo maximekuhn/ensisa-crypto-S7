@@ -19,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import fr.uha.ensisa.crypto.model.Agenda;
 import fr.uha.ensisa.crypto.ui.MainWindow;
@@ -45,7 +46,7 @@ public class CalendarListPanel extends JScrollPane implements ActionListener {
      * @param mainWindow JFrame that display everything.
      */
     public CalendarListPanel(MainWindow mainWindow) {
-        super(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.mainWindow = mainWindow;
         this.controller = this.mainWindow.getController();
 
