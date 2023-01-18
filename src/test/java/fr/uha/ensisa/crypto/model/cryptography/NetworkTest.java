@@ -28,12 +28,9 @@ public class NetworkTest {
 	public void RSATest() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
 			IllegalBlockSizeException, BadPaddingException {
 		String str = "test";
-		System.out.println(str);
 		String encrypted = sut.encryptRSA(str, sut.getPublicKey());
 		String decrypted = sut.decryptRSA(encrypted);
-		System.out.println(encrypted);
 		assertNotNull(encrypted);
-		System.out.println(decrypted);
 		assertEquals(str, decrypted);
 	}
 

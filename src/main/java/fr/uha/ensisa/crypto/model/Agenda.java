@@ -66,9 +66,12 @@ public final class Agenda {
 
 	/**
 	 * Load calendar from specified file.
+	 * 
 	 * @param pathToFile to load (calendar name).
-	 * @param password password needed to decrypt file (if calendar is crypted). Can be empty if calendar to load is not crypted.
-	 * @return boolean indicating if calendar has been successfully loaded (true) or not (false).
+	 * @param password   password needed to decrypt file (if calendar is crypted).
+	 *                   Can be empty if calendar to load is not crypted.
+	 * @return boolean indicating if calendar has been successfully loaded (true) or
+	 *         not (false).
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
@@ -149,9 +152,11 @@ public final class Agenda {
 
 	/**
 	 * Load an RC5 crypted Calendar.
-	 * @param name of the calendar to load.
-	 * @param password password needed to decrypt the calendar to load.
-	 * @param fileContent String[] containing IV and salt needed for RC5 decryption process.
+	 * 
+	 * @param name        of the calendar to load.
+	 * @param password    password needed to decrypt the calendar to load.
+	 * @param fileContent String[] containing IV and salt needed for RC5 decryption
+	 *                    process.
 	 * @return a new Calendar containing all of the above parameters.
 	 * @see Calendar
 	 * @see fr.uha.ensisa.crypto.model.cryptography.RC5Helper
@@ -165,9 +170,11 @@ public final class Agenda {
 
 	/**
 	 * Load an AES crypted Calendar.
-	 * @param name of the calendar to load.
-	 * @param password password needed to decrypt the calendar to load.
-	 * @param fileContent String[] containing IV and salt needed for AES decryption process.
+	 * 
+	 * @param name        of the calendar to load.
+	 * @param password    password needed to decrypt the calendar to load.
+	 * @param fileContent String[] containing IV and salt needed for AES decryption
+	 *                    process.
 	 * @return a new Calendar containing all of the above parameters.
 	 * @see Calendar
 	 * @see fr.uha.ensisa.crypto.model.cryptography.AESHelper
@@ -181,6 +188,7 @@ public final class Agenda {
 
 	/**
 	 * Load a non crypted calendar.
+	 * 
 	 * @param name of the calendar to load.
 	 * @return new Calendar containing the above parameter.
 	 */
