@@ -24,7 +24,7 @@ public class TopBarPanel extends JPanel implements ActionListener {
 
     private static final String CREATE_EVENT_BUTTON_TEXT = "NEW EVENT";
     private static final String CREATE_CALENDAR_BUTTON_TEXT = "NEW CALENDAR";
-    private static final String RECIEVE_CALENDAR_BUTTON_TEXT = "RECIEVE CALENDAR";
+    private static final String RECIEVE_CALENDAR_BUTTON_TEXT = "RECEIVE CALENDAR";
     private static final String SEARCH_BUTTON_TEXT = "Search";
     private static final String CREATE_EVENT_BUTTON_TOOLTIP = "Click here to create a new event";
     private static final String CREATE_CALENDAR_BUTTON_TOOLTIP = "Click here to recieve a new calendar";
