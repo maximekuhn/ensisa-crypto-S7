@@ -26,12 +26,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.uha.ensisa.crypto.model.cryptography.Network;
 
+/**
+ * An implementation of an agenda that stores multiple calendars. 
+ * It allows creating and loading calendars, as well as listing all the calendar names that are currently stored. 
+ * The class is implemented as a singleton, meaning there is only one instance of it.
+ */
 public final class Agenda {
 
+	/**
+     * A {@link HashMap} that store all the loaded calendars with their name as key
+     */
 	private Map<String, Calendar> calendars = new HashMap<String, Calendar>();
 
+	/**
+     * Instance of the Agenda as the class is a singleton.
+     * Generated at the first call of {@link Agenda#getInstance()}.
+     */
 	private static Agenda instance;
 
+	/**
+	 * On first call, generate the {@link Agenda#instance} of the {@link Agenda} 
+     * @return the {@link Agenda#instance} of the {@link Agenda}
+     */
 	public static Agenda getInstance() {
 		if (instance == null) {
 			instance = new Agenda();
@@ -39,6 +55,10 @@ public final class Agenda {
 		return instance;
 	}
 
+	/**
+	 * Lists all the names of the existing calendars, loaded or not, by reading file names in the data directory.
+     * @return names of all calendars existing
+     */
 	public Collection<String> getCalendarNames() {
 		File dir = new File("data/");
 		ArrayList<String> names = new ArrayList<String>();
@@ -50,6 +70,13 @@ public final class Agenda {
 		}
 	}
 
+	/**
+	 * Creates a {@link Calendar} with no encryption algorithm, stores it in {@link Agenda#calendars} and saves it.
+	 * @param name the name of the calendar
+	 * @throws IOException if an error occurs while creating or writing to the file
+	 * @throws Error the calendar already exists
+	 * @see Calendar#saveCalendar()
+     */
 	public void createCalendar(String name) throws IOException, Error {
 		if (getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
@@ -57,6 +84,15 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
+	/**
+	 * Create a crypted {@link Calendar}, store it in {@link Agenda#calendars} and save it.
+     * @param name the name of the calendar
+     * @param algorithm the encryption algorithm used for the calendar
+     * @param password the password used for the encryption
+	 * @throws IOException if an error occurs while creating or writing to the file
+	 * @throws Error the calendar already exists
+	 * @see Calendar#saveCalendar()
+     */
 	public void createCalendar(String name, String algorithm, String password) throws IOException, Error {
 		if (getCalendarNames().contains(name))
 			throw new Error("Calendar already exists");
@@ -115,6 +151,21 @@ public final class Agenda {
 		return true;
 	}
 
+	/**
+	 * Receive a calendar from a specified IP address and decrypt it using RSA.
+	 * Once the calendar received, create a new calendar encrypted with the specified algorithm.
+	 * 
+	 * @param name the name of the calendar
+	 * @param algorithm the encryption algorithm used to encrypt the calendar
+	 * @param password the password used to decrypt the calendar
+	 * @throws IOException if an error occurs while reading from the input stream
+	 * @throws ClassNotFoundException if the class of the serialized object cannot be found
+	 * @throws InvalidKeyException if the key is invalid
+	 * @throws NoSuchAlgorithmException if the specified algorithm is not available
+	 * @throws NoSuchPaddingException if the specified padding scheme is not available
+	 * @throws IllegalBlockSizeException if the length of data provided to the cipher is incorrect
+	 * @throws BadPaddingException if the data is not padded properly
+	 */
 	public void recieveCalendar(String name, String algorithm, String password)
 			throws IOException, ClassNotFoundException, InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
@@ -131,6 +182,21 @@ public final class Agenda {
 		calendars.get(name).saveCalendar();
 	}
 
+	/**
+	 * Receive a calendar from a specified IP address and decrypt it using RSA.
+	 * Once the calendar received, create a new calendar with no encryption algorithm.
+	 * 
+	 * @param name the name of the calendar
+	 * @param algorithm the encryption algorithm used to encrypt the calendar
+	 * @param password the password used to decrypt the calendar
+	 * @throws IOException if an error occurs while reading from the input stream
+	 * @throws ClassNotFoundException if the class of the serialized object cannot be found
+	 * @throws InvalidKeyException if the key is invalid
+	 * @throws NoSuchAlgorithmException if the specified algorithm is not available
+	 * @throws NoSuchPaddingException if the specified padding scheme is not available
+	 * @throws IllegalBlockSizeException if the length of data provided to the cipher is incorrect
+	 * @throws BadPaddingException if the data is not padded properly
+	 */
 	public void recieveCalendar(String name)
 			throws JsonMappingException, InvalidKeyException, JsonProcessingException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
@@ -188,6 +254,12 @@ public final class Agenda {
 		return new Calendar(name);
 	}
 
+	/**
+	 * Check if a calendar is crypted from his corresponding file.
+	 * @param pathToFile to check (calendar name).
+	 * @return boolean indicating if calendar is crypted.
+	 * @throws IOException if an error occurs while reading to the file
+	 */
 	public boolean isCrypted(String pathToFile) throws IOException {
 		File file = new File("data/" + pathToFile);
 		StringBuilder resultStringBuilder = new StringBuilder();
@@ -201,6 +273,12 @@ public final class Agenda {
 		return !fileContent[0].equals("NONE");
 	}
 
+	/**
+	 * Returns a loaded calendar.
+	 * @param name name of the loaded calendar.
+	 * @return the loaded calendar.
+	 * @throws IOException if an error occurs while reading to the file
+	 */
 	public Calendar getCalendar(String name) throws Error {
 		Calendar calendar = calendars.get(name);
 		if (calendar == null)
@@ -208,6 +286,13 @@ public final class Agenda {
 		return calendar;
 	}
 
+	/**
+	 * Delete the file of a calendar and unload it if it was loaded.
+	 * @param path_to_file to delete (calendar name).
+	 * @return the loaded calendar.
+	 * @throws IOException if the file doesn't exists
+	 * @see Agenda#unloadCalendar(String)
+	 */
 	public void deleteCalendar(String path_to_file) throws IOException {
 		File file = new File("data/" + path_to_file);
 		if (!file.exists())
@@ -216,10 +301,19 @@ public final class Agenda {
 		unloadCalendar(path_to_file);
 	}
 
+	/**
+	 * Remove the specified calendar from {@link Agenda#calendars}. 
+	 * @param name name of the loaded calendar.
+	 */
 	public void unloadCalendar(String name) {
 		calendars.remove(name);
 	}
 
+	/**
+	 * Search all events at a specified date from all the {@link Agenda#calendars} that are loaded. 
+	 * @param date specified date of searched events.
+	 * @return a collection of all events happening on the specified date.
+	 */
 	public Collection<Event> search(Date date) {
 		ArrayList<Event> events = new ArrayList<Event>();
 		for (Calendar calendar : calendars.values()) {
@@ -230,6 +324,10 @@ public final class Agenda {
 		return events;
 	}
 
+	/**
+	 * Retrieve all events of the {@link Agenda#calendars} that are loaded. 
+	 * @return a collection of all events.
+	 */
 	public Collection<Event> getAllEvents() {
 		ArrayList<Event> events = new ArrayList<Event>();
 		for (Calendar calendar : calendars.values()) {
@@ -241,6 +339,10 @@ public final class Agenda {
 		return events;
 	}
 
+	/**
+	 * Retrieve all the loaded calendars from {@link Agenda#calendars}.
+	 * @return all the loaded calendars.
+	 */
 	public Collection<Calendar> getAllCalendars() {
 		return calendars.values();
 	}

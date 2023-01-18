@@ -20,19 +20,46 @@ import fr.uha.ensisa.crypto.model.cryptography.AESHelper;
 import fr.uha.ensisa.crypto.model.cryptography.Network;
 import fr.uha.ensisa.crypto.model.cryptography.RC5Helper;
 
+/**
+ * This is a Java class that represents a calendar, which can have events added to it and can be saved to a file or sent to a specified address.
+ * It uses encryption algorithm like AES and RC5 to encrypt the data before saving it to a file or sending it over the network.
+ */
 public class Calendar {
 
+	/**
+     * A table that holds all the events in the calendar
+     */
 	private EventTable eventTable;
+	
+	/**
+     * The name of the calendar
+     */
 	private String name;
 
 	/* cryptography */
+	/**
+     * The encryption algorithm used for the calendar
+     */
 	private String algorithm;
+	/**
+    The password used for the encryption and decryption
+    */
 	private String password;
 
 	/* AES */
+	/**
+     * The initialization vector used for the encryption
+     */
 	private byte[] iv;
+	/**
+     * The salt used for the encryption
+     */
 	private byte[] salt;
 
+	/**
+     * Constructor for creating a new Calendar object with a specified name.
+     * @param name the name of the calendar
+     */
 	public Calendar(String name) {
 		this.eventTable = new EventTable();
 		this.name = name;
@@ -40,6 +67,12 @@ public class Calendar {
 		this.password = "";
 	}
 
+	/**
+     * Constructor for creating a new Calendar object with a specified name, encryption algorithm, and password.
+     * @param name the name of the calendar
+     * @param algorithm the encryption algorithm used for the calendar
+     * @param password the password used for the encryption
+     */
 	public Calendar(String name, String algorithm, String password) {
 		this(name);
 		this.algorithm = algorithm;
@@ -48,20 +81,42 @@ public class Calendar {
 		this.salt = null;
 	}
 
+	/**
+    * Constructor for creating a new Calendar object with a specified name, encryption algorithm, password, initialization vector, and salt used for AES.
+    * @param name the name of the calendar
+    * @param algorithm the encryption algorithm used for the calendar
+    * @param password the password used for the encryption
+    * @param iv the initialization vector used for the encryption
+    * @param salt the salt used for the encryption
+    */
 	public Calendar(String name, String algorithm, String password, byte[] iv, byte[] salt) {
 		this(name, algorithm, password);
 		this.iv = iv;
 		this.salt = salt;
 	}
 
+	/**
+     * Returns the event table of the calendar.
+     * @return the event table of the calendar
+     */
 	public EventTable getEventTable() {
 		return eventTable;
 	}
 
+	/**
+     * Returns the name of the calendar.
+     * @return the name of the calendar
+     */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+     * Saves the calendar to a file. The file is saved in the "data" directory.
+     * The eventTable is serialized in JSON format and is then encrypted before being written to the file.
+     * The format is algorithm;data
+     * @throws IOException if an error occurs while creating or writing to the file
+     */
 	public void saveCalendar() throws IOException {
 		File dir = new File("data");
 		if (!dir.isDirectory()) {
@@ -90,6 +145,18 @@ public class Calendar {
 		writer.close();
 	}
 
+	/**
+	 * Sends the calendar to a specified address.
+	 * The data is encrypted in RSA before being sent.
+	 * @param adress the IP address to send the calendar to
+	 * @throws IOException if an error occurs while sending the data
+	 * @throws InvalidKeyException if the encryption key is invalid
+	 * @throws NoSuchAlgorithmException if the specified encryption algorithm is not available
+	 * @throws NoSuchPaddingException if the specified padding scheme is not available
+	 * @throws IllegalBlockSizeException if the data is not the correct size for the encryption algorithm
+	 * @throws BadPaddingException if the data is not padded correctly for the encryption algorithm
+	 * @throws InvalidKeySpecException if the encryption key is not valid
+	 */
 	public void sendCalendar(String adress) throws IOException, InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -107,11 +174,28 @@ public class Calendar {
 
 	}
 
+	/**
+	* Saves the calendar to a file without encryption.
+	* The format is NONE;data
+	*
+	* @param data the calendar data to be written to the file
+	* @param writer the writer object used to write to the file
+	* @throws IOException if an error occurs while writing to the file
+	*/
 	private void saveDefaultCalendar(String data, BufferedWriter writer) throws IOException {
 		// format is => NONE; data
 		writer.write("NONE;" + data);
 	}
 
+	/**
+	 * Saves the calendar to a file using the AES encryption algorithm.
+	 * The data is encrypted before being written to the file.
+	 * The format is AES;iv;salt;encrypted data
+	 * 
+	 * @param data the calendar data to be written to the file
+	 * @param writer the writer object used to write to the file
+	 * @throws IOException if an error occurs while writing to the file
+	 */
 	private void saveAESCalendar(String data, BufferedWriter writer) throws IOException {
 		// format is => AES; iv; salt; encrypted data
 		String encryptedData = this.encrypt(data);
@@ -122,6 +206,13 @@ public class Calendar {
 						encryptedData);
 	}
 
+	/**
+	 * Encrypts the calendar data using the specified encryption algorithm.
+	 * If the {@link Calendar#algorithm} is unknown, returns the String as given.
+	 * 
+	 * @param jsonCalendar the calendar data to be encrypted
+	 * @return the encrypted calendar data
+	 */
 	private String encrypt(String jsonCalendar) {
 		switch (algorithm) {
 			case "AES":
@@ -133,6 +224,13 @@ public class Calendar {
 		}
 	}
 
+	/**
+	 * Decrypts the calendar data using the specified encryption algorithm.
+	 * If the {@link Calendar#algorithm} is unknown, returns the String as given.
+	 * 
+	 * @param encrypted the calendar data to be decrypted
+	 * @return the decrypted calendar data
+	 */
 	protected String decrypt(String encrypted) {
 		switch (algorithm) {
 			case "AES":
