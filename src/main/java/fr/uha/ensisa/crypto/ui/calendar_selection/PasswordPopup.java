@@ -23,7 +23,7 @@ public class PasswordPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "Password";
     private static final int POPUP_WIDTH = 300;
-    private static final int POPUP_HEIGHT = 100;
+    private static final int POPUP_HEIGHT = 110;
     private static final String PASS_LABEL_TEXT = "Password :";
     private static final int PASS_TEXT_FIELD_LENGTH = 20;
     private static final String CREATE_BUTTON_TEXT = "submit";
