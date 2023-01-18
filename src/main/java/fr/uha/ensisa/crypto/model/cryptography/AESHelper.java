@@ -21,12 +21,13 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * AESHelper is a class designed to encrypt and decrypt data, using a password.
  * The AES algorithm used is AES, CBC mode and PKCS5Padding.
- * A new AESHelper should be instanciated each time you wish to encrypt or decrypt some data.
+ * A new AESHelper should be instanciated each time you wish to encrypt or
+ * decrypt some data.
  */
 public class AESHelper {
 
     /**
-     * specify which AES algorithm is used.
+     * specify which AES algorithm to be used.
      */
     private static final String AES_ALGORITHM = "AES/CBC/PKCS5Padding";
 
@@ -46,21 +47,26 @@ public class AESHelper {
     private String password;
 
     /**
-     * Initilization vector needed for AES CBC mode. Should be unique for each encryption process.
+     * Initilization vector needed for AES CBC mode. Should be unique for each
+     * encryption process.
      */
     private byte[] iv;
 
     /**
-     * Salt used to generate a secret key from password. Should be unique for each key generation process.
+     * Salt used to generate a secret key from password. Should be unique for each
+     * key generation process.
      */
     private byte[] salt;
 
     /**
      * Constructor of class AESHelper.
-     * @param data data to encrypt / decrypt
-     * @param password password to be used to generate a key to encrypt / decrypt data
-     * @param iv initialization vector needed for AES/CBC
-     * @param salt randomly generated when generating a key from password, unique to each password
+     * 
+     * @param data     data to encrypt / decrypt
+     * @param password password to be used to generate a key to encrypt / decrypt
+     *                 data
+     * @param iv       initialization vector needed for AES/CBC
+     * @param salt     randomly generated when generating a key from password,
+     *                 unique to each password
      */
     public AESHelper(String data, String password, byte[] iv, byte[] salt) {
         this.data = data;
@@ -71,6 +77,7 @@ public class AESHelper {
 
     /**
      * Specify data to encrypt / decrypt.
+     * 
      * @param data
      * @see AESHelper#encryptAES()
      * @see AESHelper#decryptAES()
@@ -81,12 +88,16 @@ public class AESHelper {
 
     /**
      * <p>
-     * This method will encrypt {@link AESHelper#data} using {@link AESHelper#password}.
+     * This method will encrypt {@link AESHelper#data} using
+     * {@link AESHelper#password}.
      * </p>
      * <p>
-     * When encrypting data, this method will generate a random IV based on cipher object's block size.
-     * This method will also call {@link AESHelper#generateKeyFromPassword()} to get a SecretKeySpec from {@link AESHelper#password}.
+     * When encrypting data, this method will generate a random IV based on cipher
+     * object's block size.
+     * This method will also call {@link AESHelper#generateKeyFromPassword()} to get
+     * a SecretKeySpec from {@link AESHelper#password}.
      * </p>
+     * 
      * @return String encrypted {@link AESHelper#data}
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
@@ -119,9 +130,12 @@ public class AESHelper {
 
     /**
      * <p>
-     * This method will decrypt {@link AESHelper#data} using {@link AESHelper#password}.
+     * This method will decrypt {@link AESHelper#data} using
+     * {@link AESHelper#password}.
      * </p>
-     * Algorithm used is "AES/CBC/PKCS5Padding" (specified by {@link AESHelper#AES_ALGORITHM})
+     * Algorithm used is "AES/CBC/PKCS5Padding" (specified by
+     * {@link AESHelper#AES_ALGORITHM})
+     * 
      * @return String decrypted {@link AESHelper#data}
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
@@ -130,7 +144,8 @@ public class AESHelper {
      * @throws NoSuchPaddingException
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
-     * @throws IllegalStateException if {@link AESHelper#salt} or {@link AESHelper#iv} is null
+     * @throws IllegalStateException              if {@link AESHelper#salt} or
+     *                                            {@link AESHelper#iv} is null
      */
     public String decryptAES() throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
@@ -153,8 +168,11 @@ public class AESHelper {
     }
 
     /**
-     * Generate a random initilization vector from given ivSize. IV is generated using a SecureRandom instance.
-     * @param ivSize size of the initialization vector (usually block size from AES cipher object)
+     * Generate a random initilization vector from given ivSize. IV is generated
+     * using a SecureRandom instance.
+     * 
+     * @param ivSize size of the initialization vector (usually block size from AES
+     *               cipher object)
      * @see AESHelper#encryptAES()
      * @see AESHelper#RAND
      * @see SecureRandom
@@ -166,6 +184,7 @@ public class AESHelper {
 
     /**
      * Getter for {@link AESHelper#iv}.
+     * 
      * @return byte[] corresponding initialization vector (IV)
      * @see AESHelper#initializeIV(int)
      */
@@ -175,6 +194,7 @@ public class AESHelper {
 
     /**
      * Getter for {@link AESHelper#salt}.
+     * 
      * @return byte[] corresponding salt used to generate key from password
      * @see AESHelper#generateKeyFromPassword()
      */
@@ -184,15 +204,21 @@ public class AESHelper {
 
     /**
      * <p>
-     * Generates a SecretKeySpec object from a password using the PBKDF2WithHmacSHA256 key derivation function.
+     * Generates a SecretKeySpec object from a password using the
+     * PBKDF2WithHmacSHA256 key derivation function.
      * </p>
      * <p>
-     * The method creates a SecretKeyFactory object, which is used to generate a KeySpec from the password, randomly generated salt and a number of iterations.
+     * The method creates a SecretKeyFactory object, which is used to generate a
+     * KeySpec from the password, randomly generated salt and a number of
+     * iterations.
      * </p>
      * <p>
-     * This SecretKeySpec object can be used to encrypt and decrypt data using the Advanced Encryption Standard (AES) algorithm.
+     * This SecretKeySpec object can be used to encrypt and decrypt data using the
+     * Advanced Encryption Standard (AES) algorithm.
      * </p>
-     * @return SecretKeySpec a 256 bits length key used to encrypt or decrypt some data using AES algorithm
+     * 
+     * @return SecretKeySpec a 256 bits length key used to encrypt or decrypt some
+     *         data using AES algorithm
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      * @see AESHelper#password
@@ -211,6 +237,7 @@ public class AESHelper {
 
     /**
      * Allows user to set initialization vector for decryption process.
+     * 
      * @param iv : byte[] initialization vector needed to decrypt data
      * @see AESHelper#iv
      * @see AESHelper#decryptAES()
@@ -219,12 +246,13 @@ public class AESHelper {
         this.iv = iv;
     }
 
-
     /**
      * <p>
      * Generate a random byte[] used as salt for generating a key from password.
      * </p>
-     * The length of this byte[] is fixed to 64 and is generated using a SecureRandom instance.
+     * The length of this byte[] is fixed to 64 and is generated using a
+     * SecureRandom instance.
+     * 
      * @see AESHelper#RAND
      * @see SecureRandom
      */
@@ -235,7 +263,9 @@ public class AESHelper {
 
     /**
      * Setter of {@link AESHelper#password}.
-     * This method is mainly used for testing purposes as it is in package visibility.
+     * This method is mainly used for testing purposes as it is in package
+     * visibility.
+     * 
      * @param password
      */
     void setPassword(String password) {

@@ -30,7 +30,7 @@ public class MainWindow extends JFrame {
         this.controller = new MainWindowController(agenda);
 
         this.setTitle("Cryptendar");
-        this.setSize(1020, 600);
+        this.setSize(1200, 600);
         this.setLocationRelativeTo(null); // window appears on center of the screen
 
         // close button
