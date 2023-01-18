@@ -142,7 +142,7 @@ public class Network {
 	 * 
 	 * @param the loaded serialized {@link Calendar} to send.
 	 * @param the IP address waiting for reception of a serialized {@link Calendar}.
-	 * @see Network#reciever()
+	 * @see Network#receiver()
 	 * @see Network#publicKey
 	 * @see Network#encryptRSA()
 	 */
@@ -162,12 +162,12 @@ public class Network {
 		byte[] buffer = new byte[4096];
 		int bytesRead = inputStream.read(buffer);
 		// convert the byte array to a PublicKey object
-		byte[] recieverPublicKeyEncoded = Arrays.copyOfRange(buffer, 0, bytesRead);
-		PublicKey recieverPublicKey = KeyFactory.getInstance("RSA")
-				.generatePublic(new X509EncodedKeySpec(recieverPublicKeyEncoded)); // encrypt the calendar using the
+		byte[] receiverPublicKeyEncoded = Arrays.copyOfRange(buffer, 0, bytesRead);
+		PublicKey receiverPublicKey = KeyFactory.getInstance("RSA")
+				.generatePublic(new X509EncodedKeySpec(receiverPublicKeyEncoded)); // encrypt the calendar using the
 																					// received public key
-		String encryptedCalendar = encryptRSA(calendar, recieverPublicKey);
-		// send the encrypted calendar to the reciever
+		String encryptedCalendar = encryptRSA(calendar, receiverPublicKey);
+		// send the encrypted calendar to the receiver
 		outputStream.write(encryptedCalendar.getBytes());
 		outputStream.flush();
 		outputStream.close();
@@ -193,7 +193,7 @@ public class Network {
 	 * @see Network#privateKey
 	 * @see Network#decryptRSA()
 	 */
-	public String reciever() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
+	public String receiver() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
 			IllegalBlockSizeException, BadPaddingException, IOException {
 		// create a server socket to listen for incoming connections
 		ServerSocket serverSocket = new ServerSocket(12345);

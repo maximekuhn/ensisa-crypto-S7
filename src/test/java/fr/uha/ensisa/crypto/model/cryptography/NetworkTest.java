@@ -50,10 +50,10 @@ public class NetworkTest {
 			}
 		});
 
-		// start a new thread for the reciever method
-		Thread recieverThread = new Thread(() -> {
+		// start a new thread for the receiver method
+		Thread receiverThread = new Thread(() -> {
 			try {
-				String receivedCalendar = sut.reciever();
+				String receivedCalendar = sut.receiver();
 				assertEquals(calendar, receivedCalendar);
 				latch.countDown();
 			} catch (IOException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
@@ -61,7 +61,7 @@ public class NetworkTest {
 				e.printStackTrace();
 			}
 		});
-		recieverThread.start();
+		receiverThread.start();
 		Thread.sleep(100);
 		senderThread.start();
 		latch.await();

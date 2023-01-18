@@ -169,14 +169,14 @@ public final class Agenda {
 	 * @throws IllegalBlockSizeException if the length of data provided to the cipher is incorrect
 	 * @throws BadPaddingException if the data is not padded properly
 	 */
-	public void recieveCalendar(String name, String algorithm, String password)
+	public void receiveCalendar(String name, String algorithm, String password)
 			throws IOException, ClassNotFoundException, InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		Calendar calendar = new Calendar(name, algorithm, password);
 
-		List<Event> events = objectMapper.readValue(Network.getInstance().reciever(),
+		List<Event> events = objectMapper.readValue(Network.getInstance().receiver(),
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);
@@ -200,14 +200,14 @@ public final class Agenda {
 	 * @throws IllegalBlockSizeException if the length of data provided to the cipher is incorrect
 	 * @throws BadPaddingException if the data is not padded properly
 	 */
-	public void recieveCalendar(String name)
+	public void receiveCalendar(String name)
 			throws JsonMappingException, InvalidKeyException, JsonProcessingException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		Calendar calendar = new Calendar(name);
 
-		List<Event> events = objectMapper.readValue(Network.getInstance().reciever(),
+		List<Event> events = objectMapper.readValue(Network.getInstance().receiver(),
 				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
 		for (Event event : events) {
 			calendar.getEventTable().addEvent(event);

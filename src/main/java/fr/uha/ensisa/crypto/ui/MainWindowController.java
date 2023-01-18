@@ -193,10 +193,10 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 		return this.agenda.isCrypted(calendarName);
 	}
 
-	public void recieveCalendar(String calendarName, String algorithm, String password)
+	public void receiveCalendar(String calendarName, String algorithm, String password)
 			throws IOException, Error, InvalidKeyException, ClassNotFoundException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		this.agenda.recieveCalendar(calendarName, algorithm, password);
+		this.agenda.receiveCalendar(calendarName, algorithm, password);
 
 		// refresh view
 		this.calendarPanel.refreshGrid();
@@ -204,9 +204,9 @@ public class MainWindowController implements MouseListener, MouseMotionListener,
 		this.setNewEventButtonState();
 	}
 
-	public void recieveCalendar(String calendarName) throws IOException, Error, InvalidKeyException,
+	public void receiveCalendar(String calendarName) throws IOException, Error, InvalidKeyException,
 			NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		this.agenda.recieveCalendar(calendarName);
+		this.agenda.receiveCalendar(calendarName);
 
 		// refresh view
 		this.calendarPanel.refreshGrid();

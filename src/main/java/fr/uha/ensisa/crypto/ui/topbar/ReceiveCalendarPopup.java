@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
-public class RecieveCalendarPopup extends JDialog implements ActionListener {
+public class ReceiveCalendarPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "New Calendar";
     private static final String CALENDAR_LABEL_TEXT = "CALENDAR";
@@ -48,7 +48,7 @@ public class RecieveCalendarPopup extends JDialog implements ActionListener {
     private JButton createButton;
     private JButton cancelButton;
 
-    public RecieveCalendarPopup(MainWindow mainWindow) {
+    public ReceiveCalendarPopup(MainWindow mainWindow) {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
         this.setModal(true);
@@ -156,7 +156,7 @@ public class RecieveCalendarPopup extends JDialog implements ActionListener {
 
             String algorithm = this.algoListField.getSelectedItem().toString();
             try {
-                controller.recieveCalendar(calendarName, algorithm, password);
+                controller.receiveCalendar(calendarName, algorithm, password);
                 this.dispose();
             } catch (Exception e) {
                 this.showErrorPopup("Creation failed !");
@@ -165,7 +165,7 @@ public class RecieveCalendarPopup extends JDialog implements ActionListener {
 
         } else { // no algorithm
             try {
-                controller.recieveCalendar(calendarName);
+                controller.receiveCalendar(calendarName);
                 this.dispose();
             } catch (Exception e) {
                 this.showErrorPopup("Creation failed !");
