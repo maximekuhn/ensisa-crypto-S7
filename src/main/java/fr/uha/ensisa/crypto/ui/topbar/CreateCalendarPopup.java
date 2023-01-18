@@ -17,6 +17,9 @@ import javax.swing.JTextField;
 import fr.uha.ensisa.crypto.ui.MainWindow;
 import fr.uha.ensisa.crypto.ui.MainWindowController;
 
+/**
+ * A popup to create a new Calendar.
+ */
 public class CreateCalendarPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "New Calendar";
@@ -48,6 +51,10 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
     private JButton createButton;
     private JButton cancelButton;
 
+    /**
+     * Constructor
+     * @param mainWindow JFrame that contains everything
+     */
     public CreateCalendarPopup(MainWindow mainWindow) {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
@@ -100,6 +107,9 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         this.add(this.mainPanel);
     }
 
+    /**
+     * Buttons handler.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.createButton))
@@ -108,10 +118,18 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
             this.closePopup();
     }
 
+    /**
+     * Close this popup.
+     */
     private void closePopup() {
         this.dispose();
     }
 
+    /**
+     * A method to check if a password contains at least one upper caracter.
+     * @param password String to analyze
+     * @return true if password contains at least one upper caracter, false otherwise.
+     */
     private boolean containsUpper(String password) {
         for (int i = 0; i < password.length(); i++) {
             if (Character.isUpperCase(password.charAt(i)))
@@ -120,6 +138,10 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         return false;
     }
 
+    /**
+     * Create button handler.
+     * This method will get every field values. A check will be performed to determine if the calendar name is not already taken and then check if the password is secure enough if an encryption algorithm is selected.
+     */
     private void createCalendar() {
         String calendarName = this.calendarTextField.getText();
         MainWindowController controller = this.mainWindow.getController();
@@ -175,6 +197,10 @@ public class CreateCalendarPopup extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * A simple popup that displays a customizable error message.
+     * @param errorMessage the error message to show.
+     */
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }

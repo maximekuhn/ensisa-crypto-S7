@@ -32,6 +32,9 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+/**
+ * Creates a popup to create a new event inside a calendar.
+ */
 public class CreateEventPopup extends JDialog implements ActionListener {
 
     private static final String POPUP_TITLE = "New Event";
@@ -72,6 +75,10 @@ public class CreateEventPopup extends JDialog implements ActionListener {
     private JComboBox<String> calendarsList;
     private TimePicker timePicker;
 
+    /**
+     * Constructor
+     * @param mainWindow JFrame that contains everything.
+     */
     public CreateEventPopup(MainWindow mainWindow) {
         super(mainWindow, POPUP_TITLE);
         this.mainWindow = mainWindow;
@@ -173,6 +180,9 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         this.add(this.mainPanel);
     }
 
+    /**
+     * Buttons handler.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.cancelButton))
@@ -181,10 +191,16 @@ public class CreateEventPopup extends JDialog implements ActionListener {
             this.createEvent();
     }
 
+    /**
+     * Close this popup
+     */
     private void closePopup() {
         this.dispose();
     }
 
+    /**
+     * Create an event from all fields in this popup such as name, calendar, date and so on.
+     */
     private void createEvent() {
         String event = this.eventTextField.getText();
         String description = this.descriptionTextField.getText();
@@ -224,6 +240,10 @@ public class CreateEventPopup extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * A simple popup that displays a customizable error message.
+     * @param errorMessage the error message to show.
+     */
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }

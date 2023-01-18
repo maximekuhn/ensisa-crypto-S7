@@ -20,6 +20,9 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+/**
+ * A customized JPanel that contains everything about creating events or calendar.
+ */
 public class TopBarPanel extends JPanel implements ActionListener {
 
     private static final String CREATE_EVENT_BUTTON_TEXT = "NEW EVENT";
@@ -40,6 +43,10 @@ public class TopBarPanel extends JPanel implements ActionListener {
     private TimePicker timePicker;
     private JButton receiveCalendarButton;
 
+    /**
+     * Constructor
+     * @param mainWindow JFrame that contains everything
+     */
     public TopBarPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         this.controller = this.mainWindow.getController();
@@ -80,6 +87,9 @@ public class TopBarPanel extends JPanel implements ActionListener {
         this.add(this.searchButton);
     }
 
+    /**
+     * Buttons handler
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.createEventButton))
@@ -92,21 +102,38 @@ public class TopBarPanel extends JPanel implements ActionListener {
             this.searchEventByDate();
     }
 
+    /**
+     * Create a popup to create a new event
+     * @see fr.uha.ensisa.crypto.ui.topbar.CreateEventPopup
+     */
     private void createEventPopup() {
         CreateEventPopup popup = new CreateEventPopup(this.mainWindow);
         popup.setVisible(true);
     }
 
+    /**
+     * Create a popup to create a new calendar
+     * @see fr.uha.ensisa.crypto.ui.topbar.CreateCalendarPopup
+     */
     private void createCalendarPopup() {
         CreateCalendarPopup popup = new CreateCalendarPopup(this.mainWindow);
         popup.setVisible(true);
     }
 
+    /**
+     * Create a popup to receive a calendar
+     * @see fr.uha.ensisa.crypto.ui.topbar.ReceiveCalendarPopup
+     */
     private void receiveCalendarPopup() {
         ReceiveCalendarPopup popup = new ReceiveCalendarPopup(this.mainWindow);
         popup.setVisible(true);
     }
 
+    /**
+     * Handle search button click. If no event exist for the selected that, this method display an error message. Otherwise, it set the event panel to selected date in order to show the event.
+     * @see fr.uha.ensisa.crypto.ui.CalendarPanel
+     * @see fr.uha.ensisa.crypto.ui.MainWindowController
+     */
     private void searchEventByDate() {
         Date date = (Date) this.datePicker.getModel().getValue();
         LocalTime time = this.timePicker.getTime();
@@ -136,14 +163,24 @@ public class TopBarPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * A simple popup that displays a customizable error message.
+     * @param errorMessage the error message to show.
+     */
     private void showErrorPopup(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
 
+    /**
+     * Activate create event button (a calendar needs to be loaded).
+     */
     public void activateCreateEventButton() {
         this.createEventButton.setEnabled(true);
     }
 
+    /**
+     * Deactive create event button if no calendar is loaded.
+     */
     public void deactivateCreateEventButton() {
         this.createEventButton.setEnabled(false);
     }

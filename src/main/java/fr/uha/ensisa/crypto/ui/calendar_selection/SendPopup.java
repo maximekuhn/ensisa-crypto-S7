@@ -23,6 +23,7 @@ import fr.uha.ensisa.crypto.ui.MainWindowController;
 
 /**
  * Create a popup to send a Calendar.
+ * @see fr.uha.ensisa.crypto.ui.topbar.ReceiveCalendarPopup
  */
 public class SendPopup extends JDialog implements ActionListener {
 
