@@ -15,14 +15,21 @@ Membres du groupe :
 ---
 
 # Fonctionnalités
-L'agenda permet de créer des calendriers, en les chiffrant ou non avec différents algorithmes (AES, RC5) et un mot de passe. Chaque calendrier peut contenir
-des évènements. L'utilisateur peut en crééer / supprimer autant qu'il le souhaite. Les calendriers peuvent être échangés de manière sécurisée via le réseaux, en utilisant
-notamment l'algorithme RSA.
+Créer / supprimer un calendrier
 <br>
-L'utilisateur peut également rechercher des évènements par date.
+Créer des évenements
+<br>
+Rechercher un évènement par date
+<br>
+Chiffrer un calendrier avec AES ou RC5
+<br>
+Echanger des calendriers de manière sécurisée via le réseau avec RSA
+<br>
+Et plus encore...
 
 
 # Compiler le projet
+JDK17 requis.
 1. Se placer à la racine du projet
 2. `mvn clean install`
 
