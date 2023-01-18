@@ -1,6 +1,7 @@
 package fr.uha.ensisa.crypto.ui.calendar_selection;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -60,6 +61,7 @@ public class SendPopup extends JDialog implements ActionListener {
         // create main panel
         this.mainPanel = new JPanel();
         this.mainPanel.setPreferredSize(new Dimension(POPUP_WIDTH, POPUP_HEIGHT));
+        this.mainPanel.setLayout(new GridLayout(2,2));
         this.setPreferredSize(this.mainPanel.getPreferredSize());
         this.setMinimumSize(this.mainPanel.getPreferredSize());
         this.setMaximumSize(this.mainPanel.getPreferredSize());
